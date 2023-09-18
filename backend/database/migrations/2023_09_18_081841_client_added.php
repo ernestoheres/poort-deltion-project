@@ -25,7 +25,7 @@ return new class extends Migration
         $table->string('bsn');
         $table->string('vezekering');
         $table->string('polisnummer');
-        //$table->string('profielfoto');
+        $table->string('profielfoto')->nullable();
         $table->timestamps();
         });
 
