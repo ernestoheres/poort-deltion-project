@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import LoginScreen from '../components/LoginScreen.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <LoginScreen />
   </main>
 </template>
