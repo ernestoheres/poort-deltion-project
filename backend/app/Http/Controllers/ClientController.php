@@ -12,4 +12,28 @@ class ClientController extends Controller
         $clients = Client::all();
         return response($clients, 200);
     }
+
+    public function getClientById($id) {
+        $client = Client::find($id);
+        return response($client, 200);
+    }
+
+    public function createClient(Request $request) {
+        $data = [
+            "voornaam" => $request->voornaam,
+            "tussenvoegels" => $request->tussenvoegels,
+            "achternaam" => $request->achternaam,
+            "adres" => $request->adres,
+            "postcode" => $request->postcode,
+            "woonplaats" => $request->woonplaats,
+            "land" => $request->land,
+            "telefoon" => $request->telefoon,
+            "bsn" => $request->bsn,
+            "vezekering" => $request->vezekering,
+            "polisnummer" => $request->polisnummer,
+        ];
+
+        Client::create($data);
+        return response("Client created", 201);
+    }
 }
