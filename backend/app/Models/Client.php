@@ -18,7 +18,10 @@ class Client extends Model
        'woonplaats',
        'land',
        'telefoon',
+       'bsn',
        'vezekering',
+       'polisnummer',
+       'profielfoto',
        
 
     ];
