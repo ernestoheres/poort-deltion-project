@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Provider\nl_NL\Person;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client>
@@ -65,7 +66,27 @@ class ClientFactory extends Factory
             $tussenvoegsel = '';
         }
 
-        
+        $host = '127.0.0.1';
+        $port = '2000';
+
+        $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die('Could not create socket');
+        $result = socket_connect($socket, $host, $port) or die('Could not connect to server');
+
+        if(rand(0,1) == 0) {
+            $gender = "Male";
+        }
+        else {
+            $gender = "Female";
+        }
+
+        socket_write($socket,  "GET ". $gender) or die('Could not write to server');
+
+        $result = socket_read ($socket, 600000) or die('Could not read server response');
+
+        $uuid = $this->faker->uuid();
+        Storage::disk('local')->put('img/'. $uuid . '.jpg', $result);
+
+        socket_close($socket);
 
         $this->faker->addProvider(new Person($this->faker));
         return [
@@ -80,7 +101,7 @@ class ClientFactory extends Factory
             'bsn' => $this->faker->idNumber(),
             'vezekering' => $this->faker->company(),
             'polisnummer' => $this->faker->randomNumber(),
-
+            'profielfoto' => $uuid,
         ];
 
     }
