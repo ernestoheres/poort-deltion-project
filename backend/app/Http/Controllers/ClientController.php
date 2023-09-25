@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
-
+use Intervention\Image\Facades\Image;
 class ClientController extends Controller
 {
     public function getAllClients()
@@ -35,5 +35,12 @@ class ClientController extends Controller
 
         Client::create($data);
         return response("Client created", 201);
+    }
+
+    public function serveImage($id) {
+        $client = Client::find($id);
+        $path = storage_path('app/img/' . $client->profielfoto . '.jpg');
+        $img = Image::make($path);
+        return $img->response();
     }
 }

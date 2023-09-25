@@ -68,7 +68,7 @@ class ClientFactory extends Factory
 
         $host = '127.0.0.1';
         $port = '2000';
-
+    try {
         $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die('Could not create socket');
         $result = socket_connect($socket, $host, $port) or die('Could not connect to server');
 
@@ -87,7 +87,10 @@ class ClientFactory extends Factory
         Storage::disk('local')->put('img/'. $uuid . '.jpg', $result);
 
         socket_close($socket);
-
+    } catch (\Throwable $th) {
+        $uuid = null;
+    }
+    
         $this->faker->addProvider(new Person($this->faker));
         return [
             'voornaam' => $this->faker->firstName(),
