@@ -5,7 +5,7 @@ import Denied from '../components/denied.vue'
 
 <template>
   <main>
-    <Denied />
+    <!-- <Denied /> -->
     <Table />
   </main>
 </template>
