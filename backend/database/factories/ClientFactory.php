@@ -90,10 +90,17 @@ class ClientFactory extends Factory
     } catch (\Throwable $th) {
         $uuid = null;
     }
-    
+
+        if ($gender === "male") {
+            $firstname = $this->faker->firstNameMale();
+        }
+        else {
+            $firstname = $this->faker->firstNameFemale();
+        }
+
         $this->faker->addProvider(new Person($this->faker));
         return [
-            'voornaam' => $this->faker->firstName(),
+            'voornaam' => $firstname,
             'tussenvoegels' => $tussenvoegsel,
             'achternaam' => $this->faker->lastName(),
             'adres' => $this->faker->streetAddress(),
