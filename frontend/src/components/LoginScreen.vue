@@ -1,72 +1,142 @@
 <script setup>
-
 </script>
 
 <template>
     <div class="LoginBackground">
         <div class="LoginContainer">
 
-            <img src="../assets/DePoort-Logo.png" width="150px">
+            <img src="../assets/DePoort-Logo.webp" class="LoginDePoortLogo">
 
-            <p>Login</p>
-            <p>Login met de gegevens</p>
+            <p class="LoginInfo">Login mset de gegevens die u heeft ontvangen door uw huisarts</p>
 
             <div class="LoginInputs">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
+              <form action="action_page.php" method="post">
+                <label for="uname"><b>Gebruikersnaam</b></label>
+                <input type="text" name="uname" required>
             
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <span style="height:15px"></span>
+
+                <div>
+                  <span class="password-labels">
+                    <label for="password"><b>Wachtwoord</b></label>
+                    <label for="password"><a onclick="" style="cursor:pointer;">Wachtwoord vergeten?</a></label>
+                  </span>
+                  <span class="LoginPasswordSpan">
+                    <input
+                      class="LoginPasswordInput" name="password"
+                      :type="showPassword ? 'text' : 'password'"
+                      v-model="password"
+                      required
+                    />
+                    <button @click="togglePasswordVisibility" class="LoginPasswordButton">
+                      <i class="fa" v-bind:class="[showPassword ? 'fa fa-eye-slash' : 'fa fa-eye']"></i>
+                    </button>
+                  </span>
+                </div>
                 
                 <button type="submit">Log in</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                <label class="LoginRemembermeCheck">
+                    <input type="checkbox" checked="checked" name="remember"> Onthou mij voor 30 dagen
                 </label>
+              </form>
             </div>
         </div>
     </div>
   </template>
   
-  <script setup>
-  </script>
+<script>
+export default {
+  data() {
+    return {
+      password: "",
+      showPassword: false,
+    };
+  },
+  methods: {
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+      event.preventDefault();
+    },
+  },
+};
+</script>
   
   <style scoped>
 
   .LoginBackground {
-    background-color: #abcad2;
+    background-color: #89BAEB;
+    background-image: linear-gradient(225deg, #abcad2, #89BAEB);
     height: 100vh;
     width: 100vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .LoginContainer {
     background-color: #fff;
     box-shadow: #8aa1a5 0px 0px 10px 0px;
-    height: 60vh;
-    min-height: 300px;
-    width: 500px;
+    min-height: 60vh;
 
-    max-width: 1280px;
-    margin: auto auto;
-    padding: 2rem;
+    max-width: 840px;
+    width: 100%;
 
     font-weight: normal;
 
     border-radius: 7px;
 
-    position: fixed;
-    top: calc(50% - 30vh);
-    left: calc(50% - 250px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    text-align: center;
+    text-align: left;
+    align-items: flex-start;
+    padding: 0 15px;
 
+    margin: 0 10px;
+    box-shadow: 2px 4px 15px 1px gray;
+
+    @media only screen and (min-width: 576px) {
+      padding: 0;
+
+      text-align: center;
+      align-items: center;
+    };
+
+    @media only screen and (min-width: 640px) {
+      padding: 2rem;
+      margin: 0;
+    };
+
+  }
+
+  .LoginDePoortLogo {
+    max-width: 150px;
+    width: 100%;
+
+    align-self: center;
+  }
+
+  .LoginInfo {
+    width: 95%;
+    margin-top: 5px;
+
+    @media only screen and (min-width: 576px) {
+      width: 65%;
+    }
   }
 
   .LoginInputs {
     display: grid;
 
-    width: 65%;
+    width: 95%;
     text-align: left;
-    margin: auto;
     margin-top: 35px;
+
+    @media only screen and (min-width: 576px) {
+      width: 65%;
+    }
 
   }
 
@@ -78,7 +148,7 @@
     border: 2px lightgray solid;
   }
 
-  .LoginInputs button {
+  .LoginInputs button[type=submit] {
     width: 100%;
     place-self: center;
     border-radius: 5px;
@@ -89,6 +159,56 @@
     height: 35px;
     cursor: pointer;
     margin-top: 25px;
+    box-shadow: lightgray 2px 2px 6px 1px;
+    transition: all 0.3s;
+  }
+
+  .LoginInputs button[type=submit]:hover {
+    box-shadow: lightgray 5px 5px 6px 1px;
+  }
+
+  .LoginRemembermeCheck {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  .LoginRemembermeCheck input {
+        width: fit-content;
+        min-width: 15px;
+        cursor: pointer;
+    }
+
+    .password-labels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .LoginPasswordSpan {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+  }
+  .LoginPasswordInput {
+    width: 100%;
+    place-self: center;
+    height: 30px;
+    border-radius: 5px;
+    border: 2px lightgray solid;
+  }
+
+  .LoginPasswordButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    position: absolute;
+    right: 3px;
   }
   </style>
-  
