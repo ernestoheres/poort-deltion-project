@@ -39,7 +39,9 @@
     align-items: center;
     color: black;
     display: flex;
+    flex-direction: row;
     overflow:visible;
     top: 0;
+    z-index: 3;
 }
 </style>
