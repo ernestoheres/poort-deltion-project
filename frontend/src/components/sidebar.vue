@@ -24,9 +24,8 @@
 }
 .Side{
     background-color: azure;
-    position: absolute;
-    height: 100%;
-    width: 5%;
+    min-height: calc(100vh - 90px);
+    width: 75px;
     left: 0;
     align-items: center;
     color: black;

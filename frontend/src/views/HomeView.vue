@@ -1,21 +1,31 @@
 <script setup>
 import Table from '../components/table.vue'
-import Denied from '../components/denied.vue'
-import LoginScreen from '../components/LoginScreen.vue'
 import Header from '../components/header.vue'
 import Sidebar from '../components/sidebar.vue'
 </script>
 
 <template>
   <main>
-    <!-- <Denied /> -->
-
-    <!-- <LoginScreen /> -->
 
     <Header />
 
-    <!-- <Sidebar /> -->
+    <div id="content">
+      <Sidebar />
     
-    <Table />
+      <Table />
+    </div>
+
   </main>
 </template>
+
+<style scoped>
+main {
+    top: 0;
+    position: fixed;
+    min-height: 100vh;
+}
+
+#content {
+  display: flex;
+}
+</style>

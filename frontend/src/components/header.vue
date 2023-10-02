@@ -32,9 +32,8 @@
 }
 .Container{
     background-color: azure;
-    position: absolute;
-    height: 10%;
-    width: 100%;
+    height: 90px;
+    width: 100vw;
     left: 0;
     align-items: center;
     color: black;
