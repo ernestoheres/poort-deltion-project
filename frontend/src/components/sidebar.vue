@@ -23,16 +23,14 @@
     padding-top: 15px;
 }
 .Side{
-    background-color: azure;
-    position: absolute;
+    background-color: white;
+    position:absolute;
     height: 100%;
     width: 5%;
-    left: 0;
     align-items: center;
     color: black;
     display: flex;
     flex-direction: column;
-    overflow: block;
     top: 5;
     z-index: 2;
 }

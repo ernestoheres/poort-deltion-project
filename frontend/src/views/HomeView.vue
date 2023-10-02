@@ -14,7 +14,7 @@ import Sidebar from '../components/sidebar.vue'
 
     <Header />
 
-    <!-- <Sidebar /> -->
+    <Sidebar />
     
     <Table />
   </main>
