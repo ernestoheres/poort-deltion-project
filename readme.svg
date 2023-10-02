@@ -54,7 +54,7 @@
 					background-size: 600% 400%;
 					animation: gradientBackground 10s ease infinite;
 					border-radius: 10px;
-					color: white;
+					color: black;
 					text-align: center;
 				}
 				h1 {
@@ -63,22 +63,22 @@
 					letter-spacing: 5px;
 					text-transform: uppercase;
 					text-shadow:
-						0 1px 0 #efefef,
-						0 2px 0 #efefef,
-						0 3px 0 #efefef,
-						0 4px 0 #efefef,
+						0 1px 0 #141414,
+						0 2px 0 #141414,
+						0 3px 0 #141414,
+						0 4px 0 #141414,
 						0 12px 5px rgba(0, 0, 0, 0.1);
 					animation: rotate ease-in-out 1s infinite alternate;
 				}
 				p {
 					font-size: 20px;
-					text-shadow: 0 1px 0 #efefef;
+					text-shadow: 0 1px 0 #141414;
 					animation: 5s ease 0s normal forwards 1 fadeIn;
 				}
                 .footer {
 					font-size: 14px;
                     font-style: italic;
-					text-shadow: 0 1px 0 #efefef;
+					text-shadow: 0 1px 0 #141414;
 					animation: 2s ease 0s normal forwards 1 fadeIn;
 				}
 			</style>
