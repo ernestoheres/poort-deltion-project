@@ -1,7 +1,7 @@
 <template>
     <div class="Container">
         <div>
-            <img class="Foto" src="../assets/logopoort2.png">
+            <img href="./" class="Foto" src="../assets/logopoort2.png">
         </div>
         
         <div class="Items">

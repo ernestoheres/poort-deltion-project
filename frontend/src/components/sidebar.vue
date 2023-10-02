@@ -31,7 +31,6 @@
     color: black;
     display: flex;
     flex-direction: column;
-    overflow: block;
     top: 5;
     z-index: 2;
 }
