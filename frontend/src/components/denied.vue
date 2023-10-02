@@ -37,7 +37,7 @@
         display: flex;
         border-radius: 15px;
         width: 725px;
-        box-shadow: 0px 1px 20px 9px black;
+        box-shadow: 0px 1px 20px 9px rgba(145, 145, 145, 0.432);
         left: 30%;
         height: 125px;
         align-items: center;
