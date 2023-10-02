@@ -7,7 +7,7 @@
 
             <img src="../assets/DePoort-Logo.webp" class="LoginDePoortLogo">
 
-            <p class="LoginInfo">Login mset de gegevens die u heeft ontvangen door uw huisarts</p>
+            <p class="LoginInfo">Login met de gegevens die u heeft ontvangen door uw huisarts</p>
 
             <div class="LoginInputs">
               <form action="action_page.php" method="post">
