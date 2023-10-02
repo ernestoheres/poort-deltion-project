@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Provider\nl_NL\Person;
 use Illuminate\Support\Facades\Storage;
-
+use Database\Factories\UserFactory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client>
  */
@@ -112,6 +112,7 @@ class ClientFactory extends Factory
             'vezekering' => $this->faker->company(),
             'polisnummer' => $this->faker->randomNumber(),
             'profielfoto' => $uuid,
+            'user_id' => UserFactory::new()->create()->id,
         ];
 
     }
