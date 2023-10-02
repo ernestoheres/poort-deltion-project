@@ -4,7 +4,7 @@
       <tbody>
         <tr v-for="user in users" :key="user.id">
            <td> 
-            <img src="../../public/joebiden.jpg" alt="User Image" class="user-image" />
+<img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="user-image">
             {{ user.name }}
             </td>
             <tr>
@@ -59,7 +59,7 @@ tr {
 }
 
 img {
-  width: 90px;
+  width: 110px;
   height: 110px;
 }
 
