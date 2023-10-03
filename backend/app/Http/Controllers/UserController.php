@@ -14,9 +14,14 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if ($user->password == $request->password) {
+                $token = $user->createToken('auth_token')->plainTextToken;
                 return response()->json([
                     'status' => 'success',
-                    'data' => $user
+                    'data' => [
+                        'token' => $token,
+                        'email' => $user->email,
+                        'username' => $user->username
+                    ]
                 ]);
             } else {
                 return response()->json([
@@ -41,7 +46,11 @@ class UserController extends Controller
         $user = User::create($data);
         return response()->json([
             'status' => 'success registered successfully',
-            'data' => $user
+            'data' => [
+                'token' => $user->createToken('auth_token')->plainTextToken,
+                'email' => $user->email,
+                'username' => $user->username
+            ]
         ]);
     }
 
