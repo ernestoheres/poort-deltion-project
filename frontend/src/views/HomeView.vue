@@ -2,6 +2,7 @@
 import Table from '../components/table.vue'
 import Header from '../components/header.vue'
 import Sidebar from '../components/sidebar.vue'
+import UserInfo from '../components/UserProfile.vue'
 </script>
 
 <template>
@@ -11,8 +12,8 @@ import Sidebar from '../components/sidebar.vue'
 
     <div id="content">
       <Sidebar />
-    
-      <Table />
+      <UserInfo />
+      <!-- <Table /> -->
     </div>
 
   </main>
