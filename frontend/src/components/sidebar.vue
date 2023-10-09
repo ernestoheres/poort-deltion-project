@@ -4,7 +4,9 @@
 <template>
     <div class="Side">
         <div class="icon">
+            <a href="/login">
     <i class="fa-regular fa-house fa-2x icon-highlight"></i>
+            </a>
         </div>
         <div class="icon">
     <i class="fa-solid fa-grid-horizontal fa-2x icon-highlight"></i> 
@@ -27,7 +29,7 @@
 }
 
 .icon-highlight:hover {
-  color: #FF5733; /* Change the color to your desired highlight color */
+  color: rgb(150, 150, 150); /* Change the color to your desired highlight color */
   cursor: pointer; /* Optional: Change the cursor to a pointer on hover */
 }
 
