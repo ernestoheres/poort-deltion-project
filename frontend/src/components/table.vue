@@ -2,21 +2,35 @@
   <div id="table-container">
     <div class="table-border">
       <table>
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Voornaam</th>
+            <th>Tussenvoegels</th>
+            <th>Achternaam</th>
+            <th>Adres</th>
+            <th>Woonplaats</th>
+            <th>Bekijk meer</th>
+          </tr>
+        </thead>
+
         <tbody>
           <tr v-for="user in users" :key="user.id" class="User-TR">
             <td> 
               <img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="user-image">
-              {{ user.name }}
             </td>
             
-            <tr>
-            <td>{{ user.voornaam }} {{ user.achternaam }}</td>
-            </tr>
+            <td>{{ user.voornaam }}</td>
 
+            <td>{{ user.tussenvoegels }}</td>
 
-            <tr>
+            <td>{{ user.achternaam }}</td>
+
             <td>{{ user.adres }}</td>
-            </tr>
+
+            <td>{{ user.woonplaats }}</td>
+
+            <td><i class="fa-light fa-id-badge fa-2xl" style="color: #89baeb;"></i></td>
           </tr>
         </tbody>
       </table>
@@ -58,6 +72,7 @@ export default {
 table {
   width: 100%;
   border-collapse: collapse;
+  text-align: left;
 }
 
 .table-border {
@@ -66,6 +81,28 @@ table {
   border-radius: 15px;
   padding: 10px 0; 
   width: 90%;
+  margin-top: 25px;
+}
+
+thead {
+  border-bottom: solid 1px gray;
+}
+
+thead tr th {
+  font-weight: 700;
+}
+
+thead tr th:first-of-type {
+  padding-left: 35px;
+}
+
+thead tr th:last-of-type {
+  text-align: center;
+}
+
+tbody tr td:last-of-type {
+  text-align: center;
+  cursor: pointer;
 }
 
 td {
