@@ -33,10 +33,19 @@
 
     <!-- Pagination Controls -->
     <div class="pagination">
-      <button @click="currentPage -= 1" :disabled="currentPage === 1">Previous</button>
-      <span>Page {{ currentPage }}</span>
-      <button @click="currentPage += 1" :disabled="currentPage * perPage >= users.length">Next</button>
+      <button @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
+      <button @click="currentPage -= 1" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
+      <div class="page-buttons">
+        <button v-for="page in totalPages" :key="page" @click="goToPage(page)" :class="{ 'current-page': currentPage === page }">
+          {{ page }}
+        </button>
+      </div>
+      <button @click="currentPage += 1" :disabled="currentPage >= totalPages"><i class="fa-solid fa-arrow-right"></i></button>
+      <button @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
     </div>
+
+    <!-- Page Buttons -->
+    
   </div>
 </template>
 
@@ -48,7 +57,8 @@ export default {
     return {
       users: [],
       currentPage: 1,
-      perPage: 5,
+      perPage: 7, // Show 7 users per page
+      placeholderImage: '/public/placeholder.jpg', // Set the placeholder image URL
     };
   },
   computed: {
@@ -56,6 +66,9 @@ export default {
       const start = (this.currentPage - 1) * this.perPage;
       const end = start + this.perPage;
       return this.users.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.users.length / this.perPage);
     },
   },
   methods: {
@@ -76,7 +89,12 @@ export default {
       };
 
       // Return the image URL or the placeholder based on validity
-      return user.isValidImage ? imageUrl : '/public/placeholder.jpg';
+      return user.isValidImage ? imageUrl : this.placeholderImage;
+    },
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+      }
     },
   },
   mounted() {
@@ -160,6 +178,26 @@ img {
   width: 75px;
   height: 75px;
   margin-left: 25px;
+}
+
+.pagination button, .page-buttons button {
+  /* background-color: lightblue; */
+    border: solid 2px lightgray;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.page-buttons button.current-page {
+  border-color: #2782DD;
+}
+
+.pagination {
+  display: flex;
+  width: 90%;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 
 </style>
