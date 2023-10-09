@@ -18,7 +18,12 @@ import UserInfo from '../components/UserProfile.vue'
 
   </main>
 </template>
+<script>
+if (!localStorage.getItem("token")) {
+  window.location.href = "/login";
+}
 
+</script>
 <style scoped>
 main {
     top: 0;
