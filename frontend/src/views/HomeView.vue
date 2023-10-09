@@ -8,10 +8,9 @@ import UserInfo from '../components/UserProfile.vue'
 <template>
   <main>
 
-    <Header />
-
+    <Sidebar />
     <div id="content">
-      <Sidebar />
+      <Header />
       <!-- <UserInfo /> -->
       <Table />
     </div>
@@ -24,9 +23,11 @@ main {
     top: 0;
     position: fixed;
     min-height: 100vh;
+    display: flex;
 }
 
 #content {
   display: flex;
+  flex-direction: column;
 }
 </style>
