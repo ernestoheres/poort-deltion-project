@@ -40,9 +40,9 @@ class ClientController extends Controller
     public function serveImage($id) {
         $client = Client::find($id);
         $path = storage_path('app/img/' . $client->profielfoto . '.jpg');
-        //check if empty
-        if (empty($client->profielfoto)) {
-            $path = storage_path('app/img/default.png');
+        //check if file exists at path
+        if (!file_exists($path)) {
+            $path = storage_path('app/img/default.jpg');
         }
         $img = Image::make($path);
         return $img->response();
