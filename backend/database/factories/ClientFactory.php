@@ -88,6 +88,7 @@ class ClientFactory extends Factory
 
         socket_close($socket);
     } catch (\Throwable $th) {
+        
         $uuid = null;
     }
 

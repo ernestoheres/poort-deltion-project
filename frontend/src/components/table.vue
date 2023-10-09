@@ -15,25 +15,27 @@
         </thead>
 
         <tbody>
-          <tr v-for="user in users" :key="user.id" class="User-TR">
-            <td> 
-              <img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="user-image">
+          <tr v-for="user in paginatedUsers" :key="user.id" class="User-TR">
+            <td>
+              <img :src="userImageUrl(user)" alt="User Image" class="user-image">
             </td>
-            
+
             <td>{{ user.voornaam }}</td>
-
             <td>{{ user.tussenvoegels }}</td>
-
             <td>{{ user.achternaam }}</td>
-
             <td>{{ user.adres }}</td>
-
             <td>{{ user.woonplaats }}</td>
-
             <td><i class="fa-light fa-id-badge fa-2xl" style="color: #89baeb;"></i></td>
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <button @click="currentPage -= 1" :disabled="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }}</span>
+      <button @click="currentPage += 1" :disabled="currentPage * perPage >= users.length">Next</button>
     </div>
   </div>
 </template>
@@ -44,8 +46,38 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      users: []
+      users: [],
+      currentPage: 1,
+      perPage: 5,
     };
+  },
+  computed: {
+    paginatedUsers() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.users.slice(start, end);
+    },
+  },
+  methods: {
+    userImageUrl(user) {
+      const imageUrl = `http://127.0.0.1:8000/api/clients/${user.id}/image`;
+      const image = new Image();
+      image.src = imageUrl;
+
+      // Check if the image is valid by adding an event listener
+      image.onload = () => {
+        // If the image is valid, set the source to the user's image URL
+        user.isValidImage = true;
+      };
+
+      // If the image fails to load (e.g., 404 or invalid image), show the placeholder
+      image.onerror = () => {
+        user.isValidImage = false;
+      };
+
+      // Return the image URL or the placeholder based on validity
+      return user.isValidImage ? imageUrl : '/public/placeholder.jpg';
+    },
   },
   mounted() {
     axios.get('http://localhost:8000/api/clients')
@@ -55,7 +87,7 @@ export default {
       .catch(error => {
         console.error(error);
       });
-  }
+  },
 };
 </script>
 
