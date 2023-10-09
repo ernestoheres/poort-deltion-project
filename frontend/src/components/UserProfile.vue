@@ -3,8 +3,8 @@
         <div>User Info</div>
         <div class="InfoBubble">
             <div class="InfoUser">
-                <div><img :src="'http://127.0.0.1:8000/api/clients/' + 1 + '/image'" alt="User Image" class="InfoImage"></div>
-                <div> {{ user.voornaam }} {{ user.achternaam }} </div>
+                <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + 1 + '/image'" alt="User Image" class="InfoImage"></div>
+                <div class="InfoUsercontent"> {{ user.voornaam }} {{ user.achternaam }} </div>
             </div>
             <table id="SettingUser">
                 <tr> 
@@ -49,23 +49,41 @@ export default {
     flex-direction: row;
     border: 1px black solid;
     border-radius: 5px;
+    height: 300px;
 }
 .InfoUser{
     /* background-color: black; */
-    width: 25%;
+    width: 12.5%;
     height: 100%;
 }
+
+# {
+    display: flex;
+    justify-content: center;
+}
+.InfoUsercontent {
+    display: flex;
+    justify-content: center;
+}
+
 .SettingUser{
     display: flex;
     flex-direction: column;
     
 }
 .InfoImage{
-    width: 150px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
     border-radius: 100%;
 }
 #SettingUser{
     border: 1px black solid;
+}
+#SettingUser td{
+    width: 200px;
+}
+#SettingUser tr{
+    margin-left: 30px;
+    margin-bottom: 45px;
 }
 </style>
