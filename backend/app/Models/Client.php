@@ -22,7 +22,8 @@ class Client extends Model
        'vezekering',
        'polisnummer',
        'profielfoto',
-       
+         'user_id',
+
 
     ];
 

@@ -8,11 +8,11 @@
             <img src="../assets/DePoort-Logo.webp" class="LoginDePoortLogo">
 
             <p class="LoginInfo">Login met de gegevens die u heeft ontvangen door uw huisarts</p>
-
+ 
             <div class="LoginInputs">
               <form action="action_page.php" method="post">
                 <label for="uname"><b>Gebruikersnaam</b></label>
-                <input type="text" name="uname" required>
+                <input type="text" v-model="username" name="uname" required>
             
                 <span style="height:15px"></span>
 
@@ -34,9 +34,9 @@
                   </span>
                 </div>
                 
-                <button type="submit">Log in</button>
+                <button type="submit" @click="onLoginSubmit">Log in</button>
                 <label class="LoginRemembermeCheck">
-                    <input type="checkbox" checked="checked" name="remember"> Onthou mij voor 30 dagen
+                    <input type="checkbox" checked="checked" name="remember"> Onthoudt mij voor 30 dagen
                 </label>
               </form>
             </div>
@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       password: "",
+      username: "",
       showPassword: false,
     };
   },
@@ -58,7 +59,13 @@ export default {
       event.preventDefault();
     },
   },
+
 };
+const onLoginSubmit = () => {
+  
+}
+
+
 </script>
   
   <style scoped>
