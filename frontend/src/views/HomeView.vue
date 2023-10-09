@@ -12,8 +12,8 @@ import UserInfo from '../components/UserProfile.vue'
 
     <div id="content">
       <Sidebar />
-      <UserInfo />
-      <!-- <Table /> -->
+      <!-- <UserInfo /> -->
+      <Table />
     </div>
 
   </main>

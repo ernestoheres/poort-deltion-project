@@ -36,7 +36,7 @@
       <button @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
       <button @click="currentPage -= 1" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
       <div class="page-buttons">
-        <button v-for="page in totalPages" :key="page" @click="goToPage(page)" :class="{ 'current-page': currentPage === page }">
+          <button v-for="(page, index) in pagesToShow" :key="index" @click="goToPage(page)" :class="{ 'current-page': currentPage === page }">
           {{ page }}
         </button>
       </div>
@@ -70,7 +70,29 @@ export default {
     totalPages() {
       return Math.ceil(this.users.length / this.perPage);
     },
+    pagesToShow() {
+      const pages = [];
+      for (let i = 1; i <= this.totalPages; i++) {
+        pages.push(i);
+      }
+      return pages;
+    },
   },
+  watch: {
+    totalPages(newTotal) {
+      if (newTotal >= 3) {
+        // Show buttons for the first and last page numbers
+        this.pagesToShow[0] = 1;
+        this.pagesToShow[1] = '...';
+        this.pagesToShow[this.pagesToShow.length - 2] = '...';
+        this.pagesToShow[this.pagesToShow.length - 1] = newTotal;
+      } else {
+        // Just show all page numbers
+        for (let i = 0; i < newTotal; i++) {
+          this.pagesToShow[i] = i + 1;
+        }
+      }
+    },
   methods: {
     userImageUrl(user) {
       const imageUrl = `http://127.0.0.1:8000/api/clients/${user.id}/image`;
@@ -106,7 +128,8 @@ export default {
         console.error(error);
       });
   },
-};
+}
+}
 </script>
 
 <style scoped>
