@@ -23,7 +23,7 @@
 <style>
 
 .icon {
-    margin-top: 30px;
+    margin-top: 31px;
 }
 
 .icon-highlight:hover {
