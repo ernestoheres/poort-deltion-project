@@ -4,23 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function login(Request $request) {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('name', $request->name)->first();
         if ($user) {
-            if ($user->password == $request->password) {
+            if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('auth_token')->plainTextToken;
                 return response()->json([
                     'status' => 'success',
                     'data' => [
                         'token' => $token,
                         'email' => $user->email,
-                        'username' => $user->username
+                        'name' => $user->name
                     ]
                 ]);
             } else {
@@ -49,7 +49,7 @@ class UserController extends Controller
             'data' => [
                 'token' => $user->createToken('auth_token')->plainTextToken,
                 'email' => $user->email,
-                'username' => $user->username
+                'name' => $user->name
             ]
         ]);
     }

@@ -126,6 +126,7 @@ table {
 }
 
 .table-border {
+  background-color: white;
   border: 1px solid lightgray;
   box-shadow: 0 0 5px 3px rgba(0,0,0,0.15);
   border-radius: 15px;

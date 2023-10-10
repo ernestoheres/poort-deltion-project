@@ -1,23 +1,25 @@
 <template>
-    <div class="Container">
-        <div>
-            <img href="./" class="Foto" src="../assets/logopoort2.png">
-        </div>
-        
-        <div class="Items">
-            <a href="/login">Login</a>
-        </div>
-        <div class="Items">
-            Item 2
-        </div>
-        <div class="Items">
-            Item 3
-        </div>
-        <div class="Items">
-            Item 4
-        </div>
-        <div class="Items">
-            Item 5
+    <div class="ContainerHeader">
+        <div class="Header">
+            <div>
+                <img href="./" class="Foto" src="../assets/logopoort2.png">
+            </div>
+            
+            <div class="Items">
+                <a href="/login">Login</a>
+            </div>
+            <div class="Items">
+                Item 2
+            </div>
+            <div class="Items">
+                Item 3
+            </div>
+            <div class="Items">
+                Item 4
+            </div>
+            <div class="Items">
+                Item 5
+            </div>
         </div>
     </div>
 </template>
@@ -30,10 +32,21 @@
     width: auto;
     height: 75px;
 }
-.Container{
-    background-color: azure;
+
+.ContainerHeader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+}
+
+.Header{
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    width: 90%;
+    background-color: white;
+    border-radius: 15px;
     height: 90px;
-    width: 100vw;
     left: 0;
     align-items: center;
     color: black;

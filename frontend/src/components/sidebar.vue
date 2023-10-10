@@ -38,7 +38,9 @@
     padding-top: 15px;
 }
 .Side{
-    background-color: azure;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    clip-path: inset(0px -15px 0px 0px);
+    background-color: white;
     min-height: calc(100vh - 90px);
     width: 90px;
     left: 0;

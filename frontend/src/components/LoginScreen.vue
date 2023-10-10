@@ -1,4 +1,5 @@
 <script setup>
+import axios from "axios";
 </script>
 
 <template>
@@ -10,7 +11,6 @@
             <p class="LoginInfo">Login met de gegevens die u heeft ontvangen door uw huisarts</p>
  
             <div class="LoginInputs">
-              <form action="action_page.php" method="post">
                 <label for="uname"><b>Gebruikersnaam</b></label>
                 <input type="text" v-model="username" name="uname" required>
             
@@ -35,10 +35,10 @@
                 </div>
                 
                 <button type="submit" @click="onLoginSubmit">Log in</button>
+
                 <label class="LoginRemembermeCheck">
                     <input type="checkbox" checked="checked" name="remember"> Onthoudt mij voor 30 dagen
                 </label>
-              </form>
             </div>
         </div>
     </div>
@@ -48,9 +48,10 @@
 export default {
   data() {
     return {
-      password: "",
-      username: "",
       showPassword: false,
+      username: "",
+      password: "",
+
     };
   },
   methods: {
@@ -58,11 +59,30 @@ export default {
       this.showPassword = !this.showPassword;
       event.preventDefault();
     },
-  },
-
-};
-const onLoginSubmit = () => {
   
+  async onLoginSubmit() {
+
+
+  const result = await axios.post("http://localhost:8000/api/login", {
+    name: this.username,
+    password: this.password,
+  },
+  );
+  console.log(result.data);
+  if (result.data.status == "success") {
+    console.log("Login succesvol");
+    localStorage.setItem("token", result.data.token);
+    window.location.href = "/";
+  } else {
+    console.log("Login mislukt", result.data.status);
+  }
+},
+
+},
+
+  
+
+
 }
 
 
