@@ -1,9 +1,13 @@
+<script setup>
+import Notes from './notes.vue'
+</script>
+
 <template>
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
                 <div>User Info</div>
-                <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + 1 + '/image'" alt="User Image" class="InfoImage"></div>
+                <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="InfoImage"></div>
                 <div class="InfoUsercontent"> {{ user.voornaam }} {{ user.achternaam }} </div>
             </div>
             <table class="SettingUser">
@@ -26,6 +30,9 @@
             </table>
         </div>
     </div>
+
+    <Notes />
+
 </template>
 
 <script>
@@ -38,7 +45,7 @@ export default {
     };
   },
   mounted() {
-    axios.get('http://localhost:8000/api/clients/1')
+    axios.get('http://localhost:8000/api/clients/3')
       .then(response => {
         this.user = response.data;
       })
@@ -67,6 +74,7 @@ export default {
     height: 300px;
     box-shadow: 0 0px 10px 0 lightgray;
     border-radius: 15px;
+    background-color: white;
 }
 
 .InfoUser{
@@ -83,15 +91,19 @@ export default {
 .InfoUsercontent {
     display: flex;
     justify-content: center;
+    text-align: center;
+    padding-top: 20px;
 }
 
 .SettingUser{
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 90%;
     gap: 0;
     margin: 0px;
     padding: 0px;
+    background-color: white;
+    border-radius: 0px 15px 15px 0px;
 }
 
 .SettingUser td{
