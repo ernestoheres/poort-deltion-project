@@ -1,3 +1,24 @@
+<script>
+
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      user: []
+    };
+  },
+  mounted() {
+    axios.get('http://localhost:8000/api/clients/3')
+      .then(response => {
+        this.user = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+};
+</script>
 <script setup>
 import Notes from './notes.vue'
 </script>
@@ -35,26 +56,7 @@ import Notes from './notes.vue'
 
 </template>
 
-<script>
-import axios from 'axios';
 
-export default {
-  data() {
-    return {
-      user: []
-    };
-  },
-  mounted() {
-    axios.get('http://localhost:8000/api/clients/3')
-      .then(response => {
-        this.user = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-};
-</script>
 
 <style scoped>
 #ContainerProfile{
