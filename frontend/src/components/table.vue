@@ -212,6 +212,10 @@ img {
   display: none;
 }
 
+..page-buttons-mobile {
+  margin-top: 13px;
+}
+
 @media only screen and (min-width: 480px) {
   .pagination {
     justify-content: flex-end;
