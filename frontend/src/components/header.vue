@@ -45,7 +45,7 @@
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
     width: 90%;
     background-color: white;
-    border-radius: 15px;
+    border-radius: 8px;
     height: 90px;
     left: 0;
     align-items: center;

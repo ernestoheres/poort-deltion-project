@@ -42,7 +42,7 @@
     clip-path: inset(0px -15px 0px 0px);
     background-color: white;
     min-height: calc(100vh - 90px);
-    width: 90px;
+    width: 75px;
     left: 0;
     align-items: center;
     color: black;

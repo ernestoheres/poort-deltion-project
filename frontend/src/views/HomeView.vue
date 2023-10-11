@@ -21,12 +21,12 @@ import UserInfo from '../components/UserProfile.vue'
 <style scoped>
 main {
     top: 0;
-    position: fixed;
     min-height: 100vh;
     display: flex;
 }
 
 #content {
+  width: calc(100vw - 75px);
   display: flex;
   flex-direction: column;
 }

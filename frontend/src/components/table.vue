@@ -35,16 +35,21 @@
     <div class="pagination">
       <button @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
       <button @click="currentPage -= 1" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
-      <div class="page-buttons">
-        <button v-for="page in totalPages" :key="page" @click="goToPage(page)" :class="{ 'current-page': currentPage === page }">
+      
+      <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="page-buttons-desktop" :class="{ 'current-page': currentPage === page }">
           {{ page }}
         </button>
-      </div>
+      
       <button @click="currentPage += 1" :disabled="currentPage >= totalPages"><i class="fa-solid fa-arrow-right"></i></button>
       <button @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
     </div>
 
-    <!-- Page Buttons -->
+    <!-- Page Buttons Mobile -->
+    <div class="page-buttons-mobile">
+        <button v-for="page in totalPages" :key="page" @click="goToPage(page)" :class="{ 'current-page': currentPage === page }">
+          {{ page }}
+        </button>
+      </div>
     
   </div>
 </template>
@@ -57,8 +62,8 @@ export default {
     return {
       users: [],
       currentPage: 1,
-      perPage: 7, // Show 7 users per page
-      placeholderImage: '/public/placeholder.jpg', // Set the placeholder image URL
+      perPage: 6,
+      placeholderImage: '/public/placeholder.jpg',
     };
   },
   computed: {
@@ -112,7 +117,7 @@ export default {
 <style scoped>
 
 #table-container {
-  width: 95vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -126,10 +131,12 @@ table {
 }
 
 .table-border {
+  overflow: auto;
+  max-height: calc(90vh - 180px);
   background-color: white;
   border: 1px solid lightgray;
   box-shadow: 0 0 5px 3px rgba(0,0,0,0.15);
-  border-radius: 15px;
+  border-radius: 8px;
   padding: 10px 0; 
   width: 90%;
   margin-top: 25px;
@@ -181,7 +188,7 @@ img {
   margin-left: 25px;
 }
 
-.pagination button, .page-buttons button {
+.pagination button, .page-buttons-mobile button {
   /* background-color: lightblue; */
     border: solid 2px lightgray;
     padding: 10px;
@@ -190,15 +197,33 @@ img {
     font-size: 16px;
     cursor: pointer;
 }
-.page-buttons button.current-page {
+.page-buttons-mobile button.current-page, .pagination button.current-page {
   border-color: #2782DD;
 }
 
 .pagination {
   display: flex;
   width: 90%;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 10px;
+}
+
+.pagination button.page-buttons-desktop {
+  display: none;
+}
+
+@media only screen and (min-width: 480px) {
+  .pagination {
+    justify-content: flex-end;
+  }
+
+  .pagination button.page-buttons-desktop {
+    display: block;
+  }
+
+  .page-buttons-mobile {
+  display: none;
+}
 }
 
 </style>
