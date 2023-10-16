@@ -26,26 +26,30 @@ export default {
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
-                <div>User Info</div>
                 <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="InfoImage"></div>
                 <div class="InfoUsercontent"> {{ user.voornaam }} {{ user.achternaam }} </div>
             </div>
             <table class="SettingUser">
+                <div class="divinfo">Klant informatie</div>
                 <tr> 
-                    <td>Telefoonnummer: {{ user.telefoon }} <i class="fa-solid fa-gear"></i></td>
-                    <td>Polisnummer: {{ user.polisnummer }} <i class="fa-solid fa-gear"></i></td>
-                    <td>Verzekering: {{ user.vezekering }} <i class="fa-solid fa-gear"></i></td>
+                    <th>Telefoonnummer:</th><td> {{ user.telefoon }} </td>
+                    <th>Polisnummer:</th><td> {{ user.polisnummer }} </td>
+                    <th>Verzekering:</th><td> {{ user.vezekering }}  </td>
                 </tr>
                 <div class="Slide"></div>
+                <div class="divinfo">Klant informatie</div>
                 <tr>
-                    <td>Adres: {{ user.adres }}</td>
-                    <td>Postcode: {{ user.postcode }}</td>
-                    <td>Woonplaats: {{ user.woonplaats }}</td>
-                    <td>Land: {{ user.land }}</td>
+                    <th>Adres:</th><td> {{ user.adres }}</td>
+                    <th>Postcode:</th><td> {{ user.postcode }}</td>
+                    <th>Woonplaats:</th><td> {{ user.woonplaats }}</td>
+                    <th>Land:</th><td> {{ user.land }}</td>
                 </tr>
                 <div class="Slide"></div>
+                <div class="divinfo">Klant informatie</div>
                 <tr>
-                    <td>BSN: {{ user.bsn }} </td>
+                    <th>BSN:</th><td> {{ user.bsn }} </td>
+                    <th>Gender:</th><td> {{ user.gender }}</td>
+                    <th>Bloedtype:</th><td> {{ user.bloodtype }}</td>
                 </tr>
             </table>
         </div>
@@ -58,7 +62,7 @@ export default {
 <style scoped>
 #ContainerProfile{
     display: flex;
-    max-width: 95vw;
+    max-width: 100vw;
     width: 100%;
     height: 100%;
     flex-direction: column;
@@ -92,22 +96,27 @@ export default {
     justify-content: center;
     text-align: center;
     padding-top: 20px;
+    font-weight: bold;
+    font-size: large;
 }
 
 .SettingUser{
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: calc(100% - 12.5%);
     gap: 0;
     margin: 0px;
     padding: 0px;
     background-color: white;
-    border-radius: 0px 15px 15px 0px;
+    border-radius: 0px 8px 8px 0px;
 }
 
 .SettingUser td{
-    width: 250px;
+    width: calc(fit-content + 15px);
     margin-inline: 10px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: bold;
 }
 
 .SettingUser tr{
@@ -116,10 +125,13 @@ export default {
     margin-bottom: 30px;
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
 
-.SettingUser hr{
-    width: 100%;
+.SettingUser th{
+    width: calc(fit-content + 15px);
+    text-align: left;
+    padding-left: 5px;
 }
 
 .InfoImage{
@@ -131,5 +143,12 @@ export default {
     width: 100%;
     height: 1px;
     background-color: rgba(0, 0, 0, 0.1);
+    min-height: 1px;
+
+}
+.divinfo{
+    margin-left: 5px;
+    margin-top: 5px;
+    font-weight: bold;
 }
 </style>
