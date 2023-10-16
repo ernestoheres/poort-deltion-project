@@ -26,9 +26,9 @@
             <td>{{ user.adres }}</td>
             <td>{{ user.woonplaats }}</td>
             <td class="buttons-td">
-              <i class="fa-light fa-id-badge fa-2xl" style="color: #729B79;"></i>
-              <i class="fa-solid fa-pen-to-square fa-2xl" style="color: #89baeb;"></i>
-              <i class="fa-regular fa-box-archive fa-2xl" style="color: #9B1D20;"></i>
+              <a :href="'dashboard/user/' + user.id"><i class="fa-light fa-id-badge fa-2xl" style="color: #729B79;"></i></a>
+              <a :href="'dashboard/user/' + user.id"><i class="fa-solid fa-pen-to-square fa-2xl" style="color: #89baeb;"></i></a>
+              <i class="fa-light fa-trash-can fa-2xl" style="color: #9B1D20;"></i>
             </td>
           </tr>
         </tbody>
@@ -120,8 +120,8 @@ export default {
 
 <style scoped>
 
-.buttons-td {
-  display: flex;
+.buttons-td a {
+  margin-right: 8px;
 }
 
 #table-container {
@@ -197,7 +197,6 @@ img {
 }
 
 .pagination button, .page-buttons-mobile button {
-  /* background-color: lightblue; */
     border: solid 2px lightgray;
     padding: 10px;
     border-radius: 8px;

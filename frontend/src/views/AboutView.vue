@@ -1,3 +1,7 @@
+<script setup>
+console.log('kanker hoer');
+</script>
+
 <template>
   <div class="about">
     <h1>This is an about page</h1>

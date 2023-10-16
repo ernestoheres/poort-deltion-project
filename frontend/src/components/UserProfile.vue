@@ -9,18 +9,17 @@ export default {
     };
   },
   mounted() {
-    axios.get('http://localhost:8000/api/clients/3')
+    const id = this.$route.params.id;
+    
+    axios.get(`http://localhost:8000/api/clients/${id}`)
       .then(response => {
         this.user = response.data;
       })
       .catch(error => {
         console.error(error);
       });
-  }
+    }
 };
-</script>
-<script setup>
-import Notes from './notes.vue'
 </script>
 
 <template>
@@ -51,8 +50,6 @@ import Notes from './notes.vue'
             </table>
         </div>
     </div>
-
-    <Notes />
 
 </template>
 

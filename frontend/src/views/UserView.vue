@@ -1,6 +1,7 @@
 <script setup>
-import Table from '../components/table.vue'
 import Sidebar from '../components/sidebar.vue'
+import UserInfo from '../components/UserProfile.vue'
+import UserNotes from '../components/UserNotes.vue'
 </script>
 
 <template>
@@ -8,7 +9,8 @@ import Sidebar from '../components/sidebar.vue'
 
     <Sidebar />
     <div id="content">
-      <Table />
+      <UserInfo />
+      <UserNotes />
     </div>
 
   </main>
