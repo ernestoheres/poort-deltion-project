@@ -1,5 +1,6 @@
 <template>
   <div id="table-container">
+
     <div class="table-border">
       <table>
         <thead>
@@ -35,17 +36,24 @@
       </table>
     </div>
 
-    <!-- Pagination Controls -->
-    <div class="pagination">
-      <button @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
-      <button @click="currentPage -= 1" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
-      
-      <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="page-buttons-desktop" :class="{ 'current-page': currentPage === page }">
-          {{ page }}
-        </button>
-      
-      <button @click="currentPage += 1" :disabled="currentPage >= totalPages"><i class="fa-solid fa-arrow-right"></i></button>
-      <button @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
+    <div class="table-footer">
+      <div class="search-container">
+        <input v-model="searchQuery" placeholder="Zoeken">
+        <button @click="clearSearch">Wis</button>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="pagination">
+        <button @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
+        <button @click="currentPage -= 1" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
+        
+        <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="page-buttons-desktop" :class="{ 'current-page': currentPage === page }">
+            {{ page }}
+          </button>
+        
+        <button @click="currentPage += 1" :disabled="currentPage >= totalPages"><i class="fa-solid fa-arrow-right"></i></button>
+        <button @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
+      </div>
     </div>
 
     <!-- Page Buttons Mobile -->
@@ -68,16 +76,23 @@ export default {
       currentPage: 1,
       perPage: 8,
       placeholderImage: '/public/placeholder.jpg',
+      searchQuery: '',
     };
   },
   computed: {
     paginatedUsers() {
       const start = (this.currentPage - 1) * this.perPage;
       const end = start + this.perPage;
-      return this.users.slice(start, end);
+      return this.filteredUsers.slice(start, end);
+    },
+    filteredUsers() {
+      return this.users.filter(user => {
+        const fullName = `${user.voornaam} ${user.tussenvoegels} ${user.achternaam}`;
+        return fullName.toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
     },
     totalPages() {
-      return Math.ceil(this.users.length / this.perPage);
+      return Math.ceil(this.filteredUsers.length / this.perPage);
     },
   },
   methods: {
@@ -105,6 +120,9 @@ export default {
         this.currentPage = page;
       }
     },
+    clearSearch() {
+      this.searchQuery = '';
+    },
   },
   mounted() {
     axios.get('http://localhost:8000/api/clients')
@@ -120,7 +138,11 @@ export default {
 
 <style scoped>
 
-.buttons-td a {
+.buttons-td {
+  text-wrap: nowrap;
+}
+
+.buttons-td * {
   margin-right: 8px;
 }
 
@@ -140,7 +162,7 @@ table {
 
 .table-border {
   overflow: auto;
-  max-height: calc(98vh - 80px);
+  max-height: calc(98vh - 175px);
   background-color: white;
   border: 1px solid lightgray;
   box-shadow: 0 0 5px 3px rgba(0,0,0,0.15);
@@ -148,6 +170,52 @@ table {
   padding: 10px 0; 
   width: 90%;
   margin-top: 25px;
+}
+
+
+@media only screen and (min-width: 860px) {
+  .table-border {
+    max-height: 98vh;
+  }
+}
+
+.table-footer {
+  display: flex;
+  width: 88%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 18px;
+}
+
+@media only screen and (min-width: 768px) {
+  .table-footer {
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-top: 0;
+  }
+}
+
+.table-footer .search-container {
+  display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.table-footer .search-container input, .table-footer .search-container button {
+  border: solid 2px lightgray;
+    padding: 5px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.table-footer .search-container input {
+  cursor: text;
+  max-width: 200px;
+  width: 100%;
 }
 
 thead {
@@ -210,7 +278,6 @@ img {
 
 .pagination {
   display: flex;
-  width: 90%;
   justify-content: center;
   margin-top: 10px;
 }
@@ -224,6 +291,11 @@ img {
 }
 
 @media only screen and (min-width: 480px) {
+
+  .table-border {
+    max-height: calc(98vh - 125px);
+  }
+
   .pagination {
     justify-content: flex-end;
   }
