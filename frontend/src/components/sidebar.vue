@@ -3,29 +3,56 @@
 </script>
 <template>
     <div class="Side">
-        <div class="icon">
-            <a href="/login">
-    <i class="fa-regular fa-house fa-2x icon-highlight"></i>
-            </a>
+        <div class="top">
+            <div class="logo">
+                <img href="./" class="Foto" src="../assets/logopoort2.png">
+            </div>
         </div>
-        <div class="icon">
-    <i class="fa-solid fa-grid-horizontal fa-2x icon-highlight"></i> 
+
+        <div class="center">
+            <div class="icon">
+                <i class="fa-solid fa-grid-horizontal fa-2x icon-highlight"></i> 
+            </div>
+
+            <div class="icon">
+                <i class="fa-solid fa-plus fa-2x icon-highlight"></i>
+            </div>
+
+            <div class="icon">
+                <i class="fa-regular fa-user fa-2x icon-highlight"></i>
+            </div>
+
+            <div class="icon">
+                <i class="fa-solid fa-moon fa-2x icon-highlight"></i>
+            </div>
         </div>
-        <div class="icon">
-    <i class="fa-solid fa-plus fa-2x icon-highlight"></i>
+
+        <div class="bottom">
+            <div class="icon">
+                <a href="/login">
+                    <i class="fa-solid fa-right-from-bracket fa-2x icon-highlight"></i>
+                </a>
+            </div>
         </div>
-        <div class="icon">
-    <i class="fa-regular fa-user fa-2x icon-highlight"></i>
-        </div>
-        <div class="icon">
-    <i class="fa-solid fa-moon fa-2x icon-highlight"></i>
-        </div>
+
+
     </div>
 </template>
-<style>
+
+
+<style scoped>
+
+.logo {
+
+}
+
+.logo img {
+    width: auto;
+    height: 50px;
+}
 
 .icon {
-    margin-top: 31px;
+    
 }
 
 .icon-highlight:hover {
@@ -50,5 +77,14 @@
     flex-direction: column;
     top: 5;
     z-index: 2;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.top, .center, .bottom {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 30px;
 }
 </style>

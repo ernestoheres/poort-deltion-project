@@ -25,7 +25,11 @@
             <td>{{ user.achternaam }}</td>
             <td>{{ user.adres }}</td>
             <td>{{ user.woonplaats }}</td>
-            <td><i class="fa-light fa-id-badge fa-2xl" style="color: #89baeb;"></i></td>
+            <td class="buttons-td">
+              <i class="fa-light fa-id-badge fa-2xl" style="color: #729B79;"></i>
+              <i class="fa-solid fa-pen-to-square fa-2xl" style="color: #89baeb;"></i>
+              <i class="fa-regular fa-box-archive fa-2xl" style="color: #9B1D20;"></i>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -62,7 +66,7 @@ export default {
     return {
       users: [],
       currentPage: 1,
-      perPage: 6,
+      perPage: 8,
       placeholderImage: '/public/placeholder.jpg',
     };
   },
@@ -116,6 +120,10 @@ export default {
 
 <style scoped>
 
+.buttons-td {
+  display: flex;
+}
+
 #table-container {
   width: 100%;
   display: flex;
@@ -132,7 +140,7 @@ table {
 
 .table-border {
   overflow: auto;
-  max-height: calc(90vh - 180px);
+  max-height: calc(98vh - 80px);
   background-color: white;
   border: 1px solid lightgray;
   box-shadow: 0 0 5px 3px rgba(0,0,0,0.15);
@@ -212,7 +220,7 @@ img {
   display: none;
 }
 
-..page-buttons-mobile {
+.page-buttons-mobile {
   margin-top: 13px;
 }
 
