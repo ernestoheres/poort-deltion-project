@@ -10,7 +10,7 @@ import UserInfo from '../components/UserProfile.vue'
 
     <Sidebar />
     <div id="content">
-      <Header />
+      <!-- <Header /> -->
       <!-- <UserInfo /> -->
       <Table />
     </div>

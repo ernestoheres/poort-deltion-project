@@ -1,9 +1,6 @@
 <template>
     <div class="ContainerHeader">
         <div class="Header">
-            <div>
-                <img href="./" class="Foto" src="../assets/logopoort2.png">
-            </div>
             
             <div class="Items">
                 <a href="/login">Login</a>
@@ -23,7 +20,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
 .Items{
     padding-left: 15px;
 }
