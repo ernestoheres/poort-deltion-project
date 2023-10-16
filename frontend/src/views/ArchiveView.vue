@@ -1,5 +1,5 @@
 <script setup>
-import Table from '../components/table.vue'
+import Table from '../components/tableArchive.vue'
 import Sidebar from '../components/sidebar.vue'
 </script>
 
