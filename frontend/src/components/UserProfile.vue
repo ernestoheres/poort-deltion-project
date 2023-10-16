@@ -32,12 +32,13 @@ export default {
             <table class="SettingUser">
                 <div class="divinfo">Klant informatie</div>
                 <tr> 
-                    <th>Telefoonnummer:</th><td> {{ user.telefoon }} </td>
+                    <th>Tel:</th><td> {{ user.telefoon }} </td>
                     <th>Polisnummer:</th><td> {{ user.polisnummer }} </td>
                     <th>Verzekering:</th><td> {{ user.vezekering }}  </td>
+                    <th>Geboortedatum:</th><td> {{ user.geboortedatum }} </td>
                 </tr>
                 <div class="Slide"></div>
-                <div class="divinfo">Klant informatie</div>
+                <div class="divinfo">Woonplaats / adres</div>
                 <tr>
                     <th>Adres:</th><td> {{ user.adres }}</td>
                     <th>Postcode:</th><td> {{ user.postcode }}</td>
@@ -50,6 +51,7 @@ export default {
                     <th>BSN:</th><td> {{ user.bsn }} </td>
                     <th>Gender:</th><td> {{ user.gender }}</td>
                     <th>Bloedtype:</th><td> {{ user.bloodtype }}</td>
+                    <th>BSN:</th><td> {{ user.bsn }} </td>
                 </tr>
             </table>
         </div>
@@ -74,7 +76,7 @@ export default {
     display: flex;
     flex-direction: row;
     border-radius: 5px;
-    height: 300px;
+    height: 50%;
     box-shadow: 0 0px 10px 0 lightgray;
     border-radius: 15px;
     background-color: white;
@@ -112,13 +114,22 @@ export default {
 }
 
 .SettingUser td{
-    width: calc(fit-content + 15px);
+    /* min-width: 100px; */
     margin-inline: 10px;
     text-align: left;
     vertical-align: middle;
     font-weight: bold;
+    color: #89BAEB;
+    padding-right: 15px;
+    flex: 1;
 }
-
+.SettingUser th{
+    /* width: calc(fit-content + 15px); */
+    text-align: left;
+    padding-left: 5px;
+    max-width: 95px;
+    min-width: 95px;
+}
 .SettingUser tr{
     /* margin-left: 30px; */
     margin-top: 15px;
@@ -128,15 +139,10 @@ export default {
     height: 100%;
 }
 
-.SettingUser th{
-    width: calc(fit-content + 15px);
-    text-align: left;
-    padding-left: 5px;
-}
 
 .InfoImage{
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 100%;
 }
 .Slide{

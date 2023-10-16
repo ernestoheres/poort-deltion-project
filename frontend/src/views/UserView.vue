@@ -24,6 +24,7 @@ main {
 }
 
 #content {
+  margin-top: 15px;
   width: calc(100vw - 75px);
   display: flex;
   flex-direction: column;
