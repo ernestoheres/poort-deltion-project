@@ -1,6 +1,7 @@
 <script setup>
 import Sidebar from '../components/sidebar.vue'
 import UserInfo from '../components/UserProfile.vue'
+import UserInfoEdit from '../components/UserProfileEdit.vue'
 import UserNotes from '../components/UserNotes.vue'
 </script>
 
@@ -10,6 +11,7 @@ import UserNotes from '../components/UserNotes.vue'
     <Sidebar />
     <div id="content">
       <UserInfo />
+      <UserInfoEdit />
       <UserNotes />
     </div>
 
@@ -24,7 +26,7 @@ main {
 }
 
 #content {
-  margin-top: 15px;
+  margin-top: 25px;
   width: calc(100vw - 75px);
   display: flex;
   flex-direction: column;

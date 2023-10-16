@@ -34,7 +34,7 @@ export default {
                 <div class="info-block"> 
                     <tr>
                         <th>Tel:</th>
-                        <td> {{ user.telefoon }} </td>
+                        <td> <input type="text" v-model="user.telefoon" :placeholder="user.telefoon" /> </td>
                     </tr>
 
                     <tr>
@@ -166,6 +166,15 @@ export default {
     padding-right: 15px;
     flex: 1;
 }
+
+.SettingUser td input {
+    cursor: text;
+    border: solid 2px lightgray;
+    /* padding: 5px; */
+    border-radius: 8px;
+    font-size: 16px;
+}
+
 .SettingUser th {
     width: fit-content;
     padding-right: 5px;
