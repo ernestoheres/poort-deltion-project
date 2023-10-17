@@ -139,29 +139,6 @@ export default {
 
 <style scoped>
 
-::-webkit-scrollbar {
-  width: 10px; 
-  background: #f1f1f1; 
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888; 
-  border-radius: 10px; 
-}
-
-* {
-  scrollbar-width: thin; 
-}
-
-*::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-
-
 .buttons-td {
   text-wrap: nowrap;
 }
@@ -331,6 +308,29 @@ img {
   .page-buttons-mobile {
   display: none;
 }
+}
+
+
+::-webkit-scrollbar {
+  width: 10px; 
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px; 
+}
+
+* {
+  scrollbar-width: thin; 
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 </style>
