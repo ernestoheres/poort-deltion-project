@@ -1,55 +1,38 @@
-<script>
-
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      user: []
-    };
-  },
-  mounted() {
-    const id = this.$route.params.id;
-    
-    axios.get(`http://localhost:8000/api/clients/${id}`)
-      .then(response => {
-        this.user = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    }
-};
-</script>
-
 <template>
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
-                <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="InfoImage"></div>
-                <div class="InfoUsercontent"> {{ user.voornaam }} {{ user.achternaam }} </div>
+                <div class="InfoUsercontent">
+                    <div class="image" :style="{ backgroundImage: 'url(' + selectedImage + ')' }"></div>
+                </div>
+                <input type="file" @change="handleImageChange" name="avatar" accept="image/png, image/jpeg" class="hidden-file-input" />
+                <div class="InfoUsercontent InfoUsercontent-Naam">
+                    <input type="text" v-model="user.voornaam" placeholder="Voornaam" />
+                    <input type="text" v-model="user.tussenvoegels" placeholder="tussenvoegel" />
+                    <input type="text" v-model="user.achternaam" placeholder="Achternaam" />
+                </div>
             </div>
             <table class="SettingUser">
                 <div class="divinfo">Klant informatie</div>
                 <div class="info-block"> 
                     <tr>
                         <th>Tel:</th>
-                        <td> <input type="text" v-model="user.telefoon" :placeholder="user.telefoon" /> </td>
+                        <td> <input type="text" v-model="user.telefoon" placeholder="Telefoon nummer" /> </td>
                     </tr>
 
                     <tr>
                         <th>Polisnummer:</th>
-                        <td> {{ user.polisnummer }} </td>
+                        <td> <input type="number" v-model="user.polisnummer" placeholder="Polis nummer" /> </td>
                     </tr>
 
                     <tr>
                         <th>Verzekering:</th>
-                        <td> {{ user.vezekering }}  </td>
+                        <td> <input type="text" v-model="user.vezekering" placeholder="Verzekering" /> </td>
                     </tr>
 
                     <tr>
                         <th>Geboortedatum:</th>
-                        <td> {{ user.geboortedatum }} </td>
+                        <td> <input type="date" v-model="user.geboortedatum" placeholder="Geboorte datum" /> </td>
                     </tr>
                 </div>
                 <div class="Slide"></div>
@@ -57,22 +40,22 @@ export default {
                 <div class="info-block">
                     <tr>
                         <th>Adres:</th>
-                        <td> {{ user.adres }}</td>
+                        <td> <input type="text" v-model="user.adres" placeholder="Adres" /> </td>
                     </tr>
 
                     <tr>
                         <th>Postcode:</th>
-                        <td> {{ user.postcode }}</td>
+                        <td> <input type="text" v-model="user.postcode" placeholder="Postcode" /> </td>
                     </tr>
 
                     <tr>
                         <th>Woonplaats:</th>
-                        <td> {{ user.woonplaats }}</td>
+                        <td> <input type="text" v-model="user.woonplaats" placeholder="Woonplaats" /> </td>
                     </tr>
 
                     <tr>
                         <th>Land:</th>
-                        <td> {{ user.land }}</td>
+                        <td> <input type="text" v-model="user.land" placeholder="Land" /> </td>
                     </tr>
                 </div>
                 <div class="Slide"></div>
@@ -80,22 +63,22 @@ export default {
                 <div class="info-block">
                     <tr>
                         <th>BSN:</th>
-                        <td> {{ user.bsn }} </td>
+                        <td> <input type="number" v-model="user.bsn" placeholder="BSN nummer" /> </td>
                     </tr>
 
                     <tr>
                         <th>Gender:</th>
-                        <td> {{ user.gender }}</td>
+                        <td> <input type="text" v-model="user.gender" placeholder="Gender" /> </td>
                     </tr>
 
                     <tr>
                         <th>Bloedtype:</th>
-                        <td> {{ user.bloodtype }}</td>
+                        <td> <input type="text" v-model="user.bloodtype" placeholder="Bloedtype" /> </td>
                     </tr>
 
                     <tr>
                         <th>BSN:</th>
-                        <td> {{ user.bsn }} </td>
+                        <td> <input type="number" v-model="user.bsn" placeholder="BSN nummer" /> </td>
                     </tr>
                 </div>
             </table>
@@ -104,6 +87,45 @@ export default {
 
 </template>
 
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      user: {},
+      userImage: '', // Initialize as an empty string
+      selectedImage: '',
+    };
+  },
+  mounted() {
+    const id = this.$route.params.id;
+    this.selectedImage = `http://127.0.0.1:8000/api/clients/${id}/image`; // Set the initial value
+    axios.get(`http://localhost:8000/api/clients/${id}`)
+      .then(response => {
+        this.user = response.data;
+        this.userImage = `http://127.0.0.1:8000/api/clients/${this.user.id}/image`;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  methods: {
+    handleImageChange(event) {
+      const input = event.target;
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          this.selectedImage = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    },
+  },
+};
+</script>
 
 
 <style scoped>
@@ -143,6 +165,19 @@ export default {
     padding-top: 20px;
     font-weight: bold;
     font-size: large;
+}
+
+.InfoUsercontent-Naam {
+    flex-direction: column;
+    width: 96%;
+}
+.InfoUsercontent-Naam input {
+    cursor: text;
+    border: solid 2px lightgray;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 .SettingUser{
@@ -197,11 +232,20 @@ export default {
 
 
 .InfoImage{
-    max-width: 120px;
-    width: 90%;
-    height: auto;
+    max-width: 110px;
+    max-height: 110px;
+    width: 90px;
+    height: 90px;
     border-radius: 100%;
 }
+
+.image {
+    width: 15vw;
+    height: 15vw;
+    background-size: cover;
+    border-radius: 100%;
+}
+
 .Slide{
     width: 100%;
     height: 1px;
@@ -215,7 +259,20 @@ export default {
     font-weight: bold;
 }
 
+.hidden-file-input {
+    color: transparent;
+    cursor: pointer;
+    width: 107px;
+    margin-top: 10px;
+}
+
 @media only screen and (min-width: 860px) {
+
+    .image {
+        width: 7vw;
+        height: 7vw;
+    }
+
     .InfoBubble{
         flex-direction: row;
     }
