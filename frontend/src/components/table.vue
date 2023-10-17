@@ -1,4 +1,5 @@
 <template>
+
   <div id="table-container">
 
     <div class="table-border">
@@ -307,6 +308,29 @@ img {
   .page-buttons-mobile {
   display: none;
 }
+}
+
+
+::-webkit-scrollbar {
+  width: 10px; 
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px; 
+}
+
+* {
+  scrollbar-width: thin; 
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 </style>

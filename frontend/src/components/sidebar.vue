@@ -76,7 +76,7 @@
 }
 
 .logo img {
-    width: 37.5px;
+    width: 47.5px;
     height: auto;
 }
 
