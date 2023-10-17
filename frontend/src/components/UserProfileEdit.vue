@@ -133,7 +133,6 @@ export default {
     display: flex;
     max-width: 100vw;
     width: 100%;
-    height: 100%;
     flex-direction: column;
     align-items: center;
 }
@@ -205,7 +204,6 @@ export default {
 .SettingUser td input {
     cursor: text;
     border: solid 2px lightgray;
-    /* padding: 5px; */
     border-radius: 8px;
     font-size: 16px;
 }
