@@ -1,4 +1,5 @@
 <template>
+
   <div id="table-container">
 
     <div class="table-border">
@@ -137,6 +138,37 @@ export default {
 </script>
 
 <style scoped>
+
+/* For Webkit-based browsers (Chrome, Safari) */
+/* Set the width and color of the scrollbar track */
+::-webkit-scrollbar {
+  width: 10px; /* You can adjust the width */
+  background: #f1f1f1; /* Color of the scrollbar track */
+}
+
+/* Set the color and rounded corners of the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* For Firefox */
+/* Set the width of the scrollbar track */
+* {
+  scrollbar-width: thin; /* This is for Firefox */
+}
+
+/* Set the color of the scrollbar thumb in Firefox */
+*::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+}
+
+/* Set the color of the scrollbar thumb on hover in Firefox */
+*::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar thumb on hover */
+}
+
+
 
 .buttons-td {
   text-wrap: nowrap;
