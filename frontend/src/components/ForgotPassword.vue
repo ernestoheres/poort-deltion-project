@@ -8,37 +8,17 @@ import axios from "axios";
 
             <img src="../assets/DePoort-Logo.webp" class="LoginDePoortLogo">
 
-            <p class="LoginInfo">Login met de gegevens die u heeft ontvangen door uw huisarts</p>
+            <p class="LoginInfo">Verstuur een wachtwoord reset mail naar uw mail adres</p>
  
             <div class="LoginInputs">
-                <label for="uname"><b>Gebruikersnaam</b></label>
-                <input type="text" v-model="username" name="uname" required>
+                <label for="uname"><b>Email</b></label>
+                <input type="text" v-model="email" name="uname" placeholder="mail@mail.com" required>
             
                 <span style="height:15px"></span>
-
-                <div>
-                  <span class="password-labels">
-                    <label for="password"><b>Wachtwoord</b></label>
-                    <label for="password"><a href="/forgot-password" style="cursor:pointer;">Wachtwoord vergeten?</a></label>
-                  </span>
-                  <span class="LoginPasswordSpan">
-                    <input
-                      class="LoginPasswordInput" name="password"
-                      :type="showPassword ? 'text' : 'password'"
-                      v-model="password"
-                      required
-                    />
-                    <button @click="togglePasswordVisibility" class="LoginPasswordButton">
-                      <i class="fa" v-bind:class="[showPassword ? 'fa fa-eye-slash' : 'fa fa-eye']"></i>
-                    </button>
-                  </span>
-                </div>
                 
-                <button type="submit" @click="onLoginSubmit">Log in</button>
+                <button type="submit" @click="onLoginSubmit">Verstuur mail</button>
 
-                <label class="LoginRemembermeCheck">
-                    <input type="checkbox" checked="checked" name="remember"> Onthoudt mij voor 30 dagen
-                </label>
+                <a href="/"><button class="login-button"><i class="fa-regular fa-arrow-left"></i> Login</button></a>
             </div>
         </div>
     </div>
@@ -49,7 +29,7 @@ export default {
   data() {
     return {
       showPassword: false,
-      username: "",
+      email: "",
       password: "",
 
     };
@@ -64,7 +44,7 @@ export default {
 
 
   const result = await axios.post("http://localhost:8000/api/login", {
-    name: this.username,
+    name: this.email,
     password: this.password,
   },
   );
@@ -175,7 +155,7 @@ export default {
     border: 2px lightgray solid;
   }
 
-  .LoginInputs button[type=submit] {
+  .LoginInputs button[type=submit], .login-button {
     width: 100%;
     place-self: center;
     border-radius: 5px;
@@ -190,7 +170,7 @@ export default {
     transition: all 0.3s;
   }
 
-  .LoginInputs button[type=submit]:hover {
+  .LoginInputs button[type=submit]:hover, .login-button:hover {
     box-shadow: lightgray 5px 5px 6px 1px;
   }
 

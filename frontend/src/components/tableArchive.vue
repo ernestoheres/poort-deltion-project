@@ -74,7 +74,7 @@ export default {
     return {
       users: [],
       currentPage: 1,
-      perPage: 8,
+      perPage: 7,
       placeholderImage: '/public/placeholder.jpg',
       searchQuery: '',
     };

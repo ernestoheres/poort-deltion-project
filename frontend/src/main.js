@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from './views/LoginView.vue'
+import ForgotPasswordView from './views/ForgotPassword.vue'
 import HomeView from './views/HomeView.vue'
 import UserView from './views/UserView.vue'
 import UserRegistration from './views/UserRegistration.vue'
@@ -20,6 +21,7 @@ const routes = [
       props: (route) => ({ edit: route.query.edit === 'true' }),
     },
     { path: '/', component: LoginView },
+    { path: '/forgot-password', component: ForgotPasswordView },
 ]
 
 const router = createRouter({
