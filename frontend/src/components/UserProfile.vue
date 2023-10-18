@@ -27,7 +27,7 @@ export default {
         <div class="InfoBubble">
             <div class="InfoUser">
                 <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="InfoImage"></div>
-                <div class="InfoUsercontent"> {{ user.voornaam }} {{ user.achternaam }} </div>
+                <p class="InfoUsercontent"> {{ user.voornaam }} <span>{{ user.tussenvoegels }}</span> {{ user.achternaam }} </p>
             </div>
             <table class="SettingUser">
                 <div class="divinfo">Klant informatie</div>
@@ -142,6 +142,10 @@ export default {
     padding-top: 20px;
     font-weight: bold;
     font-size: large;
+}
+
+.InfoUsercontent span {
+    display: contents;
 }
 
 .SettingUser{
