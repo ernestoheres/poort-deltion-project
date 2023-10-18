@@ -1,8 +1,52 @@
+<script setup>
+import Sidebar from '../components/sidebar.vue'
+import UserAdd from '../components/UserAdd.vue'
+</script>
+
 <template>
-        
+  <main>
+    <Sidebar />
+    <div id="content">
+      <UserAdd></UserAdd>
+      <div class="submitform-container">
+        <button class="subitform-button" type="submit" form="form-adduser" value="Submit">Client toevoegen</button>
+      </div>
+    </div>
+  </main>
 </template>
 
-<script setup>
 
+<style scoped>
+main {
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+}
 
-</script>
+#content {
+  margin-top: 25px;
+  width: calc(100vw - 75px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submitform-container {
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.subitform-button {
+  cursor: pointer;
+  border: solid 2px lightgray;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 175px;
+  padding: 5px;
+}
+</style>
