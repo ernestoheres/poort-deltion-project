@@ -1,5 +1,4 @@
 <template>
-
   <div id="table-container">
 
     <div class="table-border">
@@ -30,7 +29,7 @@
             <td class="buttons-td">
               <a :href="'dashboard/user/' + user.id" title="Bekijk client" ><i class="fa-light fa-user fa-2xl" style="color: #d67513;"></i></a>
               <a :href="'dashboard/user/' + user.id" title="Bewerk client" ><i class="fa-solid fa-user-pen fa-2xl" style="color: #89baeb;"></i></a>
-              <i class="fa-light fa-user-lock fa-2xl" style="color: #9B1D20;" title="Archief client" ></i>
+              <i class="fa-light fa-user-lock fa-2xl" style="color: #729B79;" title="Un-Archief client" ></i>
             </td>
           </tr>
         </tbody>
@@ -75,7 +74,7 @@ export default {
     return {
       users: [],
       currentPage: 1,
-      perPage: 7,
+      perPage: 8,
       placeholderImage: '/public/placeholder.jpg',
       searchQuery: '',
     };
@@ -332,5 +331,6 @@ img {
 *::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
 
 </style>
