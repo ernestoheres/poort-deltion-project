@@ -183,6 +183,8 @@ export default {
 .SettingUser .info-block tr {
     width: 20%;
     min-width: 185px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 

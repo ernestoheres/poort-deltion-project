@@ -1,4 +1,5 @@
 <template>
+    <form action="/verstuurd.php" method="get" id="form-edituser">
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
@@ -85,6 +86,7 @@
         </div>
     </div>
 
+    </form>
 </template>
 
 <script>
@@ -224,8 +226,9 @@ export default {
 }
 
 .SettingUser .info-block tr {
-    width: 20%;
     min-width: 185px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 

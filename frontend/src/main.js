@@ -10,11 +10,16 @@ import UserRegistration from './views/UserRegistration.vue'
 import ArchiveView from './views/ArchiveView.vue'
 
 const routes = [
-    { path: '/dashboard', component: HomeView},
-    { path: '/dashboard/user/:id', component: UserView    },
-    { path: '/dashboard/user/add', component: UserRegistration    },
-    { path: '/dashboard/archive', component: ArchiveView    },
-    { path: '/', component: LoginView    },
+    { path: '/dashboard', component: HomeView },
+    { path: '/dashboard/user/add', component: UserRegistration },
+    { path: '/dashboard/archive', component: ArchiveView },
+    {
+      path: '/dashboard/user/:id',
+      component: UserView,
+      name: 'UserView',
+      props: (route) => ({ edit: route.query.edit === 'true' }),
+    },
+    { path: '/', component: LoginView },
 ]
 
 const router = createRouter({
