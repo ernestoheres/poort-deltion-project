@@ -37,6 +37,37 @@ class ClientController extends Controller
         return response("Client created", 201);
     }
 
+    public function updateClient(Request $request, $id) {
+        $user = $request->user();
+        $client = Client::find("id", $id);
+
+        $data = [
+            "voornaam" => $request->voornaam || $client->voornaam,
+            "tussenvoegels" => $request->tussenvoegels  || $client->tussenvoegsels,
+            "achternaam" => $request->achternaam  || $client->achternaam,
+            "adres" => $request->adres || $client->adres,
+            "postcode" => $request->postcode || $client->postcode,
+            "woonplaats" => $request->woonplaats || $client->woonplaats,
+            "land" => $request->land || $client->land,
+            "telefoon" => $request->telefoon || $client->telefoon,
+            "bsn" => $request->bsn || $client->bsn,
+            "vezekering" => $request->vezekering || $client->vezekering,
+            "polisnummer" => $request->polisnummer || $client->polisnummer,
+        ];
+
+
+    }
+
+    public function deleteClient($id) {
+        Client::destroy($id);
+        return response("Client deleted", 200);
+    }
+
+    public function getSoftDeletedClients() {
+        $clients = Client::onlyTrashed()->get();
+        return response($clients, 200);
+    }
+
     public function serveImage($id) {
         $client = Client::find($id);
         $path = storage_path('app/img/' . $client->profielfoto . '.jpg');
