@@ -1,5 +1,5 @@
 <template>
-    <form action="/verstuurd.php" method="post" id="form-edituser">
+    <form action="/verstuurd.php" method="post" id="form-adduser">
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
@@ -92,20 +92,8 @@ export default {
     return {
       user: {},
       userImage: '', // Initialize as an empty string
-      selectedImage: '',
+      selectedImage: 'http://placehold.it/180',
     };
-  },
-  mounted() {
-    const id = this.$route.params.id;
-    this.selectedImage = `http://127.0.0.1:8000/api/clients/${id}/image`; // Set the initial value
-    axios.get(`http://localhost:8000/api/clients/${id}`)
-      .then(response => {
-        this.user = response.data;
-        this.userImage = `http://127.0.0.1:8000/api/clients/${this.user.id}/image`;
-      })
-      .catch(error => {
-        console.error(error);
-      });
   },
   methods: {
     handleImageChange(event) {

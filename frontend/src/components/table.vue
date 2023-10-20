@@ -29,7 +29,9 @@
             <td>{{ user.woonplaats }}</td>
             <td class="buttons-td">
               <a :href="'dashboard/user/' + user.id" title="Bekijk client" ><i class="fa-light fa-user fa-2xl" style="color: #d67513;"></i></a>
-              <a :href="'dashboard/user/' + user.id" title="Bewerk client" ><i class="fa-solid fa-user-pen fa-2xl" style="color: #89baeb;"></i></a>
+              <router-link :to="{ name: 'UserView', params: { id: user.id }, query: { edit: 'true' } }" title="Bewerk client">
+                <i class="fa-solid fa-user-pen fa-2xl" style="color: #89baeb;"></i>
+              </router-link>
               <i class="fa-light fa-user-lock fa-2xl" style="color: #9B1D20;" title="Archief client" ></i>
             </td>
           </tr>

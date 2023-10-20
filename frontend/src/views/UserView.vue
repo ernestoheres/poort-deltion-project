@@ -7,17 +7,20 @@ import UserNotes from '../components/UserNotes.vue'
 
 <template>
   <main>
-
     <Sidebar />
     <div id="content">
       <component :is="currentComponent"></component>
       <div class="togglecomponent-container">
-        <button class="togglecomponent-button" @click="toggleComponent">Edit modes</button>
+        <template v-if="currentComponent === 'UserInfoEdit'">
+          <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
+        </template>
+        <template v-else>
+          <span></span>
+        </template>
+        <button class="togglecomponent-button" @click="toggleComponent">{{ buttonText }}</button>
       </div>
-
       <UserNotes />
     </div>
-
   </main>
 </template>
 
@@ -25,8 +28,13 @@ import UserNotes from '../components/UserNotes.vue'
 export default {
   data() {
     return {
-      currentComponent: 'UserInfo',
+      currentComponent: this.isEditPage() ? 'UserInfoEdit' : 'UserInfo',
     };
+  },
+  computed: {
+    buttonText() {
+      return this.currentComponent === 'UserInfo' ? 'Bewerk info' : 'Bekijk info';
+    },
   },
   components: {
     UserInfo,
@@ -35,6 +43,11 @@ export default {
   methods: {
     toggleComponent() {
       this.currentComponent = this.currentComponent === 'UserInfo' ? 'UserInfoEdit' : 'UserInfo';
+    },
+    isEditPage() {
+      // Check if the URL parameter "edit" is set to "true"
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('edit') === 'true';
     },
   },
 };
@@ -58,7 +71,7 @@ main {
 .togglecomponent-container {
   width: 90%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   flex-wrap: nowrap;
   flex-direction: row;
   align-items: center;
@@ -66,6 +79,15 @@ main {
 }
 
 .togglecomponent-button {
+  cursor: pointer;
+  border: solid 2px lightgray;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 125px;
+  padding: 5px;
+}
+
+.subitform-button {
   cursor: pointer;
   border: solid 2px lightgray;
   border-radius: 8px;

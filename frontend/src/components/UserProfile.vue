@@ -27,7 +27,7 @@ export default {
         <div class="InfoBubble">
             <div class="InfoUser">
                 <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="InfoImage"></div>
-                <div class="InfoUsercontent"> {{ user.voornaam }} {{ user.achternaam }} </div>
+                <p class="InfoUsercontent"> {{ user.voornaam }} <span>{{ user.tussenvoegels }}</span> {{ user.achternaam }} </p>
             </div>
             <table class="SettingUser">
                 <div class="divinfo">Klant informatie</div>
@@ -144,6 +144,10 @@ export default {
     font-size: large;
 }
 
+.InfoUsercontent span {
+    display: contents;
+}
+
 .SettingUser{
     display: flex;
     flex-direction: column;
@@ -183,6 +187,8 @@ export default {
 .SettingUser .info-block tr {
     width: 20%;
     min-width: 185px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 
