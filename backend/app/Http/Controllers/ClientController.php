@@ -14,7 +14,7 @@ class ClientController extends Controller
     }
 
     public function getClientById($id) {
-        $client = Client::find($id);
+        $client = Client::withTrashed()->find($id);
         return response($client, 200);
     }
 
@@ -39,7 +39,7 @@ class ClientController extends Controller
 
     public function updateClient(Request $request, $id) {
         $user = $request->user();
-        $client = Client::find("id", $id);
+        $client = Client::dfind("id", $id);
 
         $data = [
             "voornaam" => $request->voornaam || $client->voornaam,
@@ -74,14 +74,16 @@ class ClientController extends Controller
     }
 
     public function serveImage($id) {
+        $defaultPath = storage_path('app/img/default.jpg');
+
         $client = Client::withTrashed()->find($id);
-        $path = storage_path('app/img/' . $client->profielfoto . '.jpg');
-        //check if file exists at path
-        if (!file_exists($path)) {
-            $path = storage_path('app/img/default.jpg');
+
+        $profilePath = storage_path('app/img/' . $client->profielfoto . '.jpg');
+
+        if(!file_exists($profilePath)) {
+            return Image::make($defaultPath)->response();
         }
-        $img = Image::make($path);
-        return $img->response();
+        return Image::make($profilePath)->response();
     }
 
 
