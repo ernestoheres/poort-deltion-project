@@ -78,4 +78,15 @@ class ClientController extends Controller
         $img = Image::make($path);
         return $img->response();
     }
+
+    public function serveArchivedClientImage($id) {
+        $client = Client::onlyTrashed()->find($id);
+        $path = storage_path('app/img/' . $client->profielfoto . '.jpg');
+        //check if file exists at path
+        if (!file_exists($path)) {
+            $path = storage_path('app/img/default.jpg');
+        }
+        $img = Image::make($path);
+        return $img->response();
+    }
 }
