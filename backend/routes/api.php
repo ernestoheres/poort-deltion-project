@@ -24,6 +24,7 @@ Route::get("/clients/{id}", "App\Http\Controllers\ClientController@getClientById
 Route::get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients");
 Route::post("/clients", "App\Http\Controllers\ClientController@createClient");
 Route::delete("/clients/{id}", "App\Http\Controllers\ClientController@deleteClient");
+Route::post("/clients/{id}/restore", "App\Http\Controllers\ClientController@restoreClient");
 Route::put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient");
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
