@@ -12,7 +12,6 @@ import UserNotes from '../components/UserNotes.vue'
       <component :is="currentComponent"></component>
       <div class="togglecomponent-container">
         <template v-if="currentComponent === 'UserInfoEdit'">
-          <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
         </template>
         <template v-else>
           <span></span>

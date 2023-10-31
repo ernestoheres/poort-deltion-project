@@ -72,7 +72,7 @@ export default {
   if (result.data.status == "success") {
     console.log("Login succesvol");
     localStorage.setItem("token", result.data.token);
-    window.location.href = "/";
+    window.location.href = "/dashboard";
   } else {
     console.log("Login mislukt", result.data.status);
   }

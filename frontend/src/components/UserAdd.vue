@@ -1,5 +1,5 @@
 <template>
-    <form action="/verstuurd.php" method="post" id="form-adduser">
+    <form   id="form-adduser">
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
@@ -66,8 +66,13 @@
                         <th>BSN:</th>
                         <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
                     </tr>
-
+                
                     <tr>
+                        <th>vezekerings polisnummer:</th>
+                        <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="polisnummer" /> </td>
+                    </tr>
+
+                    <!-- <tr>
                         <th>Gender:</th>
                         <td> <input type="text" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
                     </tr>
@@ -75,13 +80,16 @@
                     <tr>
                         <th>Bloedtype:</th>
                         <td> <input type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype" /> </td>
-                    </tr>
+                    </tr> -->
                 </div>
             </table>
         </div>
     </div>
-
+   
     </form>
+    <div class="submitform-container">
+        <button class="subitform-button" @click="addUser()" form="form-adduser" value="Submit">Client toevoegen</button>
+      </div>
 </template>
 
 <script>
@@ -108,7 +116,33 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
+
   },
+  addUser() {
+    axios.post('http://localhost:8000/api/adduser', {
+        voornaam: this.user.voornaam,
+        tussenvoegels: this.user.tussenvoegels,
+        achternaam: this.user.achternaam,
+        adres: this.user.adres,
+        postcode: this.user.postcode,
+        woonplaats: this.user.woonplaats,
+        land: this.user.land,
+        telefoon: this.user.telefoon,
+        bsn: this.user.bsn,
+        vezekering: this.user.vezekering,
+        polisnummer: this.user.polisnummer,
+
+        
+    })
+      .then((response) => {
+        console.log(response);
+        window.location.href = '/dashboard';
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
 };
 </script>
 
@@ -248,6 +282,24 @@ export default {
     cursor: pointer;
     width: 107px;
     margin-top: 10px;
+}
+.submitform-container {
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.subitform-button {
+  cursor: pointer;
+  border: solid 2px lightgray;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 175px;
+  padding: 5px;
 }
 
 @media only screen and (min-width: 860px) {

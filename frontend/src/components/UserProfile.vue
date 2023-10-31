@@ -100,6 +100,8 @@ export default {
                 </div>
             </table>
         </div>
+        <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
+
     </div>
 
 </template>
