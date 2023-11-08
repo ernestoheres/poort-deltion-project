@@ -142,7 +142,7 @@ export default {
   },
   
   mounted() {
-    axios.get('http://localhost:8000/api/clients')
+    axios.get('http://localhost:8000/api/clients', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.users = response.data;
       })

@@ -20,13 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get("/clients", "App\Http\Controllers\ClientController@getAllClients")->middleware(CheckRole::class . ":doctor, administator");
-Route::get("/clients/{id}", "App\Http\Controllers\ClientController@getClientById")->middleware(CheckRole::class . ":doctor, administator, client");
-Route::get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients")->middleware(CheckRole::class . ":doctor, administator");
-Route::post("/clients", "App\Http\Controllers\ClientController@createClient")->middleware(CheckRole::class . ":doctor, administator");
-Route::delete("/clients/{id}", "App\Http\Controllers\ClientController@deleteClient")->middleware(CheckRole::class . ":doctor, administator");
-Route::post("/clients/{id}/restore", "App\Http\Controllers\ClientController@restoreClient")->middleware(CheckRole::class . ":doctor, administator");
-Route::put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient")->middleware(CheckRole::class . ":doctor, administator");
-Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage")->middleware(CheckRole::class . ":doctor, administator, client");
+Route::middleware('auth:sanctum')->get("/clients", "App\Http\Controllers\ClientController@getAllClients");
+Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\ClientController@getClientById");
+Route::middleware('auth:sanctum')->get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients");
+Route::middleware('auth:sanctum')->post("/clients", "App\Http\Controllers\ClientController@createClient");
+Route::middleware('auth:sanctum')->delete("/clients/{id}", "App\Http\Controllers\ClientController@deleteClient");
+Route::middleware('auth:sanctum')->post("/clients/{id}/restore", "App\Http\Controllers\ClientController@restoreClient");
+Route::middleware('auth:sanctum')->put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient");
+Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
-Route::post("/register", "App\Http\Controllers\UserController@register")->middleware(CheckRole::class . ":doctor, administator");
+Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");

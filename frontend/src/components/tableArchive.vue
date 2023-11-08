@@ -125,7 +125,7 @@ export default {
     },
 
     restoreClient(id) {
-      axios.post(`http://127.0.0.1:8000/api/clients/${id}/restore`)
+      axios.post(`http://127.0.0.1:8000/api/clients/${id}/restore`,  { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
         .then(response => {
           window.location.reload();
         })
@@ -135,7 +135,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:8000/api/softdeletedclients')
+    axios.get('http://localhost:8000/api/softdeletedclients',  { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.users = response.data;
       })

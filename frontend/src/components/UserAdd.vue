@@ -133,6 +133,10 @@ export default {
         polisnummer: this.user.polisnummer,
 
         
+    }, {
+       headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+       }
     })
       .then((response) => {
         console.log(response);

@@ -11,7 +11,7 @@ export default {
   mounted() {
     const id = this.$route.params.id;
     
-    axios.get(`http://localhost:8000/api/clients/${id}`)
+    axios.get(`http://localhost:8000/api/clients/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.user = response.data;
       })
