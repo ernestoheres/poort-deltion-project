@@ -125,6 +125,7 @@
     justify-content: space-between;
     padding: 15px;
     transition: all .3s;
+    cursor: w-resize;
 }
 
 .Side .icon a  {

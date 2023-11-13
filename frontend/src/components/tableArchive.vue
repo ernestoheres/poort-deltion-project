@@ -29,7 +29,7 @@
             <td class="buttons-td">
               <a :href="'dashboard/user/' + user.id" title="Bekijk client" ><i class="fa-light fa-user fa-2xl" style="color: #d67513;"></i></a>
               <a :href="'dashboard/user/' + user.id" title="Bewerk client" ><i class="fa-solid fa-user-pen fa-2xl" style="color: #89baeb;"></i></a>
-              <i class="fa-light fa-user-lock fa-2xl" style="color: #729B79;" title="Un-Archief client" ></i>
+              <i class="fa-light fa-user-lock fa-2xl" @click="restoreClient(user.id)" style="color: #729B79;" title="Un-Archief client" ></i>
             </td>
           </tr>
         </tbody>
@@ -74,7 +74,7 @@ export default {
     return {
       users: [],
       currentPage: 1,
-      perPage: 8,
+      perPage: 7,
       placeholderImage: '/public/placeholder.jpg',
       searchQuery: '',
     };
@@ -123,9 +123,19 @@ export default {
     clearSearch() {
       this.searchQuery = '';
     },
+
+    restoreClient(id) {
+      axios.post(`http://127.0.0.1:8000/api/clients/${id}/restore`,  { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+        .then(response => {
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error("Error restoring client: " + error);
+        });
+    }
   },
   mounted() {
-    axios.get('http://localhost:8000/api/clients')
+    axios.get('http://localhost:8000/api/softdeletedclients',  { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.users = response.data;
       })

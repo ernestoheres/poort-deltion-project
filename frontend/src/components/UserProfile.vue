@@ -11,7 +11,7 @@ export default {
   mounted() {
     const id = this.$route.params.id;
     
-    axios.get(`http://localhost:8000/api/clients/${id}`)
+    axios.get(`http://localhost:8000/api/clients/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.user = response.data;
       })
@@ -27,7 +27,7 @@ export default {
         <div class="InfoBubble">
             <div class="InfoUser">
                 <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'" alt="User Image" class="InfoImage"></div>
-                <div class="InfoUsercontent"> {{ user.voornaam }} {{ user.achternaam }} </div>
+                <p class="InfoUsercontent"> {{ user.voornaam }} <span>{{ user.tussenvoegels }}</span> {{ user.achternaam }} </p>
             </div>
             <table class="SettingUser">
                 <div class="divinfo">Klant informatie</div>
@@ -100,6 +100,8 @@ export default {
                 </div>
             </table>
         </div>
+        <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
+
     </div>
 
 </template>
@@ -111,7 +113,6 @@ export default {
     display: flex;
     max-width: 100vw;
     width: 100%;
-    height: 100%;
     flex-direction: column;
     align-items: center;
 }
@@ -143,6 +144,10 @@ export default {
     padding-top: 20px;
     font-weight: bold;
     font-size: large;
+}
+
+.InfoUsercontent span {
+    display: contents;
 }
 
 .SettingUser{
@@ -184,6 +189,8 @@ export default {
 .SettingUser .info-block tr {
     width: 20%;
     min-width: 185px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 

@@ -14,7 +14,7 @@ class ClientController extends Controller
     }
 
     public function getClientById($id) {
-        $client = Client::find($id);
+        $client = Client::withTrashed()->find($id);
         return response($client, 200);
     }
 
@@ -37,14 +37,56 @@ class ClientController extends Controller
         return response("Client created", 201);
     }
 
-    public function serveImage($id) {
-        $client = Client::find($id);
-        $path = storage_path('app/img/' . $client->profielfoto . '.jpg');
-        //check if file exists at path
-        if (!file_exists($path)) {
-            $path = storage_path('app/img/default.jpg');
-        }
-        $img = Image::make($path);
-        return $img->response();
+    public function updateClient(Request $request, $id) {
+        $user = $request->user();
+        $client = Client::dfind("id", $id);
+
+        $data = [
+            "voornaam" => $request->voornaam || $client->voornaam,
+            "tussenvoegels" => $request->tussenvoegels  || $client->tussenvoegsels,
+            "achternaam" => $request->achternaam  || $client->achternaam,
+            "adres" => $request->adres || $client->adres,
+            "postcode" => $request->postcode || $client->postcode,
+            "woonplaats" => $request->woonplaats || $client->woonplaats,
+            "land" => $request->land || $client->land,
+            "telefoon" => $request->telefoon || $client->telefoon,
+            "bsn" => $request->bsn || $client->bsn,
+            "vezekering" => $request->vezekering || $client->vezekering,
+            "polisnummer" => $request->polisnummer || $client->polisnummer,
+        ];
+
+
     }
+
+    public function deleteClient($id) {
+        Client::destroy($id);
+        return response("Client deleted", 200);
+    }
+
+    public function restoreClient($id) {
+        Client::withTrashed()->find($id)->restore();
+        return response("Client restored", 200);
+    }
+
+    public function getSoftDeletedClients() {
+        $clients = Client::onlyTrashed()->get();
+        return response($clients, 200);
+    }
+
+    public function serveImage($id) {
+        $defaultPath = storage_path('app/img/default.jpg');
+
+        $client = Client::withTrashed()->find($id);
+
+        $profilePath = storage_path('app/img/' . $client->profielfoto . '.jpg');
+
+        if(!file_exists($profilePath)) {
+            return Image::make($defaultPath)->response();
+        }
+        return Image::make($profilePath)->response();
+    }
+
+
+
+
 }

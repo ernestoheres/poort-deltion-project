@@ -29,8 +29,10 @@
             <td>{{ user.woonplaats }}</td>
             <td class="buttons-td">
               <a :href="'dashboard/user/' + user.id" title="Bekijk client" ><i class="fa-light fa-user fa-2xl" style="color: #d67513;"></i></a>
-              <a :href="'dashboard/user/' + user.id" title="Bewerk client" ><i class="fa-solid fa-user-pen fa-2xl" style="color: #89baeb;"></i></a>
-              <i class="fa-light fa-user-lock fa-2xl" style="color: #9B1D20;" title="Archief client" ></i>
+              <router-link :to="{ name: 'UserView', params: { id: user.id }, query: { edit: 'true' } }" title="Bewerk client">
+                <i class="fa-solid fa-user-pen fa-2xl" style="color: #89baeb;"></i>
+              </router-link>
+              <i class="fa-light fa-user-lock fa-2xl" @click="archiveClient(user.id)" style="color: #9B1D20;" title="Archief client" ></i>
             </td>
           </tr>
         </tbody>
@@ -75,7 +77,7 @@ export default {
     return {
       users: [],
       currentPage: 1,
-      perPage: 8,
+      perPage: 7,
       placeholderImage: '/public/placeholder.jpg',
       searchQuery: '',
     };
@@ -95,6 +97,7 @@ export default {
     totalPages() {
       return Math.ceil(this.filteredUsers.length / this.perPage);
     },
+  
   },
   methods: {
     userImageUrl(user) {
@@ -124,9 +127,22 @@ export default {
     clearSearch() {
       this.searchQuery = '';
     },
+
+    archiveClient(id) {
+      axios.delete(`http://127.0.0.1:8000/api/clients/${id}`)
+        .then(response => {
+          // Client deleted successfully, now refresh the page
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error("Error archiving client: " + error);
+        });
+    }
+
   },
+  
   mounted() {
-    axios.get('http://localhost:8000/api/clients')
+    axios.get('http://localhost:8000/api/clients', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.users = response.data;
       })
