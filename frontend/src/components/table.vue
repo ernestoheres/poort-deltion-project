@@ -326,7 +326,6 @@ img {
 }
 }
 
-
 ::-webkit-scrollbar {
   width: 10px; 
   background: #f1f1f1; 
@@ -334,7 +333,7 @@ img {
 
 ::-webkit-scrollbar-thumb {
   background: #888; 
-  border-radius: 10px; 
+  border-radius: 8px; 
 }
 
 * {
