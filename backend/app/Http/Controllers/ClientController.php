@@ -7,13 +7,19 @@ use App\Models\Client;
 use Intervention\Image\Facades\Image;
 class ClientController extends Controller
 {
-    public function getAllClients()
+    public function getAllClients(Request $request)
     {
         $clients = Client::all();
         return response($clients, 200);
     }
 
-    public function getClientById($id) {
+    public function getClientById(Request $request, $id) {
+        $user = $request->user();
+        if($user->role == "client") {
+            if($user->id != $id) {
+                return response("Unauthorized", 401);
+            }
+        }
         $client = Client::withTrashed()->find($id);
         return response($client, 200);
     }
@@ -58,22 +64,22 @@ class ClientController extends Controller
 
     }
 
-    public function deleteClient($id) {
+    public function deleteClient(Request $request, $id) {
         Client::destroy($id);
         return response("Client deleted", 200);
     }
 
-    public function restoreClient($id) {
+    public function restoreClient(Request $request, $id) {
         Client::withTrashed()->find($id)->restore();
         return response("Client restored", 200);
     }
 
-    public function getSoftDeletedClients() {
+    public function getSoftDeletedClients(Request $request) {
         $clients = Client::onlyTrashed()->get();
         return response($clients, 200);
     }
 
-    public function serveImage($id) {
+    public function serveImage(Request $request, $id) {
         $defaultPath = storage_path('app/img/default.jpg');
 
         $client = Client::withTrashed()->find($id);

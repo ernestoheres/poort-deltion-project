@@ -19,14 +19,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(function() {
+    Route::get("/clients", "App\Http\Controllers\ClientController@getAllClients");
+    Route::get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients");
+    Route::post("/clients", "App\Http\Controllers\ClientController@createClient");
+    Route::delete("/clients/{id}", "App\Http\Controllers\ClientController@deleteClient");
+    Route::post("/clients/{id}/restore", "App\Http\Controllers\ClientController@restoreClient");
+    Route::put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient");
 
-Route::middleware('auth:sanctum')->get("/clients", "App\Http\Controllers\ClientController@getAllClients");
+});
 Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\ClientController@getClientById");
-Route::middleware('auth:sanctum')->get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients");
-Route::middleware('auth:sanctum')->post("/clients", "App\Http\Controllers\ClientController@createClient");
-Route::middleware('auth:sanctum')->delete("/clients/{id}", "App\Http\Controllers\ClientController@deleteClient");
-Route::middleware('auth:sanctum')->post("/clients/{id}/restore", "App\Http\Controllers\ClientController@restoreClient");
-Route::middleware('auth:sanctum')->put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient");
+
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
 Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");
