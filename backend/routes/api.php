@@ -33,3 +33,7 @@ Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\Cl
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
 Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");
+
+Route::post("/notes", "App\Http\Controllers\NoteController@store");
+Route::get('/notes', 'App\Http\Controllers\NoteController@index');
+Route::delete('/notes', 'App\Http\Controllers\NoteController@destroy');
