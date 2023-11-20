@@ -67,12 +67,16 @@ export default {
     name: this.username,
     password: this.password,
   },
+  {
+   
+  }
   );
   console.log(result.data);
   if (result.data.status == "success") {
+    console.log(result.data)
     console.log("Login succesvol");
-    localStorage.setItem("token", result.data.token);
-    window.location.href = "/";
+    localStorage.setItem("token", result.data.data.token);
+    window.location.href = "/dashboard";
   } else {
     console.log("Login mislukt", result.data.status);
   }

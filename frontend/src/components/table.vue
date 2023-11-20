@@ -142,7 +142,7 @@ export default {
   },
   
   mounted() {
-    axios.get('http://localhost:8000/api/clients')
+    axios.get('http://localhost:8000/api/clients', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.users = response.data;
       })
@@ -326,7 +326,6 @@ img {
 }
 }
 
-
 ::-webkit-scrollbar {
   width: 10px; 
   background: #f1f1f1; 
@@ -334,7 +333,7 @@ img {
 
 ::-webkit-scrollbar-thumb {
   background: #888; 
-  border-radius: 10px; 
+  border-radius: 8px; 
 }
 
 * {

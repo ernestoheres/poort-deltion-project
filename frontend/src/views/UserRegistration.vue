@@ -8,9 +8,7 @@ import UserAdd from '../components/UserAdd.vue'
     <Sidebar />
     <div id="content">
       <UserAdd></UserAdd>
-      <div class="submitform-container">
-        <button class="subitform-button" type="submit" form="form-adduser" value="Submit">Client toevoegen</button>
-      </div>
+
     </div>
   </main>
 </template>

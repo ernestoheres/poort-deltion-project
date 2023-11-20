@@ -66,8 +66,16 @@
                         <th>BSN:</th>
                         <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
                     </tr>
-
                     <tr>
+                        <th>vezekerings naam:</th>
+                        <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
+                    </tr>
+                    <tr>
+                        <th>polisnummer:</th>
+                        <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
+                    </tr>
+
+                    <!-- <tr>
                         <th>Gender:</th>
                         <td> <input type="text" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
                     </tr>
@@ -75,7 +83,7 @@
                     <tr>
                         <th>Bloedtype:</th>
                         <td> <input type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype" /> </td>
-                    </tr>
+                    </tr> -->
                 </div>
             </table>
         </div>
@@ -98,7 +106,7 @@ export default {
   mounted() {
     const id = this.$route.params.id;
     this.selectedImage = `http://127.0.0.1:8000/api/clients/${id}/image`; // Set the initial value
-    axios.get(`http://localhost:8000/api/clients/${id}`)
+    axios.get(`http://localhost:8000/api/clients/${id}`,  { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       .then(response => {
         this.user = response.data;
         this.userImage = `http://127.0.0.1:8000/api/clients/${this.user.id}/image`;

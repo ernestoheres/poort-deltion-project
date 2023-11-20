@@ -19,8 +19,10 @@ class UserController extends Controller
                     'status' => 'success',
                     'data' => [
                         'token' => $token,
+                        'id' => $user->id,
                         'email' => $user->email,
-                        'name' => $user->name
+                        'name' => $user->name,
+                        'role' => $user->role
                     ]
                 ]);
             } else {
