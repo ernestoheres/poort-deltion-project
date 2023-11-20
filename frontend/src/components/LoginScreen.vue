@@ -71,12 +71,18 @@ export default {
    
   }
   );
-  console.log(result.data);
+  console.log(result.data.data.role);
   if (result.data.status == "success") {
     console.log(result.data)
     console.log("Login succesvol");
     localStorage.setItem("token", result.data.data.token);
+    if(result.data.data.role == "client") {
+      window.location.href = `/dashboard/user/${result.data.data.id}`;
+    }
+    else {
     window.location.href = "/dashboard";
+    }
+
   } else {
     console.log("Login mislukt", result.data.status);
   }
