@@ -1,5 +1,4 @@
 <script setup>
-console.log('kanker hoer');
 </script>
 
 <template>
