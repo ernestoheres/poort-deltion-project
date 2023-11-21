@@ -1,19 +1,3 @@
-<script>
-    import 'font-awesome/css/font-awesome.css'
-
-    export default {
-        data() {
-            return {
-            isSidebarOpen: false
-            };
-        },
-        methods: {
-            toggleSidebar() {
-            this.isSidebarOpen = !this.isSidebarOpen;
-            }
-        }
-    };
-</script>
 <template>
     <div class="Side" :class="{ 'sidebar-open': isSidebarOpen }" @click="toggleSidebar" >
         <div class="top">
@@ -57,7 +41,7 @@
 
         <div class="bottom">
             <div class="icon">
-                <a href="/">
+                <a href="/" @click.prevent="logout">
                     <i class="fa-solid fa-right-from-bracket fa-2x icon-highlight"></i>
                     <p style="text-wrap: nowrap;">Log uit</p>
                 </a>
@@ -67,6 +51,33 @@
 
     </div>
 </template>
+
+
+<script>
+import 'font-awesome/css/font-awesome.css'
+
+export default {
+  data() {
+    return {
+      isSidebarOpen: false,
+    };
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    logout() {
+      // Reset localStorage items
+      localStorage.removeItem('role');
+      localStorage.removeItem('userid');
+      localStorage.removeItem('token');
+
+      // Redirect to '/'
+      this.$router.push('/');
+    },
+  },
+};
+</script>
 
 
 <style scoped>

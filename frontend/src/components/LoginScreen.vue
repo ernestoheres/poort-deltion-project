@@ -76,6 +76,8 @@ export default {
     console.log(result.data)
     console.log("Login succesvol");
     localStorage.setItem("token", result.data.data.token);
+    localStorage.setItem("role", result.data.data.role);
+    localStorage.setItem("userid", result.data.data.id);
     if(result.data.data.role == "client") {
       window.location.href = `/dashboard/user/${result.data.data.id}`;
     }

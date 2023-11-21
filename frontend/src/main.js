@@ -32,6 +32,37 @@ const router = createRouter({
 })
 
 
+router.beforeEach((to, from, next) => {
+  const role = localStorage.getItem('role');
+  const userId = localStorage.getItem('userid');
+
+  if (to.path === '/') {
+    if (role === 'doctor' || role === 'administrator') {
+      next('/dashboard');
+    } else if (role === 'client') {
+      next(`/dashboard/user/${userId}`);
+    } else {
+      next();
+    }
+  } else if (to.path.startsWith('/dashboard')) {
+    if (role !== 'client') {
+      if (role === 'doctor' || role === 'administrator') {
+        next();
+      } else {
+        next('/');
+      }
+    } else {
+      if (to.path === `/dashboard/user/${userId}`) {
+        next();
+      } else {
+        next('/');
+      }
+    }
+  } else {
+    next();
+  }
+});
+
 
 import App from './App.vue'
 
