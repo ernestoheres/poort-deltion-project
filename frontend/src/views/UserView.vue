@@ -61,7 +61,8 @@ main {
 
 #content {
   margin-top: 25px;
-  width: calc(100vw - 75px);
+  max-width: calc(100vw - 75px);
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

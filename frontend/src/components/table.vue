@@ -23,11 +23,11 @@
                 <img :src="userImageUrl(user)" alt="User Image" class="user-image">
               </td>
               <template v-if="isSmallScreen">
-                <td><b>Voornaam:</b> {{ user.voornaam }}</td>
-                <td><b>tussenvoegels:</b> {{ user.tussenvoegels }}</td>
-                <td><b>achternaam:</b> {{ user.achternaam }}</td>
-                <td><b>adres:</b> {{ user.adres }}</td>
-                <td><b>woonplaats:</b> {{ user.woonplaats }}</td>
+                <td><b style="font-weight: 700">Voornaam:</b> {{ user.voornaam }}</td>
+                <td><b style="font-weight: 700">tussenvoegels:</b> {{ user.tussenvoegels }}</td>
+                <td><b style="font-weight: 700">achternaam:</b> {{ user.achternaam }}</td>
+                <td><b style="font-weight: 700">adres:</b> {{ user.adres }}</td>
+                <td><b style="font-weight: 700">woonplaats:</b> {{ user.woonplaats }}</td>
               </template>
               <template v-else>
                 <td>{{ user.voornaam }}</td>
@@ -100,7 +100,7 @@
     },
     computed: {
       isSmallScreen() {
-        return window.innerWidth <= 900; // Adjust this breakpoint if needed
+        return window.innerWidth <= 900;
       },
       paginatedUsers() {
         const start = (this.currentPage - 1) * this.perPage;
@@ -150,7 +150,6 @@
       archiveClient(id) {
         axios.delete(`http://127.0.0.1:8000/api/clients/${id}`)
           .then(response => {
-            // Client deleted successfully, now refresh the page
             window.location.reload();
           })
           .catch(error => {
@@ -271,8 +270,6 @@
     cursor: pointer;
   }
 
-  td {}
-
   .User-TR {
     padding: 0 10px;
     border-bottom: 1px solid lightgray;
@@ -367,45 +364,87 @@
   }
 
   .table-responsive {
-  overflow-x: auto;
-}
-
-/* Table styling */
-.user-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-/* Table headers and cells */
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-/* Media query for responsive layout */
-@media screen and (max-width: 900px) {
-  /* Hide table headers for small screens */
-  .user-table thead {
-    display: none;
+    overflow-x: auto;
   }
 
-  /* Display table rows as blocks */
-  .user-table tbody tr {
-    display: block;
-    margin-bottom: 18px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    height: min-content;
-  }
-
-  /* Display table cells as blocks with labels */
-  .user-table tbody td {
-    display: block;
-    text-align: left;
+  /* Table styling */
+  .user-table {
     width: 100%;
+    border-collapse: collapse;
     text-align: left;
   }
-}
+
+  /* Table headers and cells */
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .user-table thead th {
+    border-top: none;
+  }
+
+  @media screen and (min-width: 900px) {
+    .user-table tbody tr:last-of-type td {
+      border-bottom: none;
+    }
+  }
+
+  /* Media query for responsive layout */
+  @media screen and (max-width: 900px) {
+
+    /* Hide table headers for small screens */
+    .user-table thead {
+      display: none;
+    }
+
+    /* Display table rows as blocks */
+    .user-table tbody tr {
+      display: block;
+      margin-bottom: 25px;
+      border: none;
+      height: min-content;
+    }
+
+    /* Display table cells as blocks with labels */
+    .user-table tbody td {
+      display: block;
+      text-align: left;
+      width: 100%;
+      text-align: left;
+    }
+
+    .user-table tbody td:first-child {
+      border-radius: 5px 5px 0 0;
+    }
+
+    .user-table tbody td:last-child {
+      border-radius: 0 0 5px 5px;
+    }
+
+    .user-table tbody td:not(:first-child) {
+      border-top: none;
+    }
+
+    .user-table tbody td {
+      border-left-width: 2px;
+      border-right-width: 2px;
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .user-table tbody td:first-child {
+      border-top-width: 2px;
+    }
+
+    .user-table tbody td:last-child {
+      border-bottom-width: 2px;
+    }
+
+    img {
+      margin: 0;
+    }
+
+  }
 </style>
