@@ -43,6 +43,16 @@
                     style="color: #89baeb;"></i></a>
                 <i class="fa-light fa-user-lock fa-2xl" @click="restoreClient(user.id)" style="color: #729B79;"
                   title="Un-Archief client"></i>
+
+                <p style="width:35px; text-align:center; display:inline-block; cursor:default;">-</p>
+
+                <i
+                  class="fa-light fa-trash-can fa-2xl"
+                  @click="confirmDelete(user.id)"
+                  style="color: #B92B27;"
+                  title="Delete client"
+                ></i>
+
               </td>
             </tr>
           </tbody>
@@ -135,6 +145,11 @@
         // Return the image URL or the placeholder based on validity
         return user.isValidImage ? imageUrl : this.placeholderImage;
       },
+      confirmDelete(userId) {
+        if (confirm("Weet u zeker dat u deze cliënt permanent wilt verwijderen?")) {
+          this.deleteClient(userId);
+        }
+      },
       goToPage(page) {
         if (page >= 1 && page <= this.totalPages) {
           this.currentPage = page;
@@ -155,6 +170,19 @@
           })
           .catch(error => {
             console.error("Error restoring client: " + error);
+          });
+      },
+       deleteClient(id) {
+        axios.post(`http://127.0.0.1:8000/api/clients/${id}/delete`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+          .then(response => {
+            window.location.reload();
+          })
+          .catch(error => {
+            console.error("Error deleting client: " + error);
           });
       }
     },
