@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from './views/LoginView.vue'
 import ForgotPasswordView from './views/ForgotPassword.vue'
+import verklaring from './views/Privacy-cookie-verklaring.vue'
 import HomeView from './views/HomeView.vue'
 import UserView from './views/UserView.vue'
 import UserRegistration from './views/UserRegistration.vue'
@@ -24,6 +25,8 @@ const routes = [
   },
   { path: '/', component: LoginView },
   { path: '/forgot-password', component: ForgotPasswordView },
+
+  { path: '/privacy-en-cookieverklaring', component: verklaring },
 ];
 
 const router = createRouter({
