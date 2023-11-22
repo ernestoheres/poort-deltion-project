@@ -1,107 +1,113 @@
 <script setup>
-import axios from "axios";
+  import axios from "axios";
 </script>
 
 <template>
-    <div class="LoginBackground">
-        <div class="LoginContainer">
+  <div class="LoginBackground">
+    <div class="LoginContainer">
 
-            <img src="../assets/DePoort-Logo.webp" class="LoginDePoortLogo">
+      <img src="../assets/DePoort-Logo.webp" class="LoginDePoortLogo">
 
-            <p class="LoginInfo">Login met de gegevens die u heeft ontvangen door uw huisarts</p>
- 
-            <div class="LoginInputs">
-                <label for="uname"><b>Gebruikersnaam</b></label>
-                <input type="text" v-model="username" name="uname" required>
-            
-                <span style="height:15px"></span>
+      <p class="LoginInfo">Login met de gegevens die u heeft ontvangen door uw huisarts</p>
 
-                <div>
-                  <span class="password-labels">
-                    <label for="password"><b>Wachtwoord</b></label>
-                    <label for="password"><a href="/forgot-password" style="cursor:pointer;">Wachtwoord vergeten?</a></label>
-                  </span>
-                  <span class="LoginPasswordSpan">
-                    <input
-                      class="LoginPasswordInput" name="password"
-                      :type="showPassword ? 'text' : 'password'"
-                      v-model="password"
-                      required
-                    />
-                    <button @click="togglePasswordVisibility" class="LoginPasswordButton">
-                      <i class="fa" v-bind:class="[showPassword ? 'fa fa-eye-slash' : 'fa fa-eye']"></i>
-                    </button>
-                  </span>
-                </div>
-                
-                <button type="submit" @click="onLoginSubmit">Log in</button>
+      <div class="LoginInputs">
+        <form @submit.prevent="onLoginSubmit">
+          <label for="uname"><b>Gebruikersnaam</b></label>
+          <input type="text" v-model="username" name="uname" required>
 
-                <label class="LoginRemembermeCheck">
-                    <input type="checkbox" checked="checked" name="remember"> Onthoudt mij voor 30 dagen
-                </label>
-            </div>
-        </div>
+          <span style="height:15px"></span>
+
+          <div>
+            <span class="password-labels">
+              <label for="password"><b>Wachtwoord</b></label>
+              <label for="password"><a href="/forgot-password" style="cursor:pointer;">Wachtwoord vergeten?</a></label>
+            </span>
+            <span class="LoginPasswordSpan">
+              <input class="LoginPasswordInput" name="password" :type="showPassword ? 'text' : 'password'"
+                v-model="password" required />
+              <button @click="togglePasswordVisibility" class="LoginPasswordButton">
+                <i class="fa" v-bind:class="[showPassword ? 'fa fa-eye-slash' : 'fa fa-eye']"></i>
+              </button>
+            </span>
+          </div>
+
+          <button type="submit">Log in</button>
+
+          <div id="error" ref="errorMessage"></div>
+
+          <label class="LoginRemembermeCheck">
+            <input type="checkbox" checked="checked" name="remember" required>Ik ga akkoord met de <a href="/privacy-en-cookieverklaring">privacy en cookieverklaring</a>.
+          </label>
+        </form>
+      </div>
     </div>
-  </template>
-  
+  </div>
+</template>
+
 <script>
-export default {
-  data() {
-    return {
-      showPassword: false,
-      username: "",
-      password: "",
+  export default {
+    data() {
+      return {
+        showPassword: false,
+        username: "",
+        password: "",
 
-    };
-  },
-  methods: {
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-      event.preventDefault();
+      };
     },
-  
-  async onLoginSubmit() {
+    methods: {
+      togglePasswordVisibility() {
+        this.showPassword = !this.showPassword;
+        event.preventDefault();
+      },
+
+      async onLoginSubmit() {
+        const errorMessageElement = this.$refs.errorMessage;
+
+        if (errorMessageElement) {
+          errorMessageElement.style.display = "none";
+        }
+
+        const result = await axios.post("http://localhost:8000/api/login", {
+          name: this.username,
+          password: this.password,
+        }, {
+
+        });
+        if (result.data.status == "success") {
+          console.log(result.data)
+          console.log("Login succesvol");
+          localStorage.setItem("token", result.data.data.token);
+          localStorage.setItem("role", result.data.data.role);
+          localStorage.setItem("userid", result.data.data.id);
+          if (result.data.data.role == "client") {
+            window.location.href = `/dashboard/user/${result.data.data.id}`;
+          } else {
+            window.location.href = "/dashboard";
+          }
+
+        } else {
+          this.showError();
+        }
+      },
+
+      showError() {
+      const errorMessageElement = this.$refs.errorMessage;
+
+      if (errorMessageElement) {
+        errorMessageElement.innerHTML = '<i class="fa-light fa-triangle-exclamation"></i> Inlog mislukt';
+        errorMessageElement.style.display = "flex";
+      }
+    },
+
+    },
 
 
-  const result = await axios.post("http://localhost:8000/api/login", {
-    name: this.username,
-    password: this.password,
-  },
-  {
-   
+
+
   }
-  );
-  console.log(result.data.data.role);
-  if (result.data.status == "success") {
-    console.log(result.data)
-    console.log("Login succesvol");
-    localStorage.setItem("token", result.data.data.token);
-    localStorage.setItem("role", result.data.data.role);
-    localStorage.setItem("userid", result.data.data.id);
-    if(result.data.data.role == "client") {
-      window.location.href = `/dashboard/user/${result.data.data.id}`;
-    }
-    else {
-    window.location.href = "/dashboard";
-    }
-
-  } else {
-    console.log("Login mislukt", result.data.status);
-  }
-},
-
-},
-
-  
-
-
-}
-
-
 </script>
-  
-  <style scoped>
 
+<style scoped>
   .LoginBackground {
     background-color: #89BAEB;
     background-image: linear-gradient(225deg, #abcad2, #89BAEB);
@@ -112,6 +118,7 @@ export default {
     justify-content: center;
     align-items: center;
   }
+
   .LoginContainer {
     background-color: #fff;
     box-shadow: #8aa1a5 0px 0px 10px 0px;
@@ -127,7 +134,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     text-align: left;
     align-items: flex-start;
@@ -141,13 +148,28 @@ export default {
 
       text-align: center;
       align-items: center;
-    };
+    }
+
+    ;
 
     @media only screen and (min-width: 640px) {
       padding: 2rem;
       margin: 0;
-    };
+    }
 
+    ;
+
+  }
+
+  #error {
+    display: none;
+
+    height: 70px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-weight: 600;
+    color: #B92B27;
   }
 
   .LoginDePoortLogo {
@@ -217,12 +239,12 @@ export default {
   }
 
   .LoginRemembermeCheck input {
-        width: fit-content;
-        min-width: 15px;
-        cursor: pointer;
-    }
+    width: fit-content;
+    min-width: 15px;
+    cursor: pointer;
+  }
 
-    .password-labels {
+  .password-labels {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -234,6 +256,7 @@ export default {
     position: relative;
     align-items: center;
   }
+
   .LoginPasswordInput {
     width: 100%;
     place-self: center;
@@ -250,4 +273,4 @@ export default {
     position: absolute;
     right: 3px;
   }
-  </style>
+</style>
