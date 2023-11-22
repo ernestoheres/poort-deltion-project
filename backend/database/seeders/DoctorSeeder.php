@@ -5,7 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-class AdminSeeder extends Seeder
+
+class DoctorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +14,10 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@admin.nl',
-            'password' => bcrypt('admin'),
-            'role' => 'administrator',
+            'name' => 'doctor',
+            'email' => 'doctor@admin.nl',
+            'password' => bcrypt('doctor'),
+            'role' => 'doctor',
         ]);
     }
 }

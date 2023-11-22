@@ -25,6 +25,8 @@ return new class extends Migration
         $table->string('bsn');
         $table->string('vezekering');
         $table->string('polisnummer');
+        $table->enum('bloedtype', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'onbekend'])->default('onbekend');
+        $table->enum('geslacht', ['Man', 'Vrouw']);
         $table->string('profielfoto')->nullable();
         $table->foreignId('user_id')->constrained();
         $table->softDeletes();

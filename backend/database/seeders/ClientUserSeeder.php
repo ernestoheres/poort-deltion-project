@@ -17,7 +17,7 @@ class ClientUserSeeder extends Seeder
         $id = 88888;
         //find a id that is not used
         while(User::find($id) != null) {
-            $id = rand(10000, 99999);
+        	         $id = rand(10000, 99999);
         }
 
         ClientFactory::new()->count(1)->create([

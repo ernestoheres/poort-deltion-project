@@ -59,6 +59,13 @@ class ClientFactory extends Factory
         'Voor den', 'voor den', 'Voor in ’t', 'voor in ’t', 'Voor in t', 'voor in t', 'Vor', 'vor', 'Vor der', 'vor der',
         'Zu', 'zu', 'Zum', 'zum', 'Zur', 'zur'
     ];
+
+    $bloedtypes = [
+        'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'onbekend'
+    ];
+
+    $bloedtype = $bloedtypes[array_rand($bloedtypes)];
+
         #33% kans op een tussenvoegsel
 
         $tussenvoegsel = $tussenvoegsels[array_rand($tussenvoegsels)];
@@ -94,9 +101,11 @@ class ClientFactory extends Factory
 
         if ($gender === "male") {
             $firstname = $this->faker->firstNameMale();
+            $geslacht = "Man";
         }
         else {
             $firstname = $this->faker->firstNameFemale();
+            $geslacht = "Vrouw";
         }
 
         $this->faker->addProvider(new Person($this->faker));
@@ -112,6 +121,8 @@ class ClientFactory extends Factory
             'bsn' => $this->faker->idNumber(),
             'vezekering' => $this->faker->company(),
             'polisnummer' => $this->faker->randomNumber(),
+            'bloedtype' => $bloedtype,
+            'geslacht' => $geslacht,
             'profielfoto' => $uuid,
             'user_id' => UserFactory::new()->create()->id,
         ];
