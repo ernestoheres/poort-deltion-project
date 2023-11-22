@@ -8,9 +8,10 @@ use Intervention\Image\Facades\Image;
 
 class NoteController extends Controller
 {
-    public function index()
+    public function index($client_id)
     {
-        $notes = Note::latest()->get(); // Fetch notes in descending order based on creation time
+        // Fetch notes filtered by client_id
+        $notes = Note::where('client_id', $client_id)->latest()->get();
         return response()->json($notes);
     }
 
@@ -18,37 +19,44 @@ class NoteController extends Controller
     {
         $request->validate([
             'content' => 'required|string',
+            'client_id' => 'required|integer',
         ]);
 
+        // Create note with client_id
         $note = Note::create([
             'content' => $request->input('content'),
+            'client_id' => $request->input('client_id'),
         ]);
 
-        return response()->json($note, 201); // Return the created note
+        return response()->json($note, 201);
     }
 
-    public function show(Note $note)
+    public function update(Request $request, $client_id, Note $note)
     {
-        return response()->json($note);
-    }
-
-    public function update(Request $request, Note $note)
-    {
+        // Validate request
         $request->validate([
             'content' => 'required|string',
+            // Add any other necessary validations
         ]);
 
+        // Update note
         $note->update([
             'content' => $request->input('content'),
+            // Handle any other fields if necessary
         ]);
 
         return response()->json($note);
     }
 
-    public function destroy(Note $note)
+    public function destroy($client_id, Note $note)
     {
+        // Perform any necessary checks based on client_id
+        // Delete note
         $note->delete();
 
         return response()->json(null, 204);
     }
+
 }
+
+

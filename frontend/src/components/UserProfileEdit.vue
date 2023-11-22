@@ -87,8 +87,8 @@
                 </div>
             </table>
         </div>
+      <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
     </div>
-
     </form>
 </template>
 
@@ -140,6 +140,17 @@ export default {
     width: 100%;
     flex-direction: column;
     align-items: center;
+}
+
+.subitform-button{
+  cursor: pointer;
+  border: solid 2px lightgray;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 125px;
+  padding: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
 }
 
 .InfoBubble{
