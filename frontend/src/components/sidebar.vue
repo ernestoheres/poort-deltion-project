@@ -40,6 +40,12 @@
         </div>
 
         <div class="bottom">
+             <div class="icon">
+                <a href="/privacy-en-cookieverklaring">
+                    <i class="fa-solid fa-right-from-bracket fa-2x icon-highlight"></i>
+                    <p style="text-wrap: nowrap;">Privacy- en cookieverklaring</p>
+                </a>
+            </div>
             <div v-if="isTokenSet" class="icon">
                 <a href="/" @click.prevent="logout">
                     <i class="fa-solid fa-right-from-bracket fa-2x icon-highlight"></i>
@@ -78,7 +84,9 @@
                 this.isSidebarOpen = !this.isSidebarOpen;
             },
             logout() {
-                localStorage.clear();
+                localStorage.removeItem('role');
+                localStorage.removeItem('userid');
+                localStorage.removeItem('token');
 
                 this.$router.push('/');
             },

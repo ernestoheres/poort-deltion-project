@@ -74,11 +74,10 @@
 
         });
         if (result.data.status == "success") {
-          console.log(result.data)
-          console.log("Login succesvol");
           localStorage.setItem("token", result.data.data.token);
           localStorage.setItem("role", result.data.data.role);
           localStorage.setItem("userid", result.data.data.id);
+           localStorage.setItem("loginDate", loginDate.toISOString());
           if (result.data.data.role == "client") {
             window.location.href = `/dashboard/client/${result.data.data.id}`;
           } else {
