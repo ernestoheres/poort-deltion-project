@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div class="center" @click="toggleSidebar">
+        <div class="center" @click="toggleSidebar" v-if="userRole === 'administrator' || userRole === 'doctor'" >
             <div class="icon">
                 <a href="/dashboard">
                     <i class="fa-regular fa-rectangle-list fa-2x icon-highlight"></i>
@@ -17,21 +17,21 @@
                 </a>
             </div>
 
-            <div class="icon">
+            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor'" >
                 <a href="/dashboard/archive">
                     <i class="fa-light fa-box-archive fa-2x icon-highlight"></i>
                     <p>Archive</p>
                 </a>
             </div>
 
-            <div class="icon">
+            <div class="icon" v-if="userRole === 'administrator'" >
                 <a href="/dashboard/user/add">
                     <i class="fa-regular fa-user-plus fa-2x icon-highlight"></i>
                     <p>Toevoegen</p>
                 </a>
             </div>
 
-            <div class="icon">
+            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor'" >
                 <a href="/dashboard/calender">
                     <i class="fa-thin fa-calendar-days fa-2x icon-highlight"></i>
                     <p>Kalender</p>
@@ -60,19 +60,22 @@ export default {
   data() {
     return {
       isSidebarOpen: false,
+      userRole: '',
     };
+  },
+  created() {
+    this.userRole = localStorage.getItem('role');
+    console.log('Role:', this.userRole);
   },
   methods: {
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
     logout() {
-      // Reset localStorage items
       localStorage.removeItem('role');
       localStorage.removeItem('userid');
       localStorage.removeItem('token');
 
-      // Redirect to '/'
       this.$router.push('/');
     },
   },
