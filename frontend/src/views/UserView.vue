@@ -65,6 +65,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  height: 100vh;
 }
 
 .togglecomponent-container {

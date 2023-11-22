@@ -92,16 +92,9 @@ export default {
                         <th>Bloedtype:</th>
                         <td> {{ user.bloodtype }}</td>
                     </tr>
-
-                    <tr>
-                        <th>BSN:</th>
-                        <td> {{ user.bsn }} </td>
-                    </tr>
                 </div>
             </table>
         </div>
-        <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
-
     </div>
 
 </template>
