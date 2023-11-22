@@ -1,5 +1,5 @@
 <template>
-    <form action="/verstuurd.php" method="post" id="form-adduser">
+    <form method="post" id="form-addConsult">
                     <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" />
                     <input type="text" name="tussenvoegsels" v-model="user.tussenvoegels" placeholder="tussenvoegsels" />
                     <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" />
@@ -9,10 +9,11 @@
                     <select name="doctor">
                       <option value="DHR A">Doctor 1</option>
                       <option value="MVR B">Doctor 2</option>
-                      <option value="Assistent C">Assistent 1</option>
                     </select>
-                    <input type="submit" value="Plan in"/>
     </form>
+    <div class="submitform-container">
+        <button class="subitform-button" @click="addConsult()" form="form-addConsult" value="Plan in">Plan in!</button>
+    </div>
 </template>
 
 <script>
@@ -40,6 +41,29 @@ export default {
       }
     },
   },
+  addConsult() {
+    axios.post('http://localhost:8000/api/addconsult', {
+        voornaam: this.consult.voornaam,
+        tussenvoegels: this.consult.tussenvoegels,
+        achternaam: this.consult.achternaam,
+        btijd: this.consult.btijd,
+        etijd: this.consult.etijd,
+        datum: this.consult.datum,
+        doctor: this.consult.doctor,        
+    }, {
+       headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+       }
+    })
+      .then((response) => {
+        console.log(response);
+        window.location.href = '/dashboard/agenda';
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
 };
 </script>
 

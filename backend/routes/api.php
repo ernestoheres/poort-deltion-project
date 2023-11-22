@@ -42,3 +42,9 @@ Route::prefix('/clients/{client_id}')->group(function () {
     Route::delete('/notes/{note}', 'App\Http\Controllers\NoteController@destroy');
 });
 
+Route::prefix('/agenda')->group(function () {
+    Route::post('/agenda','App\Http\Controllers\ConsultController@store');
+    Route::get('/agenda','App\Http\Controllers\ConsultController@index');
+    Route::put('/agenda/{consult}','App\Http\Controllers\ConsultController@update');
+    Route::delete('/agenda/{consult}', 'App\Http\Controllers\ConsultController@destroy');
+});
