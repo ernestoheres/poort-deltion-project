@@ -57,6 +57,7 @@ main {
     top: 0;
     min-height: 100vh;
     display: flex;
+    width: 100vw;
 }
 
 #content {
@@ -73,7 +74,7 @@ main {
 .togglecomponent-container {
   width: 90%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-wrap: nowrap;
   flex-direction: row;
   align-items: center;
