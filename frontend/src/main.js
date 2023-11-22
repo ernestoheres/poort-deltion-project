@@ -14,11 +14,11 @@ import agendaView from './views/agendaView.vue'
 
 const routes = [
   { path: '/dashboard', component: HomeView },
-  { path: '/dashboard/user/add', component: UserRegistration, meta: { requiresAdmin: true } },
+  { path: '/dashboard/client/add', component: UserRegistration, meta: { requiresAdmin: true } },
   { path: '/dashboard/archive', component: ArchiveView },
   { path: '/dashboard/agenda', component: agendaView },
   {
-    path: '/dashboard/user/:id',
+    path: '/dashboard/client/:id',
     component: UserView,
     name: 'UserView',
     props: (route) => ({ edit: route.query.edit === 'true' }),
@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
     if (role === 'doctor' || role === 'administrator') {
       next('/dashboard');
     } else if (role === 'client') {
-      next(`/dashboard/user/${userId}`);
+      next(`/dashboard/client/${userId}`);
     } else {
       next();
     }
@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
         next('/');
       }
     } else {
-      if (to.path === `/dashboard/user/${userId}`) {
+      if (to.path === `/dashboard/client/${userId}`) {
         next();
       } else {
         next('/');

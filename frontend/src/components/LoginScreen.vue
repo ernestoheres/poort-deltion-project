@@ -80,7 +80,7 @@
           localStorage.setItem("role", result.data.data.role);
           localStorage.setItem("userid", result.data.data.id);
           if (result.data.data.role == "client") {
-            window.location.href = `/dashboard/user/${result.data.data.id}`;
+            window.location.href = `/dashboard/client/${result.data.data.id}`;
           } else {
             window.location.href = "/dashboard";
           }

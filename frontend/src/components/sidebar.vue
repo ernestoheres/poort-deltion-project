@@ -25,7 +25,7 @@
             </div>
 
             <div class="icon" v-if="userRole === 'administrator'">
-                <a href="/dashboard/user/add">
+                <a href="/dashboard/client/add">
                     <i class="fa-regular fa-user-plus fa-2x icon-highlight"></i>
                     <p>Toevoegen</p>
                 </a>
