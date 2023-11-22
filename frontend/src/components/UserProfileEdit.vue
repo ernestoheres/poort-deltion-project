@@ -14,7 +14,7 @@
                 </div>
             </div>
             <table class="SettingUser">
-                <div class="divinfo">Klant informatie</div>
+                <div class="divinfo">Algemene informatie</div>
                 <div class="info-block"> 
                     <tr>
                         <th>Tel:</th>
@@ -22,49 +22,8 @@
                     </tr>
 
                     <tr>
-                        <th>Polisnummer:</th>
-                        <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="Polis nummer" /> </td>
-                    </tr>
-
-                    <tr>
-                        <th>Verzekering:</th>
-                        <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" /> </td>
-                    </tr>
-
-                    <tr>
                         <th>Geboortedatum:</th>
                         <td> <input type="date" name="geboortedatum" v-model="user.geboortedatum" placeholder="Geboorte datum" /> </td>
-                    </tr>
-                </div>
-                <div class="Slide"></div>
-                <div class="divinfo">Woonplaats / adres</div>
-                <div class="info-block">
-                    <tr>
-                        <th>Adres:</th>
-                        <td> <input type="text" name="adres" v-model="user.adres" placeholder="Adres" /> </td>
-                    </tr>
-
-                    <tr>
-                        <th>Postcode:</th>
-                        <td> <input type="text" name="postcode" v-model="user.postcode" placeholder="Postcode" /> </td>
-                    </tr>
-
-                    <tr>
-                        <th>Woonplaats:</th>
-                        <td> <input type="text" name="woonplaats" v-model="user.woonplaats" placeholder="Woonplaats" /> </td>
-                    </tr>
-
-                    <tr>
-                        <th>Land:</th>
-                        <td> <input type="text" name="land" v-model="user.land" placeholder="Land" /> </td>
-                    </tr>
-                </div>
-                <div class="Slide"></div>
-                <div class="divinfo">Klant informatie</div>
-                <div class="info-block">
-                    <tr>
-                        <th>BSN:</th>
-                        <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
                     </tr>
 
                     <tr>
@@ -92,10 +51,55 @@
                                 </select> 
                             </td>
                     </tr>
+
+                </div>
+                <div class="Slide"></div>
+                <div class="divinfo">Woonplaats / adres</div>
+                <div class="info-block">
+                    <tr>
+                        <th>Adres:</th>
+                        <td> <input type="text" name="adres" v-model="user.adres" placeholder="Adres" /> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Postcode:</th>
+                        <td> <input type="text" name="postcode" v-model="user.postcode" placeholder="Postcode" /> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Woonplaats:</th>
+                        <td> <input type="text" name="woonplaats" v-model="user.woonplaats" placeholder="Woonplaats" /> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Land:</th>
+                        <td> <input type="text" name="land" v-model="user.land" placeholder="Land" /> </td>
+                    </tr>
+                </div>
+                <div class="Slide"></div>
+                <div class="divinfo">extra informatie</div>
+                <div class="info-block">
+                    <tr>
+                        <th>BSN:</th>
+                        <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Polisnummer:</th>
+                        <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="Polis nummer" /> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Verzekering:</th>
+                        <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" /> </td>
+                    </tr>
+
                 </div>
             </table>
         </div>
-      <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
+        <div class="subitform-div">
+            <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
+        </div>
     </div>
     </form>
 </template>
@@ -150,6 +154,13 @@ export default {
     align-items: center;
 }
 
+.subitform-div {
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
 .subitform-button{
   cursor: pointer;
   border: solid 2px lightgray;
@@ -158,7 +169,6 @@ export default {
   width: 125px;
   padding: 5px;
   margin-bottom: 5px;
-  margin-right: 5px;
 }
 
 .InfoBubble{

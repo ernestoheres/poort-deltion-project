@@ -31,7 +31,7 @@
             </span>
           </div>
 
-          <button type="submit">Log in</button>
+          <button type="submit" id="login" ref="login" >Log in</button>
 
           <div id="error" ref="errorMessage"></div>
 
@@ -61,6 +61,13 @@
       },
 
       async onLoginSubmit() {
+        const loginButton = this.$refs.login;
+
+        if (loginButton) {
+          loginButton.innerHTML = 'Log in <i class="fa-duotone fa-spinner fa-spin"></i>';
+        }
+
+
         const errorMessageElement = this.$refs.errorMessage;
 
         if (errorMessageElement) {
@@ -74,18 +81,23 @@
 
         });
         if (result.data.status == "success") {
-          localStorage.setItem("token", result.data.data.token);
-          localStorage.setItem("role", result.data.data.role);
-          localStorage.setItem("userid", result.data.data.id);
-           localStorage.setItem("loginDate", loginDate.toISOString());
-          if (result.data.data.role == "client") {
-            window.location.href = `/dashboard/client/${result.data.data.id}`;
-          } else {
-            window.location.href = "/dashboard";
-          }
+            const loginDate = new Date();
+            localStorage.setItem("token", result.data.data.token);
+            localStorage.setItem("role", result.data.data.role);
+            localStorage.setItem("userid", result.data.data.id);
+            localStorage.setItem("loginDate", loginDate.toISOString());
+            if (result.data.data.role == "client") {
+              window.location.href = `/dashboard/client/${result.data.data.id}`;
+            } else {
+              window.location.href = "/dashboard";
+            }
 
         } else {
           this.showError();
+
+          if (loginButton) {
+            loginButton.innerHTML = 'Log in';
+          }
         }
       },
 

@@ -70,6 +70,7 @@ router.beforeEach((to, from, next) => {
 
 function checkLoginExpiration() {
   const loginDate = localStorage.getItem("loginDate");
+
   if (loginDate) {
     const fourteenDaysAgo = new Date();
     fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);

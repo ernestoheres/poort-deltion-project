@@ -42,7 +42,7 @@
         <div class="bottom">
              <div class="icon">
                 <a href="/privacy-en-cookieverklaring">
-                    <i class="fa-solid fa-right-from-bracket fa-2x icon-highlight"></i>
+                    <i class="fa-solid fa-file-contract fa-2x icon-highlight"></i>
                     <p style="text-wrap: nowrap;">Privacy- en cookieverklaring</p>
                 </a>
             </div>
