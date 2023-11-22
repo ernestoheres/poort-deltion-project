@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(fun
     Route::get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients");
     Route::post("/clients", "App\Http\Controllers\ClientController@createClient");
     Route::delete("/clients/{id}", "App\Http\Controllers\ClientController@deleteClient");
+    Route::delete("/clients/{id}/force", "App\Http\Controllers\ClientController@forceDeleteClient");
     Route::post("/clients/{id}/restore", "App\Http\Controllers\ClientController@restoreClient");
     Route::put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient");
 });
