@@ -27,5 +27,7 @@ main {
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  height: 100vh;
 }
 </style>
