@@ -10,13 +10,13 @@ import HomeView from './views/HomeView.vue'
 import UserView from './views/UserView.vue'
 import UserRegistration from './views/UserRegistration.vue'
 import ArchiveView from './views/ArchiveView.vue'
-import CalenderView from './views/CalenderView.vue'
+import agendaView from './views/agendaView.vue'
 
 const routes = [
   { path: '/dashboard', component: HomeView },
   { path: '/dashboard/user/add', component: UserRegistration, meta: { requiresAdmin: true } },
   { path: '/dashboard/archive', component: ArchiveView },
-  { path: '/dashboard/calender', component: CalenderView },
+  { path: '/dashboard/agenda', component: agendaView },
   {
     path: '/dashboard/user/:id',
     component: UserView,

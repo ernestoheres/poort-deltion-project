@@ -32,9 +32,9 @@
             </div>
 
             <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor'">
-                <a href="/dashboard/calender">
+                <a href="/dashboard/agenda">
                     <i class="fa-thin fa-calendar-days fa-2x icon-highlight"></i>
-                    <p>Kalender</p>
+                    <p>Agenda</p>
                 </a>
             </div>
         </div>
