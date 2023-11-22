@@ -68,6 +68,24 @@ router.beforeEach((to, from, next) => {
 });
 
 
+function checkLoginExpiration() {
+  const loginDate = localStorage.getItem("loginDate");
+  if (loginDate) {
+    const fourteenDaysAgo = new Date();
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
+    if (new Date(loginDate) < fourteenDaysAgo) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("userid");
+      localStorage.removeItem("loginDate");
+
+      next('/'); // Redirect to the login page
+    }
+  }
+}
+
+
 import App from './App.vue'
 
 const app = createApp(App)
@@ -76,3 +94,5 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+
+checkLoginExpiration();
