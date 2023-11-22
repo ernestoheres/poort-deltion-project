@@ -74,6 +74,7 @@
 
         });
         if (result.data.status == "success") {
+          const loginDate = new Date();
           localStorage.setItem("token", result.data.data.token);
           localStorage.setItem("role", result.data.data.role);
           localStorage.setItem("userid", result.data.data.id);
