@@ -1,19 +1,3 @@
-<script>
-    import 'font-awesome/css/font-awesome.css'
-
-    export default {
-        data() {
-            return {
-            isSidebarOpen: false
-            };
-        },
-        methods: {
-            toggleSidebar() {
-            this.isSidebarOpen = !this.isSidebarOpen;
-            }
-        }
-    };
-</script>
 <template>
     <div class="Side" :class="{ 'sidebar-open': isSidebarOpen }" @click="toggleSidebar" >
         <div class="top">
@@ -25,7 +9,7 @@
             </div>
         </div>
 
-        <div class="center" @click="toggleSidebar">
+        <div class="center" @click="toggleSidebar" v-if="userRole === 'administrator' || userRole === 'doctor'" >
             <div class="icon">
                 <a href="/dashboard">
                     <i class="fa-regular fa-rectangle-list fa-2x icon-highlight"></i>
@@ -33,21 +17,21 @@
                 </a>
             </div>
 
-            <div class="icon">
+            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor'" >
                 <a href="/dashboard/archive">
                     <i class="fa-light fa-box-archive fa-2x icon-highlight"></i>
                     <p>Archive</p>
                 </a>
             </div>
 
-            <div class="icon">
+            <div class="icon" v-if="userRole === 'administrator'" >
                 <a href="/dashboard/user/add">
                     <i class="fa-regular fa-user-plus fa-2x icon-highlight"></i>
                     <p>Toevoegen</p>
                 </a>
             </div>
 
-            <div class="icon">
+            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor'" >
                 <a href="/dashboard/calender">
                     <i class="fa-thin fa-calendar-days fa-2x icon-highlight"></i>
                     <p>Kalender</p>
@@ -57,7 +41,7 @@
 
         <div class="bottom">
             <div class="icon">
-                <a href="/">
+                <a href="/" @click.prevent="logout">
                     <i class="fa-solid fa-right-from-bracket fa-2x icon-highlight"></i>
                     <p style="text-wrap: nowrap;">Log uit</p>
                 </a>
@@ -67,6 +51,36 @@
 
     </div>
 </template>
+
+
+<script>
+import 'font-awesome/css/font-awesome.css'
+
+export default {
+  data() {
+    return {
+      isSidebarOpen: false,
+      userRole: '',
+    };
+  },
+  created() {
+    this.userRole = localStorage.getItem('role');
+    console.log('Role:', this.userRole);
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    logout() {
+      localStorage.removeItem('role');
+      localStorage.removeItem('userid');
+      localStorage.removeItem('token');
+
+      this.$router.push('/');
+    },
+  },
+};
+</script>
 
 
 <style scoped>
