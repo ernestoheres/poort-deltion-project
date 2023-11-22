@@ -74,13 +74,22 @@
 
                     <!-- <tr>
                         <th>Gender:</th>
-                        <td> <input type="text" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
-                    </tr>
+                        <td> <input type="" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
+                    </tr> -->
 
                     <tr>
                         <th>Bloedtype:</th>
-                        <td> <input type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype" /> </td>
-                    </tr> -->
+                        <td> <select type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype">
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        </select> </td>
+                    </tr>
                 </div>
             </table>
         </div>

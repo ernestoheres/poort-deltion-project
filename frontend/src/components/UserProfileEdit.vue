@@ -66,24 +66,32 @@
                         <th>BSN:</th>
                         <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
                     </tr>
-                    <tr>
-                        <th>vezekerings naam:</th>
-                        <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
-                    </tr>
-                    <tr>
-                        <th>polisnummer:</th>
-                        <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
-                    </tr>
 
-                    <!-- <tr>
+                    <tr>
                         <th>Gender:</th>
-                        <td> <input type="text" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
+                        <td>
+                             <select name="gender" v-model="user.gender">
+                                <option value="Man">Man</option>
+                                <option value="Vrouw">Vrouw</option>
+                            </select>
+                        </td>
                     </tr>
-
+                
                     <tr>
                         <th>Bloedtype:</th>
-                        <td> <input type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype" /> </td>
-                    </tr> -->
+                            <td> 
+                                <select name="Bloedtype">
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select> 
+                            </td>
+                    </tr>
                 </div>
             </table>
         </div>
@@ -194,6 +202,23 @@ export default {
     margin-bottom: 5px;
     text-align: center;
 }
+
+.InfoUsercontent-Naam select {
+    border: solid 2px lightgray;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.InfoUsercontent-Naam option {
+    border: solid 2px lightgray;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
 
 .SettingUser{
     display: flex;
