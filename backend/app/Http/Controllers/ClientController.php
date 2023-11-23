@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+
 class ClientController extends Controller
 {
     public function getAllClients(Request $request)
@@ -42,6 +44,7 @@ class ClientController extends Controller
         Client::create($data);
         return response("Client created", 201);
     }
+
 
     public function updateClient(Request $request, $id) {
         $user = $request->user();
@@ -91,10 +94,38 @@ class ClientController extends Controller
 
         $profilePath = storage_path('app/img/' . $client->profielfoto . '.jpg');
 
+
         if(!file_exists($profilePath)) {
             return Image::make($defaultPath)->response();
         }
         return Image::make($profilePath)->response();
+    }
+
+    public function uploadImage(Request $request, $id) {
+        $user = $request->user();
+        $client = Client::find($id);
+
+        if($user->role == "client") {
+            if($user->id != $id) {
+                return response("Unauthorized", 401);
+            }
+        }
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $img = Image::make($request->image->path());
+        $img->encode('jpg', 75);
+        
+        $uuid = uniqid();
+        $imageName = $uuid . '.' . 'jpg';
+        Storage::disk('local')->put('img/'. $uuid . '.jpg', $img);
+        $client->profielfoto = $uuid;
+        $client->save();
+
+        return response("Image uploaded", 200);
+
     }
 
 

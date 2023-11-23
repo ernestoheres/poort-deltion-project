@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator, manager'])->group(function() {
+Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator,manager'])->group(function() {
     Route::get("/clients", "App\Http\Controllers\ClientController@getAllClients");
     Route::get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients");
     Route::post("/clients", "App\Http\Controllers\ClientController@createClient");
@@ -29,7 +29,7 @@ Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator, manager'])->
     Route::put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient");
 });
 Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\ClientController@getClientById");
-
+Route::middleware('auth:sanctum')->post("/clients/{id}/image", "App\Http\Controllers\ClientController@uploadImage");	
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
 Route::post("register", "App\Http\Controllers\UserController@register");
