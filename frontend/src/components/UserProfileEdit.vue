@@ -141,6 +141,18 @@ export default {
       }
     },
   },
+  updateUser() {
+
+        axios.put('http://localhost:8000/api/clients/${id}', this.user, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }) 
+            .then(res => {
+                console.log(res.data)
+                alert(res.data.message);
+
+                this.errorList = '';
+            })
+
+
+    }, 
 };
 </script>
 
