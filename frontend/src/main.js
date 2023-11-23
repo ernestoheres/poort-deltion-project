@@ -40,9 +40,12 @@ router.beforeEach((to, from, next) => {
   const role = localStorage.getItem('role');
   const userId = localStorage.getItem('userid');
 
+  // Check for admin-only routes
   if (to.meta.requiresAdmin && role !== 'administrator') {
     next('/');
-  } else if (to.path === '/') {
+  }
+  // Handling the root path '/'
+  else if (to.path === '/') {
     if (role === 'doctor' || role === 'administrator' || role === 'manager') {
       next('/dashboard');
     } else if (role === 'client') {
@@ -50,23 +53,33 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path.startsWith('/dashboard')) {
-    if (to.meta.requiresManager && role !== 'manager') {
+  }
+  // Handling paths that start with '/dashboard'
+  else if (to.path.startsWith('/dashboard')) {
+    // Explicitly handling the manager role
+    if (role === 'manager') {
+      next();  // Allow managers to stay on the dashboard
+    } 
+    else if (to.meta.requiresManager && role !== 'manager') {
       next('/');
-    } else if (role !== 'client') {
+    } 
+    else if (role !== 'client') {
       if (role === 'doctor' || role === 'administrator') {
         next();
       } else {
         next('/');
       }
-    } else {
+    } 
+    else {
       if (to.path === `/dashboard/client/${userId}`) {
         next();
       } else {
         next('/');
       }
     }
-  } else {
+  }
+  // Default case
+  else {
     next();
   }
 });

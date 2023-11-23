@@ -16,7 +16,7 @@ import axios from "axios";
             
                 <span style="height:15px"></span>
                 
-                <button type="submit" @click="onLoginSubmit">Verstuur mail</button>
+                <button type="submit" @click="onForgotPasswordReset">Verstuur mail</button>
 
                 <a href="/"><button class="login-button"><i class="fa-regular fa-arrow-left"></i> Login</button></a>
             </div>
@@ -40,21 +40,20 @@ export default {
       event.preventDefault();
     },
   
-  async onLoginSubmit() {
+  async onForgotPasswordReset() {
 
 
-  const result = await axios.post("http://localhost:8000/api/login", {
-    name: this.email,
-    password: this.password,
+  const result = await axios.post("http://localhost:8000/api/forgot-password", {
+    email: this.email,
+   
   },
   );
   console.log(result.data);
   if (result.data.status == "success") {
-    console.log("Login succesvol");
-    localStorage.setItem("token", result.data.token);
+    alert("Er is een mail verstuurd naar uw mail adres met uw nieuwe wachtwoord daarna \n kunt u inloggen met uw nieuwe wachtwoord \n en een nieuw wachtwoord aanmaken  \n klik op ok om terug te gaan naar de login pagina");
     window.location.href = "/";
   } else {
-    console.log("Login mislukt", result.data.status);
+    console.log("password reset mislukt", result.data.status);
   }
 },
 

@@ -140,6 +140,8 @@ export default {
         bsn: this.user.bsn,
         vezekering: this.user.vezekering,
         polisnummer: this.user.polisnummer,
+        bloedtype: this.user.bloedtype,
+        geslahct: this.user.geslacht,
 
         
     }, {
