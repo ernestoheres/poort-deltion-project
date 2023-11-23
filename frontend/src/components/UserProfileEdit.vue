@@ -158,6 +158,11 @@ export default {
 
 
 <style scoped>
+
+#form-edituser {
+    width: 100%;
+}
+
 #ContainerProfile{
     display: flex;
     max-width: 100vw;

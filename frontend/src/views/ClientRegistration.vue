@@ -19,6 +19,7 @@ main {
     top: 0;
     min-height: 100vh;
     display: flex;
+    width: 100vw;
 }
 
 #content {

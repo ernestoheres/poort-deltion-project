@@ -14,7 +14,7 @@
                 </div>
             </div>
             <table class="SettingUser">
-                <div class="divinfo">Klant informatie</div>
+                <div class="divinfo">Algemene informatie</div>
                 <div class="info-block"> 
                     <tr>
                         <th>Tel:</th>
@@ -22,19 +22,29 @@
                     </tr>
 
                     <tr>
-                        <th>Polisnummer:</th>
-                        <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="Polis nummer" /> </td>
-                    </tr>
-
-                    <tr>
-                        <th>Verzekering:</th>
-                        <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" /> </td>
-                    </tr>
-
-                    <tr>
                         <th>Geboortedatum:</th>
                         <td> <input type="date" name="geboortedatum" v-model="user.geboortedatum" placeholder="Geboorte datum" /> </td>
                     </tr>
+
+                    <tr>
+                        <th>Gender:</th>
+                        <td> <input type="" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
+                    </tr>
+
+                    <tr>
+                        <th>Bloedtype:</th>
+                        <td> <select type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype">
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        </select> </td>
+                    </tr>
+
                 </div>
                 <div class="Slide"></div>
                 <div class="divinfo">Woonplaats / adres</div>
@@ -60,7 +70,7 @@
                     </tr>
                 </div>
                 <div class="Slide"></div>
-                <div class="divinfo">Klant informatie</div>
+                <div class="divinfo">Extra informatie</div>
                 <div class="info-block">
                     <tr>
                         <th>BSN:</th>
@@ -72,27 +82,24 @@
                         <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="polisnummer" /> </td>
                     </tr>
 
-                    <!-- <tr>
-                        <th>Gender:</th>
-                        <td> <input type="" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
-                    </tr> -->
-
                     <tr>
-                        <th>Bloedtype:</th>
-                        <td> <select type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype">
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                        </select> </td>
+                        <th>Verzekering:</th>
+                        <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" /> </td>
                     </tr>
+
                 </div>
             </table>
         </div>
+
+        <div class="InfoBubble email-bubble">
+                <div class="info-block">
+                    <tr>
+                        <th>E-mail adres:</th>
+                        <td> <input type="email" name="email" v-model="user.bsn" placeholder="klaas@DePoort.nl" required /> </td>
+                    </tr>
+                </div>
+            </div>
+
     </div>
    
     </form>
@@ -163,6 +170,12 @@ export default {
 
 
 <style scoped>
+
+#form-addclient {
+    width: 90%;
+}
+
+
 #ContainerProfile{
     display: flex;
     max-width: 100vw;
@@ -172,12 +185,17 @@ export default {
 }
 
 .InfoBubble{
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0px 10px 0 lightgray;
     border-radius: 8px;
     background-color: white;
+}
+
+.email-bubble {
+    margin-top: 15px;
+    padding: 20px 8px;
 }
 
 .InfoUser{
