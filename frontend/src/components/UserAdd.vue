@@ -2,57 +2,26 @@
     <form id="form-adduser">
         <div id="ContainerProfile">
             <div class="InfoBubble">
-                <div class="InfoUser">
-                    <div class="InfoUsercontent">
-                        <div class="image" :style="{ backgroundImage: 'url(' + selectedImage + ')' }"></div>
-                    </div>
-                    <input type="file" @change="handleImageChange" name="avatar" accept="image/png, image/jpeg"
-                        class="hidden-file-input" />
-                    <div class="InfoUsercontent InfoUsercontent-Naam">
-                        <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" />
-                        <input type="text" name="tussenvoegsels" v-model="user.tussenvoegels"
-                            placeholder="tussenvoegsels" />
-                        <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" />
-                    </div>
-                </div>
                 <table class="SettingUser">
-                    <div class="divinfo">Klant informatie</div>
+                    <div class="divinfo">Account informatie</div>
                     <div class="info-block">
                         <tr>
-                            <th>Tel:</th>
-                            <td> <input type="text" name="telefoon" v-model="user.telefoon"
-                                    placeholder="Telefoon nummer" /> </td>
+                            <th>email:</th>
+                            <td> <input type="text" name="email" v-model="user.email"
+                                        placeholder="Email adres" /> </td>
                         </tr>
 
                         <tr>
-                            <th>Polisnummer:</th>
-                            <td> <input type="number" name="polisnummer" v-model="user.polisnummer"
-                                    placeholder="Polis nummer" /> </td>
+                            <th>Wachtwoord:</th>
+                            <td> <input type="text" name="wachtwoord"
+                                    placeholder="Wachtwoord" /> </td>
                         </tr>
 
                         <tr>
-                            <th>Verzekering:</th>
-                            <td> <input type="text" name="verzekering" v-model="user.vezekering"
-                                    placeholder="Verzekering" /> </td>
-                        </tr>
-
-                        <tr>
-                            <th>Geboortedatum:</th>
-                            <td> <input type="date" name="geboortedatum" v-model="user.geboortedatum"
-                                    placeholder="Geboorte datum" /> </td>
-                        </tr>
-
-                        <tr>
-                            <th>Bloedtype:</th>
-                            <td> <select type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype">
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
+                            <th>Type account:</th>
+                            <td> <select type="text" name="rol" v-model="user.role" placeholder="rol">
+                            <option value="doctor">doktor</option>
+                            <option value="administrator">Administrator</option>
                             </select> </td>
                         </tr>
                     </div>
@@ -63,7 +32,7 @@
 
     </form>
     <div class="submitform-container">
-        <button class="subitform-button" @click="addUser()" form="form-adduser" value="Submit">Client toevoegen</button>
+        <button class="subitform-button" @click="addUser()" form="form-adduser" value="Submit">User toevoegen</button>
     </div>
 </template>
 
@@ -74,40 +43,16 @@
         data() {
             return {
                 user: {},
-                userImage: '', // Initialize as an empty string
-                selectedImage: 'http://placehold.it/180',
             };
         },
         methods: {
-            handleImageChange(event) {
-                const input = event.target;
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-
-                    reader.onload = (e) => {
-                        this.selectedImage = e.target.result;
-                    };
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            },
 
         },
         addUser() {
             axios.post('http://localhost:8000/api/user', {
-                    voornaam: this.user.voornaam,
-                    tussenvoegels: this.user.tussenvoegels,
-                    achternaam: this.user.achternaam,
-                    adres: this.user.adres,
-                    postcode: this.user.postcode,
-                    woonplaats: this.user.woonplaats,
-                    land: this.user.land,
-                    telefoon: this.user.telefoon,
-                    bsn: this.user.bsn,
-                    vezekering: this.user.vezekering,
-                    polisnummer: this.user.polisnummer,
-
-
+                    email: this.user.email,
+                    wachtwoord: this.user.wachtwoord,
+                    rol: this.user.rol,
                 }, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -127,6 +72,10 @@
 
 
 <style scoped>
+    #form-adduser {
+        width: 90%;
+    }
+
     #ContainerProfile {
         display: flex;
         max-width: 100vw;
@@ -136,12 +85,9 @@
     }
 
     .InfoBubble {
-        width: 90%;
+        width: 100%;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 0px 10px 0 lightgray;
-        border-radius: 8px;
-        background-color: white;
     }
 
     .InfoUser {
@@ -186,7 +132,8 @@
         margin: 0px;
         padding: 0px;
         background-color: white;
-        border-radius: 0px 8px 8px 0px;
+        border-radius: 8px;
+        box-shadow: 0 0px 10px 0 lightgray;
     }
 
     .SettingUser td {
@@ -297,13 +244,7 @@
         }
 
         .SettingUser {
-            width: calc(100% - 12.5%);
-        }
-
-        .InfoUser {
-            width: 12.5%;
-            border-right: 1px lightgray solid;
-            border-bottom: none;
+            width: 100%;
         }
     }
 </style>
