@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\WhitelistedEmail;
+
 class UserController extends Controller
 {
     /**
@@ -40,20 +42,44 @@ class UserController extends Controller
     }
 
     public function register(Request $request) {
-        $data = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-        $user = User::create($data);
-        return response()->json([
-            'status' => 'success registered successfully',
-            'data' => [
-                'token' => $user->createToken('auth_token')->plainTextToken,
-                'email' => $user->email,
-                'name' => $user->name
-            ]
+       $validated = $request->validate([
+            'name' => 'required|string|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string',
+            'one_time_password' => 'required|string',
         ]);
+
+        $whitelistedEmail = WhitelistedEmail::where('email', $validated['email'])->first();
+        if ($whitelistedEmail) {
+            if ($whitelistedEmail->one_time_password == $validated['one_time_password']) {
+                $user = User::create([
+                    'name' => $validated['name'],
+                    'email' => $validated['email'],
+                    'password' => Hash::make($validated['password']),
+                    'role' => $whitelistedEmail->role
+                ]);
+                $whitelistedEmail->delete();
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'id' => $user->id,
+                        'email' => $user->email,
+                        'name' => $user->name,
+                        'role' => $user->role
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'One time password incorrect'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email not whitelisted'
+            ]);
+        }	
     }
 
     /**

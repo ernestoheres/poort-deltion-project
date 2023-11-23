@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(function() {
+Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator, manager'])->group(function() {
     Route::get("/clients", "App\Http\Controllers\ClientController@getAllClients");
     Route::get("/softdeletedclients", "App\Http\Controllers\ClientController@getSoftDeletedClients");
     Route::post("/clients", "App\Http\Controllers\ClientController@createClient");
@@ -32,19 +32,32 @@ Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\Cl
 
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
+Route::post("register", "App\Http\Controllers\UserController@register");
 Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");
 
 // Route to handle notes for a specific client
-Route::prefix('/clients/{client_id}')->group(function () {
-    Route::post('/notes', 'App\Http\Controllers\NoteController@store');
-    Route::get('/notes', 'App\Http\Controllers\NoteController@index');
-    Route::put('/notes/{note}', 'App\Http\Controllers\NoteController@update');
-    Route::delete('/notes/{note}', 'App\Http\Controllers\NoteController@destroy');
+Route::middleware(['auth:sanctum', 'checkRole:doctor'])->group(function() {
+    Route::prefix('/clients/{client_id}')->group(function () {
+        Route::post('/notes', 'App\Http\Controllers\NoteController@store');
+        Route::get('/notes', 'App\Http\Controllers\NoteController@index');
+        Route::put('/notes/{note}', 'App\Http\Controllers\NoteController@update');  
+        Route::delete('/notes/{note}', 'App\Http\Controllers\NoteController@destroy');
+    });
 });
 
-Route::prefix('/agenda')->group(function () {
-    Route::post('/agenda','App\Http\Controllers\ConsultController@store');
-    Route::get('/agenda','App\Http\Controllers\ConsultController@index');
-    Route::put('/agenda/{consult}','App\Http\Controllers\ConsultController@update');
-    Route::delete('/agenda/{consult}', 'App\Http\Controllers\ConsultController@destroy');
+Route::middleware(['auth:sanctum', 'checkRole:doctor'])->group(function() {
+    Route::prefix('/agenda')->group(function () {
+        Route::post('/agenda','App\Http\Controllers\ConsultController@store');
+        Route::get('/agenda','App\Http\Controllers\ConsultController@index');
+        Route::put('/agenda/{consult}','App\Http\Controllers\ConsultController@update');
+        Route::delete('/agenda/{consult}', 'App\Http\Controllers\ConsultController@destroy');
+    });
+});
+
+Route::middleware(['auth:sanctum', 'checkRole:manager'])->group(function() {
+    Route::prefix('/whitelist')->group(function () {
+        Route::post('/whitelist','App\Http\Controllers\WhitelistController@store');
+        Route::get('/whitelist','App\Http\Controllers\WhitelistController@getAllWhitelistedEmails');
+        Route::delete('/whitelist/{whitelist}', 'App\Http\Controllers\WhitelistController@destroy');
+    });
 });

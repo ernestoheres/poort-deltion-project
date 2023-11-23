@@ -143,7 +143,7 @@ export default {
   },
   updateUser() {
 
-        axios.put('http://localhost:8000/api/clients/${id}', this.user, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }) 
+        axios.put(`http://localhost:8000/api/clients/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, data: this.user }) 
             .then(res => {
                 console.log(res.data)
                 alert(res.data.message);

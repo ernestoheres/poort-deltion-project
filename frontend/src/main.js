@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAdmin && role !== 'administrator') {
     next('/');
   } else if (to.path === '/') {
-    if (role === 'doctor' || role === 'administrator') {
+    if (role === 'doctor' || role === 'administrator' || role === 'manager') {
       next('/dashboard');
     } else if (role === 'client') {
       next(`/dashboard/client/${userId}`);
