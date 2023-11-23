@@ -82,6 +82,44 @@ class UserController extends Controller
         }	
     }
 
+    public function logout(Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Token deleted'
+        ]);
+    }
+
+    public function forgotPassword(Request $request) {
+        $validated = $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $validated['email'])->first();
+        if ($user) {
+            $user->password = Hash::make(bin2hex(random_bytes(4)));
+            $user->save();
+            //email verstuur functie
+            $to = $validated['email'];
+            $subject = "New password";
+            $txt = "Your new password is: " . $user->password;
+            $headers = "From:" . $user->email;
+
+            mail($to,$subject,$txt,$headers);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'New password sent'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email does not exist'
+            ]);
+        }
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */

@@ -33,10 +33,11 @@ Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\Cl
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
 Route::post("register", "App\Http\Controllers\UserController@register");
+Route::post("/forgot-password", "App\Http\Controllers\UserController@forgotPassword");
 Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");
 
 // Route to handle notes for a specific client
-Route::middleware(['auth:sanctum', 'checkRole:doctor'])->group(function() {
+Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(function() {
     Route::prefix('/clients/{client_id}')->group(function () {
         Route::post('/notes', 'App\Http\Controllers\NoteController@store');
         Route::get('/notes', 'App\Http\Controllers\NoteController@index');
@@ -45,7 +46,7 @@ Route::middleware(['auth:sanctum', 'checkRole:doctor'])->group(function() {
     });
 });
 
-Route::middleware(['auth:sanctum', 'checkRole:doctor'])->group(function() {
+Route::middleware(['auth:sanctum', 'checkRole:doctor, administrator'])->group(function() {
     Route::prefix('/agenda')->group(function () {
         Route::post('/agenda','App\Http\Controllers\ConsultController@store');
         Route::get('/agenda','App\Http\Controllers\ConsultController@index');
