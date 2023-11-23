@@ -173,7 +173,7 @@
           });
       },
        deleteClient(id) {
-        axios.post(`http://127.0.0.1:8000/api/clients/${id}/delete`, {
+        axios.post(`http://127.0.0.1:8000/api/clients/${id}/force`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
