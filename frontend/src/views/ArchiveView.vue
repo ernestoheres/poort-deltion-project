@@ -20,7 +20,8 @@ main {
     min-height: 100vh;
     display: flex;
     width: 100vw;
-
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    height: 100vh;
 }
 
 #content {
