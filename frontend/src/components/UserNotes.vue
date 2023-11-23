@@ -3,7 +3,7 @@
     <div class="popup" v-if="showNewNotePopup">
       <div class="popup-content">
         <label for="user-notes">Maak een notitie voor deze patient:</label>
-        <textarea v-model="updatedNote" id="update-user-notes" class="popup-textarea">{{ currentNote ? currentNote.content : '' }}</textarea>
+        <textarea v-model="updatedNote" id="update-user-notes" class="popup-textarea"></textarea>
         <button class="popup-button" @click="addNote">Opslaan</button>
         <button class="popup-button" @click="closePopup">Annuleren</button>
       </div>
@@ -24,20 +24,19 @@
         <p>Er zijn nog geen notities</p>
       </div>
       <div v-else>
-        <div>
-          <div>
+        <div v-for="(note, index) in paginatedNotes" :key="index">
+
             <p>{{ currentNote ? currentNote.content : "Er zijn nog geen notities" }}</p>
             <div class="button-group">
               <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
               <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
               <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
             </div>
-            <div class="button-group">
-              <button class="button" @click="showPreviousNote" :disabled="currentPage === 0 || notes.length === 0">Vorige Notitie</button>
-              <button class="button" @click="showNextNote" :disabled="currentPage === notes.length - 1 || notes.length === 0">Volgende Notitie</button>
+            <div class="pagination">
+              <button @click="showPreviousNote" :disabled="currentPage === 0 || notes.length === 0">Vorige Notitie</button>
+              <button @click="showNextNote" :disabled="currentPage === totalPages - 1 || notes.length === 0">Volgende Notitie</button>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -54,11 +53,24 @@ export default {
       updatedNote: '',
       notes: [],
       currentNote: null,
-      currentPage: 0,
       showNewNotePopup: false,
       showUpdateNotePopup: false,
+      currentPage: 1, // Add currentPage for notes pagination
+      perPage: 4, // Set the desired number of notes per page
     };
   },
+
+  computed: {
+    paginatedNotes() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.notes.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.notes.length / this.perPage);
+    },
+  },
+
   methods: {
     async addNote() {
       try {
@@ -123,17 +135,14 @@ export default {
       }
     },
 
-    async showPreviousNote() {
-      if (this.currentPage > 0) {
+    showPreviousNote() {
+      if (this.currentPage > 1) {
         this.currentPage--;
-        this.currentNote = this.notes[this.currentPage];
       }
     },
-
-    async showNextNote() {
-      if (this.currentPage < this.notes.length - 1) {
+    showNextNote() {
+      if (this.currentPage < this.totalPages) {
         this.currentPage++;
-        this.currentNote = this.notes[this.currentPage];
       }
     },
 
@@ -167,16 +176,19 @@ export default {
 
   mounted() {
     const id = this.$route.params.id;
-    axios.get(`http://localhost:8000/api/clients/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+    axios.get(`http://localhost:8000/api/clients/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+    })
         .then(response => {
           this.user = response.data;
-          return this.loadNotes(); // Return the promise to wait for it to complete
+          return this.loadNotes();
         })
         .catch(error => {
           console.error(error);
         })
         .finally(() => {
-          // Set currentNote to the latest note if there are notes
           if (this.notes.length > 0) {
             this.currentNote = this.notes[this.notes.length - 1];
           }
@@ -271,10 +283,6 @@ export default {
 .combined-section textarea {
   display: block;
   width: calc(100% - 20px);
-  margin-bottom: 10px;
-  box-shadow: 0 0px 10px 0 lightgray;
-  border-radius: 8px;
-  background-color: white;
 }
 
 .combined-section button {
