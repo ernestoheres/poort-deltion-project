@@ -44,6 +44,8 @@ main {
     min-height: 100vh;
     display: flex;
     width: 100vw;
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    height: 100vh;
 }
 
 #content {
@@ -56,8 +58,6 @@ main {
     gap: 50px;
     align-content: center;
     justify-content: center;
-    overflow-y: auto; /* Enable vertical scrolling when content overflows */
-    height: 100vh;
 }
 
 .consulten-tab {

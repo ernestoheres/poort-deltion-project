@@ -20,6 +20,8 @@ main {
     min-height: 100vh;
     display: flex;
     width: 100vw;
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    height: 100vh;
 }
 
 #content {
@@ -28,8 +30,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Enable vertical scrolling when content overflows */
-  height: 100vh;
+
 }
 
 .submitform-container {

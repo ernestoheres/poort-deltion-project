@@ -7,7 +7,12 @@
     <list default="true" id="1f40485b-0c82-4b23-b4c0-6719b9009d1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/AgendaView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/AgendaView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/ArchiveView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ArchiveView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/ClientRegistration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ClientRegistration.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/ClientView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ClientView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/HomeView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Privacy-cookie-verklaring.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Privacy-cookie-verklaring.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/UserRegistration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/UserRegistration.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +190,7 @@
       <workItem from="1700728546245" duration="253000" />
       <workItem from="1700728811667" duration="2298000" />
       <workItem from="1700776374219" duration="3793000" />
-      <workItem from="1700780345873" duration="314000" />
+      <workItem from="1700780345873" duration="913000" />
     </task>
     <servers />
   </component>

@@ -16,9 +16,11 @@ import ClientAdd from '../components/UserAdd.vue'
 
 <style scoped>
 main {
-    top: 0;
-    min-height: 100vh;
-    display: flex;
+  top: 0;
+  min-height: 100vh;
+  display: flex;
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  height: 100vh;
 }
 
 #content {
@@ -27,8 +29,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto; /* Enable vertical scrolling when content overflows */
-  height: 100vh;
 }
 
 .submitform-container {
