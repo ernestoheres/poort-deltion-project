@@ -12,7 +12,7 @@
                     </select>
     </form>
     <div class="submitform-container">
-        <button class="subitform-button" @click="addConsult()" form="form-addConsult" value="Plan in">Plan in!</button>
+        <button class="subitform-button" @click="addConsult()" form="form-addConsult">Plan in!</button>
     </div>
 </template>
 

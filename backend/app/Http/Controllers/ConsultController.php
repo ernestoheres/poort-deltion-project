@@ -12,15 +12,28 @@ class ConsultController extends Controller
      */
     public function index()
     {
-        //
+        $consult = Consult::latest()->paginate(99);
+
+        return response()->json($consult);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        return view("Consult.add");
+    public function create(Request $request)
+    {   $data = [
+            "voornaam" => $request->$voornaam,
+            "achternaam" => $request->$achternaam,
+            "btijd" => $request->$btijd,
+            "etijd" => $request->$etijd,
+            "datum" => $request->$datum,
+            "doctor" => $request->$doctor,
+    ];
+        Consult::create($data);
+    
+
+
+        return response("Consult created", 201);
     }
 
     /**
@@ -37,32 +50,27 @@ class ConsultController extends Controller
         'doctor' => 'required',
         ]);
         
-        consult::create($request->all());
+        $consult = Consult::create([
+            'voornaam' => $request->input('voornaam'),
+            'achternaam' => $request->input('achternaam'),
+            'btijd' => $request->input('btijd'),
+            'etijd' => $request->input('etijd'),
+            'datum' => $request->input('datum'),
+            'doctor' => $request->input('doctor'),
+        ]);
          
-        return redirect()->route('/agenda')
-                        ->with('success','consult created successfully.');
+        return response()->json($consult, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Consult $consult)
+    public function showConsult(Consult $consult)
     {
-        //
+        return view('Consult.show',compact('Consult'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Consult $consult)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Consult $consult)
+    public function updateConsult(Request $request, Consult $consult)
     {
         //
     }
@@ -70,8 +78,8 @@ class ConsultController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Consult $consult)
+    public function destroyConsult(Consult $consult)
     {
-        //
+        $consult->delete();
     }
 }
