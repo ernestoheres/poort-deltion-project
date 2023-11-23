@@ -39,7 +39,7 @@
               <td class="buttons-td">
                 <a :href="'dashboard/client/' + user.id" title="Bekijk client"><i class="fa-light fa-user fa-2xl"
                     style="color: #d67513;"></i></a>
-                <router-link :to="{ name: 'UserView', params: { id: user.id }, query: { edit: 'true' } }"
+                <router-link :to="{ name: 'ClientView', params: { id: user.id }, query: { edit: 'true' } }"
                   title="Bewerk client">
                   <i class="fa-solid fa-user-pen fa-2xl" style="color: #89baeb;"></i>
                 </router-link>

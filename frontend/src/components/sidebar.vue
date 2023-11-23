@@ -9,7 +9,7 @@
             </div>
         </div>
 
-        <div class="center" @click="toggleSidebar" v-if="userRole === 'administrator' || userRole === 'doctor'">
+        <div class="center" @click="toggleSidebar" v-if="userRole === 'administrator' || userRole === 'doctor' || userRole === 'manager'">
             <div class="icon">
                 <a href="/dashboard">
                     <i class="fa-regular fa-rectangle-list fa-2x icon-highlight"></i>
@@ -17,21 +17,28 @@
                 </a>
             </div>
 
-            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor'">
+            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor' || userRole === 'manager'">
                 <a href="/dashboard/archive">
                     <i class="fa-light fa-box-archive fa-2x icon-highlight"></i>
                     <p>Archive</p>
                 </a>
             </div>
 
-            <div class="icon" v-if="userRole === 'administrator'">
+            <div class="icon" v-if="userRole === 'administrator' || userRole === 'manager'">
                 <a href="/dashboard/client/add">
-                    <i class="fa-regular fa-user-plus fa-2x icon-highlight"></i>
+                    <i class="fa-solid fa-person-circle-plus fa-2x icon-highlight"></i>
                     <p>Toevoegen</p>
                 </a>
             </div>
 
-            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor'">
+            <div class="icon" v-if="userRole === 'manager'">
+                <a href="/dashboard/user/add">
+                    <i class="fa-regular fa-user-plus fa-2x icon-highlight"></i>
+                    <p>User Toevoegen</p>
+                </a>
+            </div>
+
+            <div class="icon" v-if="userRole === 'administrator' || userRole === 'doctor' || userRole === 'manager'">
                 <a href="/dashboard/agenda">
                     <i class="fa-thin fa-calendar-days fa-2x icon-highlight"></i>
                     <p>Agenda</p>
@@ -42,19 +49,19 @@
         <div class="bottom">
              <div class="icon">
                 <a href="/privacy-en-cookieverklaring">
-                    <i class="fa-solid fa-file-contract fa-2x icon-highlight"></i>
-                    <p style="text-wrap: nowrap;">Privacy- en cookieverklaring</p>
+                    <i class="fa-regular fa-file-contract fa-2x icon-highlight"></i>
+                    <p>Verklaringen</p>
                 </a>
             </div>
             <div v-if="isTokenSet" class="icon">
                 <a href="/" @click.prevent="logout">
-                    <i class="fa-solid fa-right-from-bracket fa-2x icon-highlight"></i>
+                    <i class="fa-regular fa-right-from-bracket fa-2x icon-highlight"></i>
                     <p style="text-wrap: nowrap;">Log uit</p>
                 </a>
             </div>
             <div v-else class="icon">
                 <a href="/">
-                    <i class="fa-solid fa-right-to-bracket fa-2x icon-highlight"></i>
+                    <i class="fa-regular fa-right-to-bracket fa-2x icon-highlight"></i>
                     <p style="text-wrap: nowrap;">Log in</p>
                 </a>
             </div>
@@ -96,6 +103,11 @@
 
 
 <style scoped>
+
+    .fa-solid::before {
+        font-weight: 900 !important;
+    }
+
     .logo {
         cursor: pointer;
     }

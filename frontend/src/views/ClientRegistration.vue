@@ -1,6 +1,6 @@
 <script setup>
 import Sidebar from '../components/sidebar.vue'
-import ClientAdd from '../components/UserAdd.vue'
+import ClientAdd from '../components/ClientAdd.vue'
 </script>
 
 <template>

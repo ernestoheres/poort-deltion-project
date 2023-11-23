@@ -7,20 +7,22 @@ import LoginView from './views/LoginView.vue'
 import ForgotPasswordView from './views/ForgotPassword.vue'
 import verklaring from './views/Privacy-cookie-verklaring.vue'
 import HomeView from './views/HomeView.vue'
-import UserView from './views/UserView.vue'
+import ClientView from './views/ClientView.vue'
+import ClientRegistration from './views/ClientRegistration.vue'
 import UserRegistration from './views/UserRegistration.vue'
 import ArchiveView from './views/ArchiveView.vue'
 import agendaView from './views/agendaView.vue'
 
 const routes = [
   { path: '/dashboard', component: HomeView },
-  { path: '/dashboard/client/add', component: UserRegistration, meta: { requiresAdmin: true } },
+  { path: '/dashboard/client/add', component: ClientRegistration, meta: { requiresAdmin: true } },
+  { path: '/dashboard/user/add', component: UserRegistration, meta: { requiresManager: true } },
   { path: '/dashboard/archive', component: ArchiveView },
   { path: '/dashboard/agenda', component: agendaView },
   {
     path: '/dashboard/client/:id',
-    component: UserView,
-    name: 'UserView',
+    component: ClientView,
+    name: 'ClientView',
     props: (route) => ({ edit: route.query.edit === 'true' }),
   },
   { path: '/', component: LoginView },
@@ -49,7 +51,9 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (to.path.startsWith('/dashboard')) {
-    if (role !== 'client') {
+    if (to.meta.requiresManager && role !== 'manager') {
+      next('/');
+    } else if (role !== 'client') {
       if (role === 'doctor' || role === 'administrator') {
         next();
       } else {
