@@ -56,6 +56,8 @@ main {
     gap: 50px;
     align-content: center;
     justify-content: center;
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    height: 100vh;
 }
 
 .consulten-tab {
