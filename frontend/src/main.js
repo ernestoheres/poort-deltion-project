@@ -16,7 +16,7 @@ import agendaView from './views/agendaView.vue'
 const routes = [
   { path: '/dashboard', component: HomeView },
   { path: '/dashboard/client/add', component: ClientRegistration, meta: { requiresAdmin: true } },
-  { path: '/dashboard/user/add', component: UserRegistration, meta: { requiresAdmin: true } },
+  { path: '/dashboard/user/add', component: UserRegistration, meta: { requiresManager: true } },
   { path: '/dashboard/archive', component: ArchiveView },
   { path: '/dashboard/agenda', component: agendaView },
   {
