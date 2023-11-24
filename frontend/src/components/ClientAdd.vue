@@ -1,5 +1,5 @@
 <template>
-    <form id="form-addclient">
+    <form @submit.prevent="addClient($event)" id="form-addclient">
         <div id="ContainerProfile">
             <div class="InfoBubble">
                 <div class="InfoUser">
@@ -112,11 +112,12 @@
 
         </div>
 
-    </form>
     <div class="submitform-container">
-        <button class="subitform-button" @click="addClient()" form="form-addclient" value="Submit">Client
+        <button type="submit" class="subitform-button" form="form-addclient" value="Submit">Client
             toevoegen</button>
     </div>
+
+    </form>
 </template>
 
 <script>
@@ -145,7 +146,8 @@
             },
 
         },
-        addClient() {
+        addClient(event) {
+            event.preventDefault();
             axios.post('http://localhost:8000/api/client', {
                     voornaam: this.user.voornaam,
                     tussenvoegels: this.user.tussenvoegels,
