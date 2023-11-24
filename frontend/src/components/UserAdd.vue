@@ -7,27 +7,36 @@
                     <div class="info-block">
                         <tr>
                             <th>email:</th>
-                            <td> <input type="text" name="email" v-model="user.email"
-                                        placeholder="Email adres" /> </td>
+                            <td> <input type="text" name="email" v-model="user.email" placeholder="Email adres" /> </td>
                         </tr>
 
                         <tr>
                             <th>Wachtwoord:</th>
-                            <td> <input type="text" name="wachtwoord"
-                                    placeholder="Wachtwoord" /> </td>
+                            <td> <input type="text" name="wachtwoord" placeholder="Wachtwoord" /> </td>
                         </tr>
 
                         <tr>
                             <th>Type account:</th>
                             <td> <select type="text" name="rol" v-model="user.role" placeholder="rol">
-                            <option value="doctor">doktor</option>
-                            <option value="administrator">Administrator</option>
-                            </select> </td>
+                                    <option value="doctor">doktor</option>
+                                    <option value="administrator">Administrator</option>
+                                </select> </td>
                         </tr>
                     </div>
                     <div class="Slide"></div>
                 </table>
             </div>
+
+            <div class="InfoBubble email-bubble">
+                <div class="info-block">
+                    <tr>
+                        <th>E-mail adres:</th>
+                        <td> <input type="email" name="email" v-model="user.bsn" placeholder="klaas@DePoort.nl"
+                                required /> </td>
+                    </tr>
+                </div>
+            </div>
+
         </div>
 
     </form>
@@ -90,6 +99,28 @@
         flex-direction: column;
     }
 
+    .email-bubble {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        margin: 0px;
+        padding: 0px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0px 10px 0 lightgray;
+
+        margin-top: 15px;
+        padding: 20px 8px;
+    }
+
+    .email-bubble input {
+        cursor: text;
+        border: solid 2px lightgray;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
     .InfoUser {
         width: 100%;
         height: 100%;
@@ -137,7 +168,7 @@
     }
 
     .SettingUser td {
-        /* min-width: 100px; */
+        width: 100%;
         margin-inline: 10px;
         text-align: left;
         vertical-align: middle;

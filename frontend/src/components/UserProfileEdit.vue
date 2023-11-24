@@ -259,7 +259,7 @@ export default {
 }
 
 .SettingUser td{
-    /* min-width: 100px; */
+    width: 100%;
     margin-inline: 10px;
     text-align: left;
     vertical-align: middle;

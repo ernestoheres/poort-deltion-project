@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
   const userId = localStorage.getItem('userid');
 
   // Check for admin-only routes
-  if (to.meta.requiresAdmin && role !== 'administrator') {
+  if (to.meta.requiresAdmin && role !== 'administrator' && role !== 'manager') {
     next('/');
   }
   // Handling the root path '/'
