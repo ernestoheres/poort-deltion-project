@@ -40,6 +40,8 @@ class ClientController extends Controller
             "bsn" => "required|string",
             "vezekering" => "required|string",
             "polisnummer" => "required|string",
+            "bloedgroep" => "required|string",
+            "geslacht" => "required|string",
             "email" => "required|email|",
         ]);
         
