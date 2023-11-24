@@ -7,7 +7,7 @@
     <list default="true" id="1f40485b-0c82-4b23-b4c0-6719b9009d1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/NoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/NoteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Note.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Note.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/UserNotes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserNotes.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -187,7 +187,7 @@
       <workItem from="1700728811667" duration="2298000" />
       <workItem from="1700776374219" duration="3793000" />
       <workItem from="1700780345873" duration="1099000" />
-      <workItem from="1700830049530" duration="3654000" />
+      <workItem from="1700830049530" duration="13086000" />
     </task>
     <servers />
   </component>
