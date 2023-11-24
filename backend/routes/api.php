@@ -28,20 +28,20 @@ Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator,manager'])->g
     Route::post("/clients/{id}/restore", "App\Http\Controllers\ClientController@restoreClient");
     Route::put("/clients/{id}", "App\Http\Controllers\ClientController@updateClient");
 });
+
 Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\ClientController@getClientById");
-Route::middleware('auth:sanctum')->post("/clients/{id}/image", "App\Http\Controllers\ClientController@uploadImage");	
+Route::middleware('auth:sanctum')->post("/clients/{id}/image", "App\Http\Controllers\ClientController@uploadImage");
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
 Route::post("/login", "App\Http\Controllers\UserController@login");
 Route::post("register", "App\Http\Controllers\UserController@register");
 Route::post("/forgot-password", "App\Http\Controllers\UserController@forgotPassword");
 Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");
 
-// Route to handle notes for a specific client
 Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(function() {
     Route::prefix('/clients/{client_id}')->group(function () {
         Route::post('/notes', 'App\Http\Controllers\NoteController@store');
         Route::get('/notes', 'App\Http\Controllers\NoteController@index');
-        Route::put('/notes/{note}', 'App\Http\Controllers\NoteController@update');  
+        Route::put('/notes/{note}', 'App\Http\Controllers\NoteController@update');
         Route::delete('/notes/{note}', 'App\Http\Controllers\NoteController@destroy');
     });
 });

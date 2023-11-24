@@ -3,7 +3,7 @@
     <div class="popup" v-if="showNewNotePopup">
       <div class="popup-content">
         <label for="user-notes">Maak een notitie voor deze patient:</label>
-        <textarea v-model="updatedNote" id="update-user-notes" class="popup-textarea"></textarea>
+        <textarea v-model="newNote" id="new-user-notes" class="popup-textarea"></textarea>
         <button class="popup-button" @click="addNote">Opslaan</button>
         <button class="popup-button" @click="closePopup">Annuleren</button>
       </div>
@@ -20,26 +20,28 @@
 
     <div class="combined-section" v-if="notes.length > 0">
       <h3>Notities:</h3>
-      <div v-if="notes.length === 0">
-        <p>Er zijn nog geen notities</p>
-      </div>
-      <div v-else>
         <div v-for="(note, index) in paginatedNotes" :key="index">
+          <p>{{ note.content }}</p>
+        </div>
 
-            <p>{{ currentNote ? currentNote.content : "Er zijn nog geen notities" }}</p>
-            <div class="button-group">
-              <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
-              <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
-              <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
-            </div>
-            <div class="pagination">
-              <button @click="showPreviousNote" :disabled="currentPage === 0 || notes.length === 0">Vorige Notitie</button>
-              <button @click="showNextNote" :disabled="currentPage === totalPages - 1 || notes.length === 0">Volgende Notitie</button>
-            </div>
-          </div>
-      </div>
+        <div class="pagination">
+          <button @click="showPreviousNote" :disabled="currentPage === 0 || notes.length === 0">Vorige Notitie</button>
+          <button @click="showNextNote" :disabled="currentPage === totalPages - 1 || notes.length === 0">Volgende Notitie</button>
+        </div>
+    </div>
+
+    <div v-else>
+      <p>Er zijn nog geen notities</p>
+    </div>
+
+    <div class="button-group">
+      <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
+      <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
+      <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
     </div>
   </div>
+
+
 </template>
 
 <script>
@@ -55,7 +57,7 @@ export default {
       currentNote: null,
       showNewNotePopup: false,
       showUpdateNotePopup: false,
-      currentPage: 1, // Add currentPage for notes pagination
+      currentPage: 1,
       perPage: 4, // Set the desired number of notes per page
     };
   },
@@ -82,13 +84,19 @@ export default {
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
         const response = await axios.post(url, {
           content: this.newNote,
-          client_id: this.user.id, // Pass the client ID along with the note content
+          client_id: this.user.id,
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
         });
 
         this.notes.push(response.data);
         this.currentNote = response.data;
         this.showNewNotePopup = false;
         this.newNote = '';
+
+        console.log("this.newNote:", this.newNote);
       } catch (error) {
         console.error("Error adding note:", error);
       }
@@ -103,6 +111,10 @@ export default {
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.currentNote.id}`;
         const response = await axios.put(url, {
           content: this.updatedNote,
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
         });
 
         const index = this.notes.findIndex(note => note.id === this.currentNote.id);
@@ -128,7 +140,17 @@ export default {
         }
 
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
-        const response = await axios.get(url);
+
+        console.log("Requesting notes with user ID:", this.user.id);
+
+        const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+        console.log("Notes received:", response.data);
+
         this.notes = response.data;
       } catch (error) {
         console.error("Error fetching notes:", error);
@@ -154,7 +176,12 @@ export default {
         }
 
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.currentNote.id}`;
-        await axios.delete(url);
+
+        await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+        });
 
         // Remove the deleted note from the notes array
         const index = this.notes.findIndex(note => note.id === this.currentNote.id);
@@ -217,7 +244,7 @@ export default {
   border: solid 2px lightgray;
   border-radius: 8px;
   font-size: 16px;
-  width: 125px;
+  width: 150px;
   padding: 5px;
   margin-bottom: 5px;
   margin-right: 5px;
