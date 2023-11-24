@@ -1,7 +1,7 @@
 <script setup>
 import Sidebar from '../components/sidebar.vue'
 import consultAdd from '../components/consultAdd.vue'
-
+import consultView from '../components/consultView.vue'
 </script>
 
 <template>
@@ -22,7 +22,7 @@ import consultAdd from '../components/consultAdd.vue'
             <h2>Toekomstige consulten</h2>
         </div>
         <div class="consult-content">
-
+          <consultView></consultView>
         </div>
       </div>
       <div class="plannen-consulten consulten-tab">
