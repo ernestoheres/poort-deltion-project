@@ -28,6 +28,7 @@ class NoteController extends Controller
         ]);
 
         return response()->json($note, 201);
+        \Log::info('Exiting store method');
     }
 
     public function update(Request $request, $client_id, Note $note)

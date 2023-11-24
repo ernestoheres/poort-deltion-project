@@ -1,5 +1,5 @@
 <template>
-  <div class="notes-section">
+  <div class="notes">
     <div class="popup" v-if="showNewNotePopup">
       <div class="popup-content">
         <label for="user-notes">Maak een notitie voor deze patient:</label>
@@ -18,30 +18,32 @@
       </div>
     </div>
 
-    <div class="combined-section" v-if="notes.length > 0">
+    <div class="notes-section">
       <h3>Notities:</h3>
-        <div v-for="(note, index) in paginatedNotes" :key="index">
+      <div class="notes-container" v-if="paginatedNotes.length > 0">
+        <div class="note" v-for="(note, index) in paginatedNotes" :key="index">
           <p>{{ note.content }}</p>
         </div>
-
-        <div class="pagination">
-          <button @click="showPreviousNote" :disabled="currentPage === 0 || notes.length === 0">Vorige Notitie</button>
-          <button @click="showNextNote" :disabled="currentPage === totalPages - 1 || notes.length === 0">Volgende Notitie</button>
-        </div>
+      </div>
     </div>
 
-    <div v-else>
-      <p>Er zijn nog geen notities</p>
-    </div>
 
-    <div class="button-group">
-      <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
-      <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
-      <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
+    <div class="buttons-container">
+      <div class="CRUD-group">
+        <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
+        <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
+        <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
+      </div>
+
+      <div class="pagination">
+        <button class="P-button" @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
+        <button class="P-button" @click="showPreviousNote" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button class="P-button" @click="showNextNote" :disabled="currentPage === totalPages"><i class="fa-solid fa-arrow-right"></i></button>
+        <button class="P-button" @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
+      </div>
     </div>
   </div>
-
-
 </template>
 
 <script>
@@ -80,8 +82,12 @@ export default {
           console.error(this.user.id);
           return;
         }
-
+        console.log("this.newNote:", this.newNote, this.user.id);
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
+        console.log("Request payload:", {
+          content: this.newNote,
+          client_id: this.user.id,
+        });
         const response = await axios.post(url, {
           content: this.newNote,
           client_id: this.user.id,
@@ -96,7 +102,6 @@ export default {
         this.showNewNotePopup = false;
         this.newNote = '';
 
-        console.log("this.newNote:", this.newNote);
       } catch (error) {
         console.error("Error adding note:", error);
       }
@@ -226,28 +231,75 @@ export default {
 </script>
 
 <style scoped>
-.notes-section {
+.notes {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 90%;
   padding-top: 15px;
 }
 
-.button:disabled {
-  background-color: #d3d3d3; /* Grey background for disabled buttons */
-  color: #808080; /* Grey text color for disabled buttons */
-  cursor: not-allowed; /* Change cursor for disabled buttons */
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.button{
+.note {
+  flex-basis: calc(25% - 20px);
+  box-sizing: border-box;
+  border: 1px solid #dcdcdc;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.button:disabled {
+  background-color: #d3d3d3;
+  color: #808080;
+  cursor: default;
+}
+
+.button {
   cursor: pointer;
   border: solid 2px lightgray;
   border-radius: 8px;
   font-size: 16px;
   width: 150px;
   padding: 5px;
-  margin-bottom: 5px;
-  margin-right: 5px;
+  margin: 1px;
+}
+
+.P-button {
+  cursor: pointer;
+  border: solid 2px lightgray;
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 5px;
+  margin: 1px;
+}
+
+.P-button:disabled {
+  background-color: #d3d3d3;
+  color: #808080;
+  cursor: default;
+}
+
+.pagination {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.CRUD-group {
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .popup {
@@ -286,7 +338,7 @@ export default {
   margin-right: 5px;
 }
 
-.combined-section {
+.notes-section {
   width: 100%;
   border: 1px solid #dcdcdc;
   padding: 8px;
@@ -294,35 +346,5 @@ export default {
   box-shadow: 0 0px 10px 0 lightgray;
   border-radius: 8px;
   background-color: white;
-}
-
-.combined-section p {
-  word-wrap: break-word; /* Add this line to enable word wrapping */
-}
-
-.combined-section label,
-.combined-section h3 {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.combined-section textarea {
-  display: block;
-  width: calc(100% - 20px);
-}
-
-.combined-section button {
-  cursor: pointer;
-  border: solid 2px lightgray;
-  border-radius: 8px;
-  font-size: 14px;
-  width: 150px;
-  padding: 5px;
-  margin-right: 5px;
-}
-
-.combined-section textarea {
-  height: 100px;
 }
 </style>
