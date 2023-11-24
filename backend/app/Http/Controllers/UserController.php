@@ -120,6 +120,49 @@ class UserController extends Controller
 
     }
 
+    public function changeEmail(Request $request) {
+        $validated = $request->validate([
+            'password' => 'required|string',
+            'new_email' => 'required|email',
+        ]);
+
+        $user = $request->user();
+        if(Hash::check($validated['password'], $user->password)) {
+            $user->email = $validated['new_email'];
+            $user->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Email changed'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Password incorrect'
+            ]);
+        }
+    }
+
+    public function changePassword(Request $request) {
+        $validated = $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string',
+        ]);
+
+        $user = $request->user();
+        if(Hash::check($validated['old_password'], $user->password)) {
+            $user->password = Hash::make($validated['new_password']);
+            $user->save();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Password changed'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Password incorrect'
+            ]);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      */

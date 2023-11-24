@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\User;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,21 +28,39 @@ class ClientController extends Controller
     }
 
     public function createClient(Request $request) {
-        $data = [
-            "voornaam" => $request->voornaam,
-            "tussenvoegels" => $request->tussenvoegels,
-            "achternaam" => $request->achternaam,
-            "adres" => $request->adres,
-            "postcode" => $request->postcode,
-            "woonplaats" => $request->woonplaats,
-            "land" => $request->land,
-            "telefoon" => $request->telefoon,
-            "bsn" => $request->bsn,
-            "vezekering" => $request->vezekering,
-            "polisnummer" => $request->polisnummer,
-        ];
+        $validated = $request->validate([
+            "voornaam" => "required|string",
+            "tussenvoegels" => "string",
+            "achternaam" => "required|string",
+            "adres" => "required|string",
+            "postcode" => "required|string",
+            "woonplaats" => "required|string",
+            "land" => "required|string",
+            "telefoon" => "required|string",
+            "bsn" => "required|string",
+            "vezekering" => "required|string",
+            "polisnummer" => "required|string",
+            "email" => "required|email|",
+        ]);
+        
 
-        Client::create($data);
+
+        Client::create($validated);
+        $oneTimePassword = uniqid();
+        User::create([
+            "email" => $validated["email"],
+            "password" => bcrypt($oneTimePassword),
+            "role" => "client",
+            "client_id" => Client::where("email", $validated["email"])->first()->id
+        ]);
+
+        //mail functie
+        $to = $validated["email"];
+        $subject = "Uw account is aangemaakt";
+        $message = "Uw account is aangemaakt. U kunt inloggen met uw email en het volgende wachtwoord: " . $oneTimePassword;
+        $headers = "From:" . $user->email;
+
+        mail($to, $subject, $message, $headers);
         return response("Client created", 201);
     }
 
