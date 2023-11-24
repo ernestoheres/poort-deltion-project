@@ -46,7 +46,7 @@ class ClientController extends Controller
 
 
         Client::create($validated);
-        $oneTimePassword = uniqid();
+        $oneTimePassword = bin2hex(random_bytes(4));
         User::create([
             "email" => $validated["email"],
             "password" => bcrypt($oneTimePassword),
