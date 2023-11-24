@@ -17,6 +17,7 @@
                 })
                 .then(response => {
                     this.user = response.data;
+                    console.log(response.data);
                 })
                 .catch(error => {
                     console.error(error);
@@ -50,12 +51,12 @@
 
                         <tr>
                             <th>Gender:</th>
-                            <td> {{ user.gender }}</td>
+                            <td> {{ user.geslacht }}</td>
                         </tr>
 
                         <tr>
                             <th>Bloedtype:</th>
-                            <td> {{ user.bloodtype }}</td>
+                            <td> {{ user.bloedtype }}</td>
                         </tr>
                     </div>
                     <div class="Slide"></div>
@@ -98,6 +99,10 @@
                             <th>Verzekering:</th>
                             <td> {{ user.vezekering }} </td>
                         </tr>
+
+                        <tr>
+                            
+                        </tr>
                     </div>
                 </table>
             </div>
@@ -129,9 +134,20 @@
         background-color: white;
     }
 
+    .email-bubble {
+        margin-top: 15px;
+        padding: 20px 8px;
+    }
+
+    .email-bubble input {
+        cursor: text;
+        border: solid 2px lightgray;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
     .InfoUser {
         width: 100%;
-        height: 100%;
         display: flex;
         align-items: center;
         flex-direction: column;
