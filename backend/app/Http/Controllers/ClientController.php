@@ -40,7 +40,7 @@ class ClientController extends Controller
             "bsn" => "required|string",
             "vezekering" => "required|string",
             "polisnummer" => "required|string",
-            "bloedgroep" => "required|string",
+            "bloedtype" => "required|string",
             "geslacht" => "required|string",
             "email" => "required|email|",
         ]);
@@ -83,6 +83,8 @@ class ClientController extends Controller
             "bsn" => $request->bsn || $client->bsn,
             "vezekering" => $request->vezekering || $client->vezekering,
             "polisnummer" => $request->polisnummer || $client->polisnummer,
+            "bloedtype" => $request->bloedtype || $client->bloedtype,
+            "geslacht" => $request->geslacht || $client->geslacht,
         ];
 
 
