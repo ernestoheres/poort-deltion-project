@@ -158,6 +158,11 @@ export default {
 
 
 <style scoped>
+
+#form-edituser {
+    width: 100%;
+}
+
 #ContainerProfile{
     display: flex;
     max-width: 100vw;
@@ -194,7 +199,6 @@ export default {
 
 .InfoUser{
     width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -254,7 +258,7 @@ export default {
 }
 
 .SettingUser td{
-    /* min-width: 100px; */
+    width: 100%;
     margin-inline: 10px;
     text-align: left;
     vertical-align: middle;

@@ -22,13 +22,13 @@ class NoteController extends Controller
             'client_id' => 'required|integer',
         ]);
 
-        // Create note with client_id
         $note = Note::create([
             'content' => $request->input('content'),
             'client_id' => $request->input('client_id'),
         ]);
 
         return response()->json($note, 201);
+        \Log::info('Exiting store method');
     }
 
     public function update(Request $request, $client_id, Note $note)

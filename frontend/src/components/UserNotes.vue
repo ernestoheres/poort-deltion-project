@@ -1,9 +1,9 @@
 <template>
-  <div class="notes-section">
+  <div class="notes">
     <div class="popup" v-if="showNewNotePopup">
       <div class="popup-content">
         <label for="user-notes">Maak een notitie voor deze patient:</label>
-        <textarea v-model="updatedNote" id="update-user-notes" class="popup-textarea">{{ currentNote ? currentNote.content : '' }}</textarea>
+        <textarea v-model="newNote" id="new-user-notes" class="popup-textarea"></textarea>
         <button class="popup-button" @click="addNote">Opslaan</button>
         <button class="popup-button" @click="closePopup">Annuleren</button>
       </div>
@@ -18,26 +18,29 @@
       </div>
     </div>
 
-    <div class="combined-section" v-if="notes.length > 0">
+    <div class="notes-section">
       <h3>Notities:</h3>
-      <div v-if="notes.length === 0">
-        <p>Er zijn nog geen notities</p>
-      </div>
-      <div v-else>
-        <div>
-          <div>
-            <p>{{ currentNote ? currentNote.content : "Er zijn nog geen notities" }}</p>
-            <div class="button-group">
-              <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
-              <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
-              <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
-            </div>
-            <div class="button-group">
-              <button class="button" @click="showPreviousNote" :disabled="currentPage === 0 || notes.length === 0">Vorige Notitie</button>
-              <button class="button" @click="showNextNote" :disabled="currentPage === notes.length - 1 || notes.length === 0">Volgende Notitie</button>
-            </div>
-          </div>
+      <div class="notes-container" v-if="paginatedNotes.length > 0">
+        <div class="note" v-for="(note, index) in paginatedNotes" :key="index">
+          <p>{{ note.content }}</p>
         </div>
+      </div>
+    </div>
+
+
+    <div class="buttons-container">
+      <div class="CRUD-group">
+        <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
+        <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
+        <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
+      </div>
+
+      <div class="pagination">
+        <button class="P-button" @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
+        <button class="P-button" @click="showPreviousNote" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button class="P-button" @click="showNextNote" :disabled="currentPage === totalPages"><i class="fa-solid fa-arrow-right"></i></button>
+        <button class="P-button" @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
       </div>
     </div>
   </div>
@@ -54,11 +57,24 @@ export default {
       updatedNote: '',
       notes: [],
       currentNote: null,
-      currentPage: 0,
       showNewNotePopup: false,
       showUpdateNotePopup: false,
+      currentPage: 1,
+      perPage: 4, // Set the desired number of notes per page
     };
   },
+
+  computed: {
+    paginatedNotes() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.notes.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.notes.length / this.perPage);
+    },
+  },
+
   methods: {
     async addNote() {
       try {
@@ -66,17 +82,26 @@ export default {
           console.error(this.user.id);
           return;
         }
-
+        console.log("this.newNote:", this.newNote, this.user.id);
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
+        console.log("Request payload:", {
+          content: this.newNote,
+          client_id: this.user.id,
+        });
         const response = await axios.post(url, {
           content: this.newNote,
-          client_id: this.user.id, // Pass the client ID along with the note content
+          client_id: this.user.id,
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
         });
 
         this.notes.push(response.data);
         this.currentNote = response.data;
         this.showNewNotePopup = false;
         this.newNote = '';
+
       } catch (error) {
         console.error("Error adding note:", error);
       }
@@ -91,6 +116,10 @@ export default {
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.currentNote.id}`;
         const response = await axios.put(url, {
           content: this.updatedNote,
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
         });
 
         const index = this.notes.findIndex(note => note.id === this.currentNote.id);
@@ -116,24 +145,31 @@ export default {
         }
 
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
-        const response = await axios.get(url);
+
+        console.log("Requesting notes with user ID:", this.user.id);
+
+        const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+        console.log("Notes received:", response.data);
+
         this.notes = response.data;
       } catch (error) {
         console.error("Error fetching notes:", error);
       }
     },
 
-    async showPreviousNote() {
-      if (this.currentPage > 0) {
+    showPreviousNote() {
+      if (this.currentPage > 1) {
         this.currentPage--;
-        this.currentNote = this.notes[this.currentPage];
       }
     },
-
-    async showNextNote() {
-      if (this.currentPage < this.notes.length - 1) {
+    showNextNote() {
+      if (this.currentPage < this.totalPages) {
         this.currentPage++;
-        this.currentNote = this.notes[this.currentPage];
       }
     },
 
@@ -145,7 +181,12 @@ export default {
         }
 
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.currentNote.id}`;
-        await axios.delete(url);
+
+        await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+        });
 
         // Remove the deleted note from the notes array
         const index = this.notes.findIndex(note => note.id === this.currentNote.id);
@@ -167,16 +208,19 @@ export default {
 
   mounted() {
     const id = this.$route.params.id;
-    axios.get(`http://localhost:8000/api/clients/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+    axios.get(`http://localhost:8000/api/clients/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+    })
         .then(response => {
           this.user = response.data;
-          return this.loadNotes(); // Return the promise to wait for it to complete
+          return this.loadNotes();
         })
         .catch(error => {
           console.error(error);
         })
         .finally(() => {
-          // Set currentNote to the latest note if there are notes
           if (this.notes.length > 0) {
             this.currentNote = this.notes[this.notes.length - 1];
           }
@@ -187,28 +231,75 @@ export default {
 </script>
 
 <style scoped>
-.notes-section {
+.notes {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 90%;
   padding-top: 15px;
 }
 
-.button:disabled {
-  background-color: #d3d3d3; /* Grey background for disabled buttons */
-  color: #808080; /* Grey text color for disabled buttons */
-  cursor: not-allowed; /* Change cursor for disabled buttons */
+.notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.button{
+.note {
+  flex-basis: calc(25% - 20px);
+  box-sizing: border-box;
+  border: 1px solid #dcdcdc;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.button:disabled {
+  background-color: #d3d3d3;
+  color: #808080;
+  cursor: default;
+}
+
+.button {
   cursor: pointer;
   border: solid 2px lightgray;
   border-radius: 8px;
   font-size: 16px;
-  width: 125px;
+  width: 150px;
   padding: 5px;
-  margin-bottom: 5px;
-  margin-right: 5px;
+  margin: 1px;
+}
+
+.P-button {
+  cursor: pointer;
+  border: solid 2px lightgray;
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 5px;
+  margin: 1px;
+}
+
+.P-button:disabled {
+  background-color: #d3d3d3;
+  color: #808080;
+  cursor: default;
+}
+
+.pagination {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.CRUD-group {
+  text-align: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .popup {
@@ -247,7 +338,7 @@ export default {
   margin-right: 5px;
 }
 
-.combined-section {
+.notes-section {
   width: 100%;
   border: 1px solid #dcdcdc;
   padding: 8px;
@@ -255,39 +346,5 @@ export default {
   box-shadow: 0 0px 10px 0 lightgray;
   border-radius: 8px;
   background-color: white;
-}
-
-.combined-section p {
-  word-wrap: break-word; /* Add this line to enable word wrapping */
-}
-
-.combined-section label,
-.combined-section h3 {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.combined-section textarea {
-  display: block;
-  width: calc(100% - 20px);
-  margin-bottom: 10px;
-  box-shadow: 0 0px 10px 0 lightgray;
-  border-radius: 8px;
-  background-color: white;
-}
-
-.combined-section button {
-  cursor: pointer;
-  border: solid 2px lightgray;
-  border-radius: 8px;
-  font-size: 14px;
-  width: 150px;
-  padding: 5px;
-  margin-right: 5px;
-}
-
-.combined-section textarea {
-  height: 100px;
 }
 </style>

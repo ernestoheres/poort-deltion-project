@@ -1,5 +1,5 @@
 <template>
-    <form method="post" id="form-addConsult">
+    <form id="form-addConsult">
                     <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" />
                     <input type="text" name="tussenvoegsels" v-model="user.tussenvoegels" placeholder="tussenvoegsels" />
                     <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" />
@@ -42,7 +42,7 @@ export default {
     },
   },
   addConsult() {
-    axios.post('http://localhost:8000/api/addconsult', {
+    axios.post('http://localhost:8000/api/agenda', {
         voornaam: this.consult.voornaam,
         tussenvoegels: this.consult.tussenvoegels,
         achternaam: this.consult.achternaam,
@@ -57,7 +57,7 @@ export default {
     })
       .then((response) => {
         console.log(response);
-        window.location.href = '/dashboard/agenda';
+        window.location.href = '/dashboard';
       })
       .catch((error) => {
         console.log(error);

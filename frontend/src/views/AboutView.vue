@@ -13,6 +13,8 @@
     min-height: 100vh;
     display: flex;
     align-items: center;
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    height: 100vh;
   }
 }
 </style>
