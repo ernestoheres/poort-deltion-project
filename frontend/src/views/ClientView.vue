@@ -2,6 +2,7 @@
   import Sidebar from '../components/sidebar.vue'
   import UserInfo from '../components/UserProfile.vue'
   import UserInfoEdit from '../components/UserProfileEdit.vue'
+  import UserConsults from '../components/UserConsults.vue'
   import UserNotes from '../components/UserNotes.vue'
 </script>
 
@@ -61,6 +62,9 @@
           details</button>
         <button class="togglecomponent-button" @click="toggleComponent">{{ buttonText }}</button>
       </div>
+
+      <UserConsults />
+
       <UserNotes />
     </div>
   </main>

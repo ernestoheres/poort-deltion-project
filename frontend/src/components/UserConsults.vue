@@ -30,34 +30,72 @@
     <div class="insideContainer">
         <div id="ContainerProfile">
             <div class="InfoBubble">
-                <div class="InfoUser">
-                    <div class="InfoUsercontent"><img :src="'http://127.0.0.1:8000/api/clients/' + user.id + '/image'"
-                            alt="User Image" class="InfoImage"></div>
-                    <p class="InfoUsercontent"> {{ user.voornaam }} <span>{{ user.tussenvoegels }}</span>
-                        {{ user.achternaam }} </p>
-                </div>
                 <table class="SettingUser">
-                    <div class="divinfo">Algemene informatie</div>
+                    <div class="divinfo">Consults</div>
                     <div class="info-block">
-                        <tr>
-                            <th>Tel:</th>
-                            <td> {{ user.telefoon }} </td>
-                        </tr>
+                        <div class="consult">
+                            <div>
+                                <p class="consult-title" >Wanneer:</p>
+                                <p class="consult-data" >29 aug</p>
+                            </div>
 
-                        <tr>
-                            <th>Geboortedatum:</th>
-                            <td> {{ user.geboortedatum }} </td>
-                        </tr>
+                            <div class="seperator"></div>
 
-                        <tr>
-                            <th>Gender:</th>
-                            <td> {{ user.geslacht }}</td>
-                        </tr>
+                            <div>
+                                <p class="consult-title" >Hoelaat:</p>
+                                <p class="consult-data" >03:00 tot 04:00</p>
+                            </div>
 
-                        <tr>
-                            <th>Bloedtype:</th>
-                            <td> {{ user.bloedtype }}</td>
-                        </tr>
+                            <div class="seperator"></div>
+
+                            <div>
+                                <p class="consult-title" >Met:</p>
+                                <p class="consult-data" >Dokter beer</p>
+                            </div>
+                        </div>
+
+                        <div class="consult">
+                            <div>
+                                <p class="consult-title" >Wanneer:</p>
+                                <p class="consult-data" >29 aug</p>
+                            </div>
+
+                            <div class="seperator"></div>
+
+                            <div>
+                                <p class="consult-title" >Hoelaat:</p>
+                                <p class="consult-data" >03:00 tot 04:00</p>
+                            </div>
+
+                            <div class="seperator"></div>
+
+                            <div>
+                                <p class="consult-title" >Met:</p>
+                                <p class="consult-data" >Dokter beer</p>
+                            </div>
+                        </div>
+                        
+                        <div class="consult">
+                            <div>
+                                <p class="consult-title" >Wanneer:</p>
+                                <p class="consult-data" >29 aug</p>
+                            </div>
+
+                            <div class="seperator"></div>
+
+                            <div>
+                                <p class="consult-title" >Hoelaat:</p>
+                                <p class="consult-data" >03:00 tot 04:00</p>
+                            </div>
+
+                            <div class="seperator"></div>
+
+                            <div>
+                                <p class="consult-title" >Met:</p>
+                                <p class="consult-data" >Dokter beer</p>
+                            </div>
+                        </div>
+
                     </div>
                 </table>
             </div>
@@ -71,6 +109,7 @@
     .insideContainer {
         max-width: calc(100vw - 75px);
         width: 100%;
+        margin: 35px 0;
     }
     #ContainerProfile {
         display: flex;
@@ -132,7 +171,7 @@
         margin: 0px;
         padding: 0px;
         background-color: white;
-        border-radius: 0px 8px 8px 0px;
+        border-radius: 8px;
     }
 
     .SettingUser td {
@@ -191,19 +230,37 @@
         font-weight: bold;
     }
 
+    .info-block {
+        margin: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+    }
+
+    .consult {
+        width: fit-content;
+        flex-wrap: wrap;
+        border: 1px solid #89BAEB;
+        padding: 25px;
+        border-radius: 8px;
+        display: flex;
+        gap: 25px;
+    }
+
+    .consult-title {
+        font-weight: 600;
+    }
+
+    .consult-data {
+
+    }
+
+    .seperator {
+        width: 1px;
+        background-color: lightgray;
+    }
+
     @media only screen and (min-width: 860px) {
-        .InfoBubble {
-            flex-direction: row;
-        }
-
-        .SettingUser {
-            width: calc(100% - 12.5%);
-        }
-
-        .InfoUser {
-            width: 12.5%;
-            border-right: 1px lightgray solid;
-            border-bottom: none;
-        }
+        
     }
 </style>
