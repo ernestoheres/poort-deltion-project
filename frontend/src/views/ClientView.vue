@@ -32,21 +32,109 @@
             </tr>
 
             <tr class="pdf-button-div">
-              <button class="popup-button pdf-button" @click="pdf"><i class="fa-solid fa-file-pdf fa-lg"></i> Maak een
-                PDF
-                bestand met al mijn gegevens</button>
+              <button type="button" class="popup-button pdf-button" @click="exportToPDF"><i
+                  class="fa-solid fa-file-pdf fa-lg"></i> Maak een
+                PDF bestand met al mijn gegevens</button>
             </tr>
           </div>
 
           <div class="popup-div-3">
             <button type="submit" class="popup-button"><i class="fa-solid fa-floppy-disk fa-lg"></i>
               Opslaan</button>
-            <button class="popup-button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i>
+            <button type="button" class="popup-button" @click="closePopup"><i
+                class="fa-solid fa-rectangle-xmark fa-lg"></i>
               Sluiten</button>
           </div>
         </form>
       </div>
     </div>
+
+    <div id="pdf-content-container">
+      <div id="element-to-convert">
+        <h1>Gegevens van {{ user.voornaam }} {{ user.tussenvoegels }} {{ user.achternaam }}</h1>
+
+        <h2>Algemene informatie</h2>
+        <div class="Data">
+          <tr>
+            <th>Voornaam:</th>
+            <td> {{ user.voornaam }} </td>
+          </tr>
+
+          <tr>
+            <th>tussenvoegels:</th>
+            <td> {{ user.tussenvoegels }} </td>
+          </tr>
+
+          <tr>
+            <th>achternaam:</th>
+            <td> {{ user.achternaam }} </td>
+          </tr>
+
+          <tr>
+            <th>Tel:</th>
+            <td> {{ user.telefoon }} </td>
+          </tr>
+
+          <tr>
+            <th>Geboortedatum:</th>
+            <td> {{ user.geboortedatum }} </td>
+          </tr>
+
+          <tr>
+            <th>Gender:</th>
+            <td> {{ user.geslacht }}</td>
+          </tr>
+
+          <tr>
+            <th>Bloedtype:</th>
+            <td> {{ user.bloedtype }}</td>
+          </tr>
+
+          <tr>
+            <th>Adres:</th>
+            <td> {{ user.adres }}</td>
+          </tr>
+
+          <tr>
+            <th>Postcode:</th>
+            <td> {{ user.postcode }}</td>
+          </tr>
+
+          <tr>
+            <th>Woonplaats:</th>
+            <td> {{ user.woonplaats }}</td>
+          </tr>
+
+          <tr>
+            <th>Land:</th>
+            <td> {{ user.land }}</td>
+          </tr>
+
+          <tr>
+            <th>BSN:</th>
+            <td> {{ user.bsn }} </td>
+          </tr>
+
+          <tr>
+            <th>Polisnummer:</th>
+            <td> {{ user.polisnummer }} </td>
+          </tr>
+
+          <tr>
+            <th>Verzekering:</th>
+            <td> {{ user.vezekering }} </td>
+          </tr>
+
+        </div>
+          <h2>consults</h2>
+          <p>Hier moeten alle consults staan die al zijn geweest en nog komen</p>
+
+
+          <h2>consult notities</h2>
+          <p>Hier moeten alle notities komen te staan</p>
+      </div>
+    </div>
+
 
     <Sidebar />
     <div id="content">
@@ -72,6 +160,7 @@
 
 <script>
   import axios from 'axios';
+  import html2pdf from "html2pdf.js";
 
   export default {
     data() {
@@ -184,6 +273,13 @@
         }
       },
 
+      exportToPDF() {
+        const fileName = `gegevens De Poort - ${this.user.voornaam} ${this.user.tussenvoegels} ${this.user.achternaam}.pdf`;
+        html2pdf(document.getElementById('element-to-convert'), {
+          filename: fileName,
+        });
+      },
+
     },
   };
 </script>
@@ -206,6 +302,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  #pdf-content-container {
+    display: none;
   }
 
   .togglecomponent-container {
@@ -324,5 +424,23 @@
 
   .pdf-button-div {
     margin-top: 1em;
+  }
+
+  .Data tr th {
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .data td {
+    text-align: left;
+  }
+
+  .data th {
+    font-weight: 700 !important;
+    text-align: left !important;
+  }
+
+  #element-to-convert h2 {
+    margin-top: 16px;
   }
 </style>
