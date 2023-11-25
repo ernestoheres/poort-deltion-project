@@ -153,7 +153,7 @@
 
       <UserConsults />
 
-      <UserNotes />
+      <UserNotes v-if="shouldShowNotes" />
     </div>
   </main>
 </template>
@@ -191,6 +191,10 @@
       buttonText() {
         return this.currentComponent === 'UserInfo' ? 'Bewerk info' : 'Bekijk info';
       },
+      shouldShowNotes() {
+        const role = localStorage.getItem('role');
+        return role == 'doctor' || role == 'client';
+      }
     },
     components: {
       UserInfo,
@@ -358,7 +362,6 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
     width: 100%;
     max-width: 600px;
     margin: 0 25px;

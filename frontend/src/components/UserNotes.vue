@@ -4,8 +4,10 @@
       <div class="popup-content">
         <label for="user-notes">Maak een notitie voor deze patient:</label>
         <textarea v-model="newNote" id="new-user-notes" class="popup-textarea"></textarea>
-        <button class="popup-button" @click="addNote">Opslaan</button>
-        <button class="popup-button" @click="closePopup">Annuleren</button>
+        <div class="popop-button">
+          <button class="popup-button" @click="addNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
+          <button class="popup-button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
+        </div>
       </div>
     </div>
 
@@ -13,8 +15,10 @@
       <div class="popup-content">
         <label for="update-user-notes">Bewerk de notitie:</label>
         <textarea v-model="updatedNote" id="update-user-notes" class="popup-textarea"></textarea>
-        <button class="popup-button" @click="updateNote">Opslaan</button>
-        <button class="popup-button" @click="closeUpdatePopup">Annuleren</button>
+        <div class="popop-button">
+          <button class="popup-button" @click="updateNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
+          <button class="popup-button" @click="closeUpdatePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
+        </div>
       </div>
     </div>
 
@@ -312,15 +316,18 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9;
 }
 
 .popup-content {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
+  box-shadow: 0 0 10px 6px rgba(0, 0, 0, 0.2);
   width: 100%;
+  max-width: 600px;
+  margin: 0 25px;
+  border: 3px solid #89BAEB;
 }
 
 .popup-textarea {
@@ -347,4 +354,15 @@ export default {
   border-radius: 8px;
   background-color: white;
 }
+
+.popop-button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: space-between;
+}
+
+.fa-solid::before {
+    font-weight: 900;
+  }
 </style>
