@@ -1,4 +1,5 @@
 <template>
+    <div class="Side-place"></div>
     <div class="Side" :class="{ 'sidebar-open': isSidebarOpen }" @click="toggleSidebar">
         <div class="top">
             <div class="logo">
@@ -151,7 +152,7 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
         clip-path: inset(0px -15px 0px 0px);
         background-color: white;
-        min-height: calc(100vh - 90px);
+        height: 100vh;
         width: 75px;
         left: 0;
         align-items: flex-start;
@@ -164,6 +165,11 @@
         padding: 15px;
         transition: all .3s;
         cursor: w-resize;
+        position: fixed;
+    }
+
+    .Side-place {
+        width: 75px;
     }
 
     .Side .icon a {
