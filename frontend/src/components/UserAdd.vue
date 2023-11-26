@@ -6,28 +6,14 @@
                     <div class="divinfo">Account informatie</div>
                     <div class="info-block">
                         <tr>
-                            <th>Voornaam:</th>
-                            <td> <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" /> </td>
-                        </tr>
-
-                        <tr>
-                            <th>tussenvoegsels:</th>
-                            <td> <input type="text" name="tussenvoegels" v-model="user.tussenvoegels" placeholder="Tussenvoegsels" /> </td>
-                        </tr>
-
-                        <tr>
-                            <th>Achternaam:</th>
-                            <td> <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" /> </td>
-                        </tr>
-
-                        <tr>
                             <th>email:</th>
-                            <td> <input type="email" name="email" v-model="user.email" placeholder="Email adres" required/> </td>
+                            <td> <input type="email" name="email" v-model="user.email" placeholder="Email adres"
+                                    required /> </td>
                         </tr>
 
                         <tr>
                             <th>Type account:</th>
-                            <td> <select type="text" name="rol" v-model="user.role" placeholder="rol" required>
+                            <td> <select type="text" name="role" v-model="user.role" placeholder="rol" required>
                                     <option value="doctor">doktor</option>
                                     <option value="administrator">Administrator</option>
                                 </select> </td>
@@ -36,6 +22,7 @@
                         <tr></tr>
                     </div>
                     <div class="Slide"></div>
+                    <div id="error" ref="errorMessage"></div>
                 </table>
             </div>
 
@@ -59,24 +46,51 @@
             };
         },
         methods: {
-            addUser(event) {
+            async addUser(event) {
                 event.preventDefault();
-                axios.post('http://localhost:8000/api/user', {
-                        email: this.user.email,
-                        wachtwoord: this.user.wachtwoord,
-                        rol: this.user.rol,
+
+                const errorMessageElement = this.$refs.errorMessage;
+
+                if (errorMessageElement) {
+                    errorMessageElement.style.display = "none";
+                }
+
+                const formData = new FormData(event.target);
+
+                axios.post('http://localhost:8000/api/whitelist', {
+                        email: formData.get('email'),
+                        role: formData.get('role'),
                     }, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
-                        }
+                        },
                     })
                     .then((response) => {
                         console.log(response);
                         window.location.href = '/dashboard';
                     })
                     .catch((error) => {
-                        console.log(error);
+                        this.showError(error);
                     });
+
+            },
+
+            showError(error) {
+                const errorMessageElement = this.$refs.errorMessage;
+
+                if (errorMessageElement) {
+                    let errorMessage = '';
+
+                    if (error.response && error.response.data && error.response.data.message) {
+                        errorMessage = error.response.data.message;
+                    } else {
+                        errorMessage = error.message;
+                    }
+
+                    errorMessageElement.innerHTML =
+                        `<i class="fa-light fa-triangle-exclamation"></i> Fout: ${errorMessage}`;
+                    errorMessageElement.style.display = "flex";
+                }
             }
         },
 
@@ -267,6 +281,18 @@
         font-size: 16px;
         width: 175px;
         padding: 5px;
+    }
+
+    #error {
+        display: none;
+
+        height: 70px;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        font-weight: 600;
+        color: #B92B27;
+        margin: 15px 0;
     }
 
     @media only screen and (min-width: 860px) {

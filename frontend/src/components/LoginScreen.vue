@@ -55,7 +55,7 @@
       };
     },
     methods: {
-      togglePasswordVisibility() {
+      togglePasswordVisibility(event) {
         this.showPassword = !this.showPassword;
         event.preventDefault();
       },
