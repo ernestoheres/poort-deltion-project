@@ -21,15 +21,15 @@
                         <td> <input type="text" name="telefoon" placeholder="Telefoon nummer" v-model="user.telefoon" required/> </td>
                     </tr>
 
-                    <tr>
+                    <!-- <tr>
                         <th>Geboortedatum:</th>
                         <td> <input type="date" name="geboortedatum" placeholder="Geboorte datum" v-model="user.geboortedatum" required/> </td>
-                    </tr>
+                    </tr> -->
 
                     <tr>
                         <th>Gender:</th>
                         <td>
-                             <select name="gender" v-model="user.gender">
+                             <select name="gender" v-model="user.geslacht">
                                 <option value="Man">Man</option>
                                 <option value="Vrouw">Vrouw</option>
                             </select>
@@ -50,6 +50,10 @@
                                     <option value="O-">O-</option>
                                 </select> 
                             </td>
+                    </tr>
+
+                    <tr>
+
                     </tr>
 
                 </div>
@@ -110,7 +114,9 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      user: {},
+      user: {
+      tussenvoegels: 'de',
+      },
       id: this.$route.params.id,
       userImage: '', // Initialize as an empty string
       selectedImage: '',
