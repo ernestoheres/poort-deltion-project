@@ -20,7 +20,7 @@
                     <div class="info-block">
                         <tr>
                             <th>Tel:</th>
-                            <td> <input type="text" name="telefoon" v-model="user.telefoon" placeholder="Telefoon nummer" /> </td>
+                            <td> <input type="text" name="telefoon" v-model="user.telefoon" placeholder="Telefoon nummer" required /> </td>
                         </tr>
 
                         <tr>
@@ -81,18 +81,18 @@
                     <div class="info-block">
                         <tr>
                             <th>BSN:</th>
-                            <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" />
+                            <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" required />
                             </td>
                         </tr>
 
                         <tr>
                             <th>vezekerings polisnummer:</th>
-                            <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="polisnummer" /> </td>
+                            <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="polisnummer" required /> </td>
                         </tr>
 
                         <tr>
                             <th>Verzekering:</th>
-                            <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" /> </td>
+                            <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" required /> </td>
                         </tr>
 
                     </div>
@@ -107,6 +107,9 @@
                     </tr>
                 </div>
             </div>
+
+
+            <div id="error" ref="errorMessage"></div>
 
         </div>
 
@@ -141,8 +144,14 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             },
-        addClient(event) {
+        async addClient(event) {
             event.preventDefault();
+
+            const errorMessageElement = this.$refs.errorMessage;
+
+                if (errorMessageElement) {
+                    errorMessageElement.style.display = "none";
+                }
 
             const formData = new FormData(event.target);
             axios.post('http://localhost:8000/api/clients', {
@@ -172,8 +181,28 @@
                 })
                 .catch((error) => {
                     console.log(error);
+                   this.showError(error);
                 });
-        }
+
+        },
+
+        showError(error) {
+                const errorMessageElement = this.$refs.errorMessage;
+
+                if (errorMessageElement) {
+                    let errorMessage = '';
+
+                    if (error.response && error.response.data && error.response.data.message) {
+                        errorMessage = error.response.data.message;
+                    } else {
+                        errorMessage = error.message;
+                    }
+
+                    errorMessageElement.innerHTML =
+                        `<i class="fa-light fa-triangle-exclamation"></i> Fout: ${errorMessage}`;
+                    errorMessageElement.style.display = "flex";
+                }
+            }
         },
 
     };
@@ -338,7 +367,7 @@
     }
 
     .submitform-container {
-        width: 90%;
+        width: 100%;
         display: flex;
         justify-content: flex-end;
         flex-wrap: nowrap;
@@ -354,6 +383,18 @@
         font-size: 16px;
         width: 175px;
         padding: 5px;
+    }
+
+    #error {
+        display: none;
+
+        height: 70px;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        font-weight: 600;
+        color: #B92B27;
+        margin: 15px 0;
     }
 
     @media only screen and (min-width: 860px) {
