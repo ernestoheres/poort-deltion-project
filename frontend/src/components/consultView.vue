@@ -9,7 +9,7 @@
         },
         mounted() {
 
-            axios.get(`http://localhost:8000/api/consult`, {
+            axios.get(`http://localhost:8000/api/agenda/agenda`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
@@ -24,7 +24,7 @@
     };
 </script>
 <template>
-    <tr v-for="consult in paginatedUsers" :key="consult.id" class="User-TR">
+    <tr v-for="consult in consults" :key="consult.id" class="Consult-TR">
               <template v-if="isSmallScreen">
                 <td><b style="font-weight: 700">Voornaam:</b> {{ consult.voornaam }}</td>
                 <td><b style="font-weight: 700">tussenvoegels:</b> {{ consult.tussenvoegels }}</td>
@@ -58,3 +58,14 @@
         <button @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
       </div>
 </template>
+<style>
+.Consult-TR{
+    padding: 0 10px;
+    border-bottom: 1px solid lightgray;
+  }
+
+.Consult-TR:last-child {
+    border-bottom: none;
+  }
+
+</style>

@@ -9,6 +9,7 @@ import consultView from '../components/consultView.vue'
 
     <Sidebar />
     <div id="content">
+      <div id="Mobile-div">
       <div class="past-consulten consulten-tab">
         <div class="consult-header">
             <h2>Geweeste consulten</h2>
@@ -33,6 +34,7 @@ import consultView from '../components/consultView.vue'
             <consultAdd></consultAdd>
         </div>
       </div>
+      </div>
     </div>
 
   </main>
@@ -44,7 +46,6 @@ main {
     min-height: 100vh;
     display: flex;
     width: 100vw;
-    overflow-y: auto; /* Enable vertical scrolling when content overflows */
     height: 100vh;
 }
 
@@ -83,5 +84,33 @@ main {
 .consult-header h2 {
     font-weight: bold;
 }
-
+#Mobile-div{
+  margin: 25px;
+}
+@media screen and (max-width: 1100px) {
+  #content{
+    flex-direction: column;
+  }
+  #upcomming-consulten{
+    max-height: 250px;
+  }
+  #past-consulten{
+    max-height: 250px;
+  }
+  #plannen-consulten{
+    height: 400px;
+    max-height: 400px;
+  }
+  #Mobile-div{
+    width: 100%;
+    height: 100vh;
+  }
+  .consulten-tab{
+    margin-top: 15px;
+    width: 75%;
+    height: fit-content;
+    max-height: 350px;
+    padding-bottom: 10px;
+  }
+}
 </style>
