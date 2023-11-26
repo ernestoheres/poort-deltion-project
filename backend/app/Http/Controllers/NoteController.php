@@ -33,6 +33,7 @@ class NoteController extends Controller
         }
 
         $notes = Note::where('client_id', $client_id)->latest()->get();
+
         foreach ($notes as $note) {
             $note->decryptAllAttributes();
         }
@@ -80,7 +81,7 @@ class NoteController extends Controller
             'content' => $request->input('content'),
             'client_id' => $request->input('client_id'),
         ]);
-
+        $note->encryptAllAttributes();
         return response()->json($note, 201);
     }
 
