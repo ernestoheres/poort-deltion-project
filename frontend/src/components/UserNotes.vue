@@ -5,19 +5,8 @@
         <label for="user-notes">Maak een notitie voor deze patient:</label>
         <textarea v-model="newNote" id="new-user-notes" class="popup-textarea"></textarea>
         <div class="popop-button">
-          <button class="popup-button" @click="addNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
-          <button class="popup-button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="popup" v-if="showUpdateNotePopup">
-      <div class="popup-content">
-        <label for="update-user-notes">Bewerk de notitie:</label>
-        <textarea v-model="updatedNote" id="update-user-notes" class="popup-textarea"></textarea>
-        <div class="popop-button">
-          <button class="popup-button" @click="updateNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
-          <button class="popup-button" @click="closeUpdatePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
+          <button class="button" @click="addNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
+          <button class="button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
         </div>
       </div>
     </div>
@@ -25,8 +14,19 @@
     <div class="notes-section">
       <h3>Notities:</h3>
       <div class="notes-container" v-if="paginatedNotes.length > 0">
-        <div class="note" v-for="(note, index) in paginatedNotes" :key="index">
+        <div class="note" v-for="(note, index) in paginatedNotes" :key="index" @click="openNotePopup(note)">
           <p>{{ note.content }}</p>
+        </div>
+        <div class="popup" v-if="showNotePopup">
+          <div class="popup-content">
+            <label for="note-content">Notitie:</label>
+            <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
+            <div class="popop-button">
+              <button class="button" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
+              <button class="button" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
+              <button class="button" @click="closeNotePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Sluiten</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -35,16 +35,14 @@
     <div class="buttons-container">
       <div class="CRUD-group">
         <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
-        <button class="button" @click="showUpdateNotePopup = true" :disabled="!currentNote || notes.length === 0">Bewerk Notitie</button>
-        <button class="button" @click="deleteNote" :disabled="!currentNote || notes.length === 0">Verwijder Notitie</button>
       </div>
 
       <div class="pagination">
-        <button class="P-button" @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
+        <button class="P-button" @click="showFirstPage"><i class="fa-solid fa-arrow-left-to-line"></i></button>
         <button class="P-button" @click="showPreviousNote" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
         <span>{{ currentPage }} / {{ totalPages }}</span>
         <button class="P-button" @click="showNextNote" :disabled="currentPage === totalPages"><i class="fa-solid fa-arrow-right"></i></button>
-        <button class="P-button" @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
+        <button class="P-button" @click="showLastPage"><i class="fa-solid fa-arrow-right-to-line"></i></button>
       </div>
     </div>
   </div>
@@ -63,6 +61,8 @@ export default {
       currentNote: null,
       showNewNotePopup: false,
       showUpdateNotePopup: false,
+      showNotePopup: false,
+      selectedNote: null,
       currentPage: 1,
       perPage: 4, // Set the desired number of notes per page
     };
@@ -70,9 +70,10 @@ export default {
 
   computed: {
     paginatedNotes() {
+      const sortedNotes = this.notes.slice().sort((a, b) => b.timestamp - a.timestamp);
       const start = (this.currentPage - 1) * this.perPage;
       const end = start + this.perPage;
-      return this.notes.slice(start, end);
+      return sortedNotes.slice(start, end);
     },
     totalPages() {
       return Math.ceil(this.notes.length / this.perPage);
@@ -105,6 +106,7 @@ export default {
         this.currentNote = response.data;
         this.showNewNotePopup = false;
         this.newNote = '';
+        this.notes.unshift(response.data);
 
       } catch (error) {
         console.error("Error adding note:", error);
@@ -115,30 +117,33 @@ export default {
       this.showNewNotePopup = false;
     },
 
+    openNotePopup(note) {
+      this.selectedNote = note;
+      this.showNotePopup = true;
+    },
+
+    closeNotePopup() {
+      this.showNotePopup = false;
+    },
+
     async updateNote() {
       try {
-        const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.currentNote.id}`;
+        const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.selectedNote.id}`;
         const response = await axios.put(url, {
-          content: this.updatedNote,
+          content: this.selectedNote.content,
         }, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
         });
 
-        const index = this.notes.findIndex(note => note.id === this.currentNote.id);
+        const index = this.notes.findIndex(note => note.id === this.selectedNote.id);
+        this.$set(this.notes, index, response.data);
 
-        this.notes = Object.assign([], this.notes, { [index]: response.data });
-        this.currentNote = response.data;
-        this.showUpdateNotePopup = false;
-        this.updatedNote = '';
+        this.closeNotePopup();
       } catch (error) {
         console.error("Error updating note:", error);
       }
-    },
-
-    closeUpdatePopup() {
-      this.showUpdateNotePopup = false;
     },
 
     async loadNotes() {
@@ -177,6 +182,14 @@ export default {
       }
     },
 
+    showFirstPage() {
+      this.currentPage = 1;
+    },
+
+    showLastPage() {
+      this.currentPage = this.totalPages;
+    },
+
     async deleteNote() {
       try {
         if (!this.user.id) {
@@ -184,7 +197,7 @@ export default {
           return;
         }
 
-        const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.currentNote.id}`;
+        const url = `http://localhost:8000/api/clients/${this.user.id}/notes/${this.selectedNote.id}`;
 
         await axios.delete(url, {
           headers: {
@@ -192,8 +205,7 @@ export default {
           },
         });
 
-        // Remove the deleted note from the notes array
-        const index = this.notes.findIndex(note => note.id === this.currentNote.id);
+        const index = this.notes.findIndex(note => note.id === this.selectedNote.id);
         if (index !== -1) {
           this.notes.splice(index, 1);
         }
@@ -256,7 +268,14 @@ export default {
   margin-bottom: 10px;
   border-radius: 8px;
   background-color: white;
+  width: calc(25% - 20px);
 }
+
+.note:nth-child(4n) {
+  margin-right: 0;
+}
+
+
 
 .buttons-container {
   display: flex;

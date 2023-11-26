@@ -10,6 +10,7 @@ class Consult extends Model
     use HasFactory;
     protected $fillable = [
         'voornaam',
+        'tussenvoegsel',
         'achternaam',
         'btijd',
         'etijd',
