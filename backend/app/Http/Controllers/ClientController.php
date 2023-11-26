@@ -110,7 +110,7 @@ class ClientController extends Controller
         return response("Client deleted", 200);
     }
 
-    public function HardDeleteClient(Request $request, $id) {
+    public function forceDeleteClient(Request $request, $id) {
         Client::withTrashed()->find($id)->forceDelete();
         return response("Client deleted", 200);
     }

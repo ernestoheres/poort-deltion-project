@@ -6,22 +6,34 @@
                     <div class="divinfo">Account informatie</div>
                     <div class="info-block">
                         <tr>
-                            <th>email:</th>
-                            <td> <input type="text" name="email" v-model="user.email" placeholder="Email adres" /> </td>
+                            <th>Voornaam:</th>
+                            <td> <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" /> </td>
                         </tr>
 
                         <tr>
-                            <th>Wachtwoord:</th>
-                            <td> <input type="text" name="wachtwoord" placeholder="Wachtwoord" /> </td>
+                            <th>tussenvoegsels:</th>
+                            <td> <input type="text" name="tussenvoegels" v-model="user.tussenvoegels" placeholder="Tussenvoegsels" /> </td>
+                        </tr>
+
+                        <tr>
+                            <th>Achternaam:</th>
+                            <td> <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" /> </td>
+                        </tr>
+
+                        <tr>
+                            <th>email:</th>
+                            <td> <input type="email" name="email" v-model="user.email" placeholder="Email adres" required/> </td>
                         </tr>
 
                         <tr>
                             <th>Type account:</th>
-                            <td> <select type="text" name="rol" v-model="user.role" placeholder="rol">
+                            <td> <select type="text" name="rol" v-model="user.role" placeholder="rol" required>
                                     <option value="doctor">doktor</option>
                                     <option value="administrator">Administrator</option>
                                 </select> </td>
                         </tr>
+
+                        <tr></tr>
                     </div>
                     <div class="Slide"></div>
                 </table>
@@ -192,6 +204,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         height: 100%;
+        row-gap: 25px;
     }
 
     .SettingUser .info-block tr {
@@ -238,7 +251,7 @@
     }
 
     .submitform-container {
-        width: 90%;
+        width: 100%;
         display: flex;
         justify-content: flex-end;
         flex-wrap: nowrap;

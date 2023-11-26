@@ -1,5 +1,5 @@
 <template>
-    <form action="/verstuurd.php" method="post" id="form-edituser">
+    <form method="post" id="form-edituser" @submit.prevent="updateUser(id)">
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
@@ -98,7 +98,7 @@
             </table>
         </div>
         <div class="subitform-div">
-            <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
+             <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
         </div>
     </div>
     </form>
@@ -111,6 +111,7 @@ export default {
   data() {
     return {
       user: {},
+      id: this.$route.params.id,
       userImage: '', // Initialize as an empty string
       selectedImage: '',
     };
@@ -140,10 +141,10 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-  },
-  updateUser() {
+  
+  updateUser(id) {
 
-        axios.put(`http://localhost:8000/api/clients/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }, data: this.user }) 
+        axios.put('http://localhost:8000/api/clients/'+id, this.user, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }) 
             .then(res => {
                 console.log(res.data)
                 alert(res.data.message);
@@ -151,7 +152,7 @@ export default {
                 this.errorList = '';
             })
 
-
+  },
     }, 
 };
 </script>
