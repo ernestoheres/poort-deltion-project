@@ -164,6 +164,26 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function getAdministrators(Request $request) {
+        $administrators = User::where('role', 'administrator')->get();
+        return response()->json($administrators);
+    }
+
+    public function getDoctors(Request $request) {
+        $doctors = User::where('role', 'doctor')->get();
+        return response()->json($doctors);
+    }   
+
+    public function getManagers(Request $request) {
+        $managers = User::where('role', 'manager')->get();
+        return response()->json($managers);
+    }
+
+
+
+
+
     /**
      * Store a newly created resource in storage.
      */

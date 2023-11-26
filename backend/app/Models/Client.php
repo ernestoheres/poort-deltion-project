@@ -10,6 +10,8 @@ class Client extends Model
 {
     use HasFactory;
     use SoftDeletes;
+   
+
 
     protected $fillable = [
        'voornaam',
@@ -24,9 +26,7 @@ class Client extends Model
        'vezekering',
        'polisnummer',
        'profielfoto',
-         'user_id',
-
-
+       'user_id',
     ];
 
 }
