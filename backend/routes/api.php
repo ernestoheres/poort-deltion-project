@@ -50,13 +50,11 @@ Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(fun
 Route::middleware('auth:sanctum')->get('/clients/{client_id}/notes', 'App\Http\Controllers\NoteController@index');
 
 
-Route::middleware(['auth:sanctum', 'checkRole:doctor, administrator'])->group(function() {
-    Route::prefix('/agenda')->group(function () {
+Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(function() {
         Route::post('/agenda','App\Http\Controllers\ConsultController@store');
         Route::get('/agenda','App\Http\Controllers\ConsultController@index');
         Route::put('/agenda/{consult}','App\Http\Controllers\ConsultController@update');
         Route::delete('/agenda/{consult}', 'App\Http\Controllers\ConsultController@destroy');
-    });
 });
 
 Route::middleware(['auth:sanctum', 'checkRole:manager'])->group(function() {
