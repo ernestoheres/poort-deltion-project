@@ -126,24 +126,24 @@
           </tr>
 
         </div>
-          <h2>consults</h2>
-          <p>Hier moeten alle consults staan die al zijn geweest en nog komen</p>
+        <h2>consults</h2>
+        <p>Hier moeten alle consults staan die al zijn geweest en nog komen</p>
 
 
-          <h2>consult notities</h2>
-          <ul>
-            <li v-for="(note, index) in notes" :key="index" class="consult-notities-li">
-              <div>
-                <strong>Consult notitie:</strong>{{ note.content }}
-              </div>
-              <div>
-                <strong>Gemaakt op: </strong>{{ formatDate(note.created_at) }}
-              </div>
-              <div>
-                <strong>Bewerkt op: </strong>{{ formatDate(note.updated_at) }}
-              </div>
-            </li>
-          </ul>
+        <h2>consult notities</h2>
+        <ul>
+          <li v-for="(note, index) in notes" :key="index" class="consult-notities-li">
+            <div>
+              <strong>Consult notitie:</strong>{{ note.content }}
+            </div>
+            <div>
+              <strong>Gemaakt op: </strong>{{ formatDate(note.created_at) }}
+            </div>
+            <div>
+              <strong>Bewerkt op: </strong>{{ formatDate(note.updated_at) }}
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -158,7 +158,8 @@
         <template v-else>
           <span></span>
         </template>
-        <button class="togglecomponent-button" @click="AccountDetailsPopup = true" v-if="shouldShowDetailsButton" style="margin-right: 8px;">Account
+        <button class="togglecomponent-button" @click="AccountDetailsPopup = true" v-if="shouldShowDetailsButton"
+          style="margin-right: 8px;">Account
           details</button>
         <button class="togglecomponent-button" @click="toggleComponent">{{ buttonText }}</button>
       </div>
@@ -240,57 +241,76 @@
         event.preventDefault(); // Prevent the default form submission behavior
 
         try {
-          let emailChanged = false; // Track if email changed for sequence control
+          const formData = new FormData(event.target);
 
-          const emailInput = document.querySelector('input[name="email"]');
-          const newEmail = emailInput.value.trim();
+          const oldEmail = localStorage.getItem('email');
+          const newEmail = formData.get('email').trim();
+          const oldPassword = formData.get('oud_wachtwoord').trim();
+          const newPassword = formData.get('nieuw_wachtwoord').trim();
 
-          const passwordInput = document.querySelector('input[name="oud_wachtwoord"]');
-          const oldPassword = passwordInput.value.trim();
+          if (newEmail && newEmail !== oldEmail) {
+            // Your code for changing email
 
-          if (newEmail !== 'hello@depoort.nl' && newEmail !== '') {
-            const emailUrl = `http://localhost:8000/api/change-email`;
-            const emailResponse = await axios.put(emailUrl, {
-              email: newEmail,
-              old_password: oldPassword, // Include old password for email change authentication
-            });
-
-            // Assuming the response includes updated user data
-            // Update any necessary information from the response
-            emailChanged = true;
+            axios.post('http://localhost:8000/api/change-email', {
+                  password: oldPassword,
+                  new_email: newEmail,
+                }, {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+                })
+                .then((response) => {
+                  // console.log(response);
+                })
+                .catch((error) => {
+                  this.showError(error);
+                });
           }
 
-          const newPasswordInput = document.querySelector('input[name="nieuw_wachtwoord"]');
-          const newPassword = newPasswordInput.value.trim();
+          if (newPassword) {
+            if (!newEmail || newEmail == oldEmail) {
+              // Your code for changing password when email hasn't changed
 
-          if (newPassword !== '') {
-            if (!emailChanged) {
-              // If email hasn't changed but password is provided, authenticate with old password
-              const passwordUrl = `http://localhost:8000/api/change-password`;
-              const passwordResponse = await axios.put(passwordUrl, {
-                old_password: oldPassword,
-                new_password: newPassword,
-              });
+              axios.post('http://localhost:8000/api/change-password', {
+                  old_password: oldPassword,
+                  new_password: newPassword,
+                }, {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+                })
+                .then((response) => {
+                  // console.log(response);
+                })
+                .catch((error) => {
+                  this.showError(error);
+                });
 
-              // Assuming the response includes any relevant data for password change
             } else {
-              // If email has changed, wait a bit before changing password
-              await new Promise(resolve => setTimeout(resolve, 1000));
+              await new Promise(resolve => setTimeout(resolve,
+              500)); // waits so the password doesnt get changed while still needing the password for changing the email
 
-              const passwordUrl = `http://localhost:8000/api/change-password`;
-              const passwordResponse = await axios.put(passwordUrl, {
-                old_password: oldPassword,
-                new_password: newPassword,
-              });
+              // Your code for changing password when email has changed
 
-              // Assuming the response includes any relevant data for password change
+              axios.post('http://localhost:8000/api/change-password', {
+                  old_password: oldPassword,
+                  new_password: newPassword,
+                }, {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                  },
+                })
+                .then((response) => {
+                  // console.log(response);
+                })
+                .catch((error) => {
+                  this.showError(error);
+                });
             }
           }
 
           // Reset input fields after successful changes
-          emailInput.value = '';
-          newPasswordInput.value = '';
-          passwordInput.value = '';
+          event.target.reset();
           this.AccountDetailsPopup = false;
         } catch (error) {
           // Set error message on failure
@@ -306,9 +326,10 @@
         // console.log('this user:', this.user);
         // console.log('this user id:', this.user.id);
         // console.log('storedUserId:', storedUserId);
-        
+
         if (userRole == 'client' && this.user.id == storedUserId) {
-          const fileName = `gegevens De Poort - ${this.user.voornaam} ${this.user.tussenvoegels} ${this.user.achternaam}.pdf`;
+          const fileName =
+            `gegevens De Poort - ${this.user.voornaam} ${this.user.tussenvoegels} ${this.user.achternaam}.pdf`;
           html2pdf(document.getElementById('element-to-convert'), {
             filename: fileName,
           });
@@ -318,60 +339,64 @@
       },
 
       async loadNotes() {
-      try {
-        if (!this.user.id) {
-          console.error("User ID not available.");
-          return;
+        try {
+          if (!this.user.id) {
+            console.error("User ID not available.");
+            return;
+          }
+
+          const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
+
+          // console.log("Requesting notes with user ID 2:", this.user.id);
+
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+          });
+
+          // console.log("Notes received 2:", response.data);
+
+          this.notes = response.data;
+        } catch (error) {
+          console.error("Error fetching notes:", error);
         }
+      },
 
-        const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
+      async loadAgenda() {
+        try {
+          if (!this.user.id) {
+            console.error("User ID not available.");
+            return;
+          }
 
-        console.log("Requesting notes with user ID 2:", this.user.id);
+          const url = `http://localhost:8000/api/agenda`;
 
-        const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-      });
+          // console.log("Requesting notes with user ID 2:", this.user.id);
 
-        console.log("Notes received 2:", response.data);
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+          });
 
-        this.notes = response.data;
-      } catch (error) {
-        console.error("Error fetching notes:", error);
-      }
-    },
+          // console.log("Notes received 2:", response.data);
 
-    async loadAgenda() {
-      try {
-        if (!this.user.id) {
-          console.error("User ID not available.");
-          return;
+          this.notes = response.data;
+        } catch (error) {
+          console.error("Error fetching notes:", error);
         }
+      },
 
-        const url = `http://localhost:8000/api/agenda`;
-
-        console.log("Requesting notes with user ID 2:", this.user.id);
-
-        const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-      });
-
-        console.log("Notes received 2:", response.data);
-
-        this.notes = response.data;
-      } catch (error) {
-        console.error("Error fetching notes:", error);
-      }
-    },
-
-    formatDate(timestamp) {
-      const date = new Date(timestamp);
-      const options = { day: 'numeric', month: 'long', year: 'numeric' };
-      return date.toLocaleDateString('en-US', options);
-    },
+      formatDate(timestamp) {
+        const date = new Date(timestamp);
+        const options = {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        };
+        return date.toLocaleDateString('en-US', options);
+      },
 
     },
   };

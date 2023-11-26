@@ -84,6 +84,7 @@
             const loginDate = new Date();
             localStorage.setItem("token", result.data.data.token);
             localStorage.setItem("role", result.data.data.role);
+            localStorage.setItem("email", result.data.data.email);
             localStorage.setItem("userid", result.data.data.id);
             localStorage.setItem("loginDate", loginDate.toISOString());
             if (result.data.data.role == "client") {
