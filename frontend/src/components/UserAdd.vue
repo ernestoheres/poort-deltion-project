@@ -1,5 +1,5 @@
 <template>
-    <form id="form-adduser">
+    <form id="form-adduser" @submit.prevent="addUser($event)">
         <div id="ContainerProfile">
             <div class="InfoBubble">
                 <table class="SettingUser">
@@ -27,22 +27,14 @@
                 </table>
             </div>
 
-            <div class="InfoBubble email-bubble">
-                <div class="info-block">
-                    <tr>
-                        <th>E-mail adres:</th>
-                        <td> <input type="email" name="email" v-model="user.bsn" placeholder="klaas@DePoort.nl"
-                                required /> </td>
-                    </tr>
-                </div>
-            </div>
+        </div>
 
+        <div class="submitform-container">
+            <button class="subitform-button" value="Submit">User toevoegen</button>
         </div>
 
     </form>
-    <div class="submitform-container">
-        <button class="subitform-button" @click="addUser()" form="form-adduser" value="Submit">User toevoegen</button>
-    </div>
+
 </template>
 
 <script>
@@ -55,26 +47,27 @@
             };
         },
         methods: {
-
+            addUser(event) {
+                event.preventDefault();
+                axios.post('http://localhost:8000/api/user', {
+                        email: this.user.email,
+                        wachtwoord: this.user.wachtwoord,
+                        rol: this.user.rol,
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        window.location.href = '/dashboard';
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         },
-        addUser() {
-            axios.post('http://localhost:8000/api/user', {
-                    email: this.user.email,
-                    wachtwoord: this.user.wachtwoord,
-                    rol: this.user.rol,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    }
-                })
-                .then((response) => {
-                    console.log(response);
-                    window.location.href = '/dashboard';
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+
 
     };
 </script>
