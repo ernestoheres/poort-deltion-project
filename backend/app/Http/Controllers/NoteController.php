@@ -81,7 +81,9 @@ class NoteController extends Controller
             'content' => $request->input('content'),
             'client_id' => $request->input('client_id'),
         ]);
-        $note->encryptAllAttributes();
+
+        $note->decryptAllAttributes();
+
         return response()->json($note, 201);
     }
 
