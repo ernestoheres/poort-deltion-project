@@ -13,8 +13,11 @@ class WhitelistedEmailController extends Controller
         $validated = $request->validate([
             'email' => 'required|email|unique:whitelisted_emails',
             'role' => 'required|string',
-            'granted_by' => 'required|integer',
         ]);
+
+        $user = $request->user();
+        $granted_by = $user->id;
+        $validated['granted_by'] = $granted_by;
 
         $validated['one_time_password'] = bin2hex(random_bytes(4));
 
