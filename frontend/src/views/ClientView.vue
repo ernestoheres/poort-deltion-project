@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div id="pdf-content-container">
+    <div id="pdf-content-container" v-if="shouldShowNotes">
       <div id="element-to-convert">
         <h1>Gegevens van {{ user.voornaam }} {{ user.tussenvoegels }} {{ user.achternaam }}</h1>
 
@@ -132,7 +132,7 @@
 
           <h2>consult notities</h2>
           <ul>
-            <li v-for="(note, index) in notes" :key="index">
+            <li v-for="(note, index) in notes" :key="index" class="consult-notities-li">
               <div>
                 <strong>Consult notitie:</strong>{{ note.content }}
               </div>
@@ -195,6 +195,7 @@
         })
         .then(response => {
           this.user = response.data;
+          return this.loadNotes();
         })
         .catch(error => {
           console.error(error);
@@ -325,7 +326,7 @@
 
         const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
 
-        // console.log("Requesting notes with user ID:", this.user.id);
+        console.log("Requesting notes with user ID 2:", this.user.id);
 
         const response = await axios.get(url, {
         headers: {
@@ -333,7 +334,32 @@
         },
       });
 
-        // console.log("Notes received:", response.data);
+        console.log("Notes received 2:", response.data);
+
+        this.notes = response.data;
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      }
+    },
+
+    async loadAgenda() {
+      try {
+        if (!this.user.id) {
+          console.error("User ID not available.");
+          return;
+        }
+
+        const url = `http://localhost:8000/api/agenda`;
+
+        console.log("Requesting notes with user ID 2:", this.user.id);
+
+        const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+        console.log("Notes received 2:", response.data);
 
         this.notes = response.data;
       } catch (error) {
@@ -508,5 +534,9 @@
 
   #element-to-convert h2 {
     margin-top: 16px;
+  }
+
+  .consult-notities-li {
+    margin-bottom: 13px;
   }
 </style>
