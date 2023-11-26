@@ -32,8 +32,10 @@ Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator,manager'])->g
 Route::middleware('auth:sanctum')->get("/clients/{id}", "App\Http\Controllers\ClientController@getClientById");
 Route::middleware('auth:sanctum')->post("/clients/{id}/image", "App\Http\Controllers\ClientController@uploadImage");
 Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveImage");
+
+
+//auth routes
 Route::post("/login", "App\Http\Controllers\UserController@login");
-Route::post("register", "App\Http\Controllers\UserController@register");
 Route::post("/forgot-password", "App\Http\Controllers\UserController@forgotPassword");
 Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");
 Route::middleware('auth:sanctum')->post("/logout", "App\Http\Controllers\UserController@logout");
@@ -61,4 +63,8 @@ Route::middleware(['auth:sanctum', 'checkRole:manager'])->group(function() {
         Route::post('/whitelist','App\Http\Controllers\WhitelistedEmailController@store');
         Route::get('/whitelist','App\Http\Controllers\WhitelistedEmailController@getAllWhitelistedEmails');
         Route::delete('/whitelist/{whitelist}', 'App\Http\Controllers\WhitelistedEmailController@destroy');
+});
+
+Route::middleware(['auth:sanctum', 'checkRole:doctor'])->group(function() {
+        Route::post('/notes/grant','App\Http\Controllers\NoteController@GrantNoteAdministratorPermission');
 });
