@@ -9,10 +9,10 @@
                     <input type="file" @change="handleImageChange" name="avatar" accept="image/png, image/jpeg"
                         class="hidden-file-input" />
                     <div class="InfoUsercontent InfoUsercontent-Naam">
-                        <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" />
-                        <input type="text" name="tussenvoegsels" v-model="user.tussenvoegels"
+                        <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" required />
+                        <input type="text" name="tussenvoegsels" v-model="user.tussenvoegsels"
                             placeholder="tussenvoegsels" />
-                        <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" />
+                        <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" required />
                     </div>
                 </div>
                 <table class="SettingUser">
@@ -20,24 +20,25 @@
                     <div class="info-block">
                         <tr>
                             <th>Tel:</th>
-                            <td> <input type="text" name="telefoon" v-model="user.telefoon"
-                                    placeholder="Telefoon nummer" /> </td>
+                            <td> <input type="text" name="telefoon" v-model="user.telefoon" placeholder="Telefoon nummer" /> </td>
                         </tr>
 
                         <tr>
                             <th>Geboortedatum:</th>
-                            <td> <input type="date" name="geboortedatum" v-model="user.geboortedatum"
-                                    placeholder="Geboorte datum" /> </td>
+                            <td> <input type="date" name="geboortedatum" v-model="user.geboortedatum" placeholder="Geboorte datum" required /> </td>
                         </tr>
 
                         <tr>
                             <th>Gender:</th>
-                            <td> <input type="" name="gender" v-model="user.gender" placeholder="Gender" /> </td>
+                            <td> <select type="text" name="gender" v-model="user.gender" placeholder="Gender" required>
+                                    <option value="Man">Man</option>
+                                    <option value="Vrouw">Vrouw</option>
+                                </select> </td>
                         </tr>
 
                         <tr>
                             <th>Bloedtype:</th>
-                            <td> <select type="text" name="bloedtype" v-model="user.bloodtype" placeholder="Bloedtype">
+                            <td> <select type="text" name="bloedtype" v-model="user.bloedtype" placeholder="Bloedtype" required>
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
                                     <option value="B+">B+</option>
@@ -46,6 +47,7 @@
                                     <option value="AB-">AB-</option>
                                     <option value="O+">O+</option>
                                     <option value="O-">O-</option>
+                                    <option value="onbekend" selected="selected" >Onbekend</option>
                                 </select> </td>
                         </tr>
 
@@ -55,24 +57,23 @@
                     <div class="info-block">
                         <tr>
                             <th>Adres:</th>
-                            <td> <input type="text" name="adres" v-model="user.adres" placeholder="Adres" /> </td>
+                            <td> <input type="text" name="adres" v-model="user.adres" placeholder="Adres" required /> </td>
                         </tr>
 
                         <tr>
                             <th>Postcode:</th>
-                            <td> <input type="text" name="postcode" v-model="user.postcode" placeholder="Postcode" />
+                            <td> <input type="text" name="postcode" v-model="user.postcode" placeholder="Postcode" required />
                             </td>
                         </tr>
 
                         <tr>
                             <th>Woonplaats:</th>
-                            <td> <input type="text" name="woonplaats" v-model="user.woonplaats"
-                                    placeholder="Woonplaats" /> </td>
+                            <td> <input type="text" name="woonplaats" v-model="user.woonplaats" placeholder="Woonplaats" required /> </td>
                         </tr>
 
                         <tr>
                             <th>Land:</th>
-                            <td> <input type="text" name="land" v-model="user.land" placeholder="Land" /> </td>
+                            <td> <input type="text" name="land" v-model="user.land" placeholder="Land" required /> </td>
                         </tr>
                     </div>
                     <div class="Slide"></div>
@@ -86,14 +87,12 @@
 
                         <tr>
                             <th>vezekerings polisnummer:</th>
-                            <td> <input type="number" name="polisnummer" v-model="user.polisnummer"
-                                    placeholder="polisnummer" /> </td>
+                            <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="polisnummer" /> </td>
                         </tr>
 
                         <tr>
                             <th>Verzekering:</th>
-                            <td> <input type="text" name="verzekering" v-model="user.vezekering"
-                                    placeholder="Verzekering" /> </td>
+                            <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" /> </td>
                         </tr>
 
                     </div>
@@ -104,8 +103,7 @@
                 <div class="info-block">
                     <tr>
                         <th>E-mail adres:</th>
-                        <td> <input type="email" name="email" v-model="user.bsn" placeholder="klaas@DePoort.nl"
-                                required /> </td>
+                        <td> <input type="email" name="email" v-model="user.email" placeholder="email@DePoort.nl" required /> </td>
                     </tr>
                 </div>
             </div>
@@ -113,8 +111,7 @@
         </div>
 
     <div class="submitform-container">
-        <button type="submit" class="subitform-button" form="form-addclient" value="Submit">Client
-            toevoegen</button>
+        <button type="submit" class="subitform-button" form="form-addclient" value="Submit">Client toevoegen</button>
     </div>
 
     </form>
@@ -144,25 +141,25 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             },
-
-        },
         addClient(event) {
             event.preventDefault();
-            axios.post('http://localhost:8000/api/client', {
-                    voornaam: this.user.voornaam,
-                    tussenvoegels: this.user.tussenvoegels,
-                    achternaam: this.user.achternaam,
-                    adres: this.user.adres,
-                    postcode: this.user.postcode,
-                    woonplaats: this.user.woonplaats,
-                    land: this.user.land,
-                    telefoon: this.user.telefoon,
-                    bsn: this.user.bsn,
-                    vezekering: this.user.vezekering,
-                    polisnummer: this.user.polisnummer,
-                    bloedtype: this.user.bloedtype,
-                    geslahct: this.user.geslacht,
 
+            const formData = new FormData(event.target);
+            axios.post('http://localhost:8000/api/clients', {
+                    voornaam: formData.get('voornaam'),
+                    tussenvoegels: formData.get('tussenvoegsels'),
+                    achternaam: formData.get('achternaam'),
+                    adres: formData.get('adres'),
+                    postcode: formData.get('postcode'),
+                    woonplaats: formData.get('woonplaats'),
+                    land: formData.get('land'),
+                    telefoon: formData.get('telefoon'),
+                    bsn: formData.get('bsnnummer'),
+                    vezekering: formData.get('verzekering'),
+                    polisnummer: formData.get('polisnummer'),
+                    bloedtype: formData.get('bloedtype'),
+                    geslacht: formData.get('gender'),
+                    email: formData.get('email'),
 
                 }, {
                     headers: {
@@ -177,6 +174,7 @@
                     console.log(error);
                 });
         }
+        },
 
     };
 </script>
