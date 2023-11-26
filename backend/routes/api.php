@@ -60,11 +60,9 @@ Route::middleware(['auth:sanctum', 'checkRole:doctor, administrator'])->group(fu
 });
 
 Route::middleware(['auth:sanctum', 'checkRole:manager'])->group(function() {
-    Route::prefix('/whitelist')->group(function () {
         Route::post('/whitelist','App\Http\Controllers\WhitelistController@store');
         Route::get('/whitelist','App\Http\Controllers\WhitelistController@getAllWhitelistedEmails');
         Route::delete('/whitelist/{whitelist}', 'App\Http\Controllers\WhitelistController@destroy');
-    });
 });
 
 
