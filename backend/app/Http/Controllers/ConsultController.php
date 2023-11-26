@@ -52,6 +52,7 @@ class ConsultController extends Controller
         
         $consult = Consult::create([
             'voornaam' => $request->input('voornaam'),
+            'tussenvoegsels' => $request->input('tussenvoegsels'),
             'achternaam' => $request->input('achternaam'),
             'btijd' => $request->input('btijd'),
             'etijd' => $request->input('etijd'),
