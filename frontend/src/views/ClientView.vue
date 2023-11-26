@@ -31,7 +31,7 @@
               <td> <input type="text" name="oud_wachtwoord" placeholder="Oud wachtwoord" required /> </td>
             </tr>
 
-            <tr class="pdf-button-div">
+            <tr class="pdf-button-div" v-if="shouldShowPDFbutton">
               <button type="button" class="popup-button pdf-button" @click="exportToPDF"><i
                   class="fa-solid fa-file-pdf fa-lg"></i> Maak een
                 PDF bestand met al mijn gegevens</button>
@@ -146,7 +146,7 @@
         <template v-else>
           <span></span>
         </template>
-        <button class="togglecomponent-button" @click="AccountDetailsPopup = true" style="margin-right: 8px;">Account
+        <button class="togglecomponent-button" @click="AccountDetailsPopup = true" v-if="shouldShowDetailsButton" style="margin-right: 8px;">Account
           details</button>
         <button class="togglecomponent-button" @click="toggleComponent">{{ buttonText }}</button>
       </div>
@@ -194,7 +194,15 @@
       shouldShowNotes() {
         const role = localStorage.getItem('role');
         return role == 'doctor' || role == 'client';
-      }
+      },
+      shouldShowPDFbutton() {
+        const role = localStorage.getItem('role');
+        return role == 'client';
+      },
+      shouldShowDetailsButton() {
+        const role = localStorage.getItem('role');
+        return role == 'client';
+      },
     },
     components: {
       UserInfo,
@@ -278,11 +286,18 @@
       },
 
       exportToPDF() {
-        const fileName = `gegevens De Poort - ${this.user.voornaam} ${this.user.tussenvoegels} ${this.user.achternaam}.pdf`;
-        html2pdf(document.getElementById('element-to-convert'), {
-          filename: fileName,
-        });
-      },
+        const userRole = localStorage.getItem('role');
+        const storedUserId = localStorage.getItem('userid');
+        
+        if (userRole === 'client' && this.user.user_id === storedUserId) {
+          const fileName = `gegevens De Poort - ${this.user.voornaam} ${this.user.tussenvoegels} ${this.user.achternaam}.pdf`;
+          html2pdf(document.getElementById('element-to-convert'), {
+            filename: fileName,
+          });
+        } else {
+          console.log('Insufficient permissions to export PDF.');
+        }
+      }
 
     },
   };
