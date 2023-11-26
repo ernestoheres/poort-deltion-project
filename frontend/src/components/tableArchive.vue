@@ -37,10 +37,6 @@
                 <td>{{ user.woonplaats }}</td>
               </template>
               <td class="buttons-td">
-                <a :href="'dashboard/client/' + user.id" title="Bekijk client"><i class="fa-light fa-user fa-2xl"
-                    style="color: #d67513;"></i></a>
-                <a :href="'dashboard/client/' + user.id" title="Bewerk client"><i class="fa-solid fa-user-pen fa-2xl"
-                    style="color: #89baeb;"></i></a>
                 <i class="fa-light fa-user-lock fa-2xl" @click="restoreClient(user.id)" style="color: #729B79;"
                   title="Un-Archief client"></i>
 
@@ -173,7 +169,7 @@
           });
       },
        deleteClient(id) {
-        axios.post(`http://127.0.0.1:8000/api/clients/${id}/force`, {
+        axios.delete(`http://127.0.0.1:8000/api/clients/${id}/force`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
