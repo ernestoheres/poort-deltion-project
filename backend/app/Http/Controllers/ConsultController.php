@@ -41,7 +41,6 @@ class ConsultController extends Controller
 
         return response("Consult created", 201);
     }
-
     /**
      * Store a newly created resource in storage.
      */

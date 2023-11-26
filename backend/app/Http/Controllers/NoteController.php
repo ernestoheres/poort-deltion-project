@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Note;
+use App\Models\AdministratorNotePermission;
+use App\Models\User;
 
 class NoteController extends Controller
 {
@@ -11,6 +13,14 @@ class NoteController extends Controller
     {
         $user = $request->user();
         if($user->role != "doctor") {
+            if($user->role == "administrator") {
+                // check for rows with permission
+                $RowsWithPermission = AdministratorNotePermission::where('administrator_id', $user->id)->where("client_id", $client_id)->get();
+             
+
+                return response($RowsWithPermission, 200);
+                
+            }
             if($user->id != $client_id) {
                 return response("Unauthorized", 401);
             }
@@ -18,6 +28,36 @@ class NoteController extends Controller
 
         $notes = Note::where('client_id', $client_id)->latest()->get();
         return response()->json($notes);
+    }
+
+    public function GrantNoteAdministratorPermission(Request $request) {
+
+        $validated = $request->validate([
+            'note_id' => 'required|integer',
+            'administrator_id' => 'required|integer',
+            "client_id" => "required|integer",
+        ]);
+       
+        $note = Note::find($validated['note_id']);
+        if(!$note) {
+            return response("Note not found", 404);
+        }
+        $administrator = User::find($validated['administrator_id']);
+        if(!$administrator || $administrator->role != "administrator") {
+            return response("Administrator not found", 404);
+        }
+        $client = User::find($validated['client_id']);
+        if(!$client || $client->role != "client") {
+            return response("Client not found", 404);
+        }
+
+        $permission = AdministratorNotePermission::create([
+            'note_id' => $validated['note_id'],
+            'administrator_id' => $validated['administrator_id'],
+            'client_id' => $validated['client_id'],
+        ]);
+
+        return response($permission, 201);
     }
 
     public function store(Request $request)

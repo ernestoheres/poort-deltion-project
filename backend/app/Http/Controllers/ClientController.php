@@ -25,7 +25,11 @@ class ClientController extends Controller
                 return response("Unauthorized", 401);
             }
         }
-        $client = Client::withTrashed()->find($id);
+        try {
+            $client = Client::withTrashed()->findOrFail($id);
+        } catch (\Throwable $th) {
+            return response("Client not found", 404);
+        } 
         return response($client, 200);
     }
 
@@ -46,7 +50,24 @@ class ClientController extends Controller
             "geslacht" => "required|string",
             "email" => "required|email|",
         ]);
-        
+
+        if (User::where("email", $validated["email"])->first()) {
+            return response("Email already in use", 409);
+        }
+
+        if(Client::where("bsn", $validated["bsn"])->first()) {
+            return response("BSN already in use", 409);
+        }
+
+        if (Client::where("polisnummer", $validated["polisnummer"])->first()) {
+            return response("Polisnummer already in use", 409);
+        }
+
+        if (Client::where("telefoon", $validated["telefoon"])->first()) {
+            return response("Telefoon already in use", 409);
+        }
+
+
         //create onetime password and create a user for the client
         $oneTimePassword = bin2hex(random_bytes(4));
         User::create([
