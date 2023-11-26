@@ -20,16 +20,22 @@ class ConsultController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
-    {   $data = [
-            "voornaam" => $request->$voornaam,
-            "achternaam" => $request->$achternaam,
-            "btijd" => $request->$btijd,
-            "etijd" => $request->$etijd,
-            "datum" => $request->$datum,
-            "doctor" => $request->$doctor,
-    ];
-        Consult::create($data);
+    public function store(Request $request)
+    {   
+    $validated = $request->validate([
+        'voornaam' => 'required|string',
+        'achternaam' => 'required|string',
+        'btijd' => 'required|string',
+        'etijd' => 'required|string',
+        'datum' => 'required|string',
+        'doctor' => 'required|string',
+    ]);
+    //te,porary fix
+    $validated["tussenvoegsel"] = "";
+
+  
+
+        Consult::create($validated);
     
 
 
@@ -39,30 +45,7 @@ class ConsultController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-        'voornaam' => 'required',
-        'achternaam' => 'required',
-        'btijd' => 'required',
-        'etijd' => 'required',
-        'datum' => 'required',
-        'doctor' => 'required',
-        ]);
-        
-        $consult = Consult::create([
-            'voornaam' => $request->input('voornaam'),
-            'tussenvoegsels' => $request->input('tussenvoegsels'),
-            'achternaam' => $request->input('achternaam'),
-            'btijd' => $request->input('btijd'),
-            'etijd' => $request->input('etijd'),
-            'datum' => $request->input('datum'),
-            'doctor' => $request->input('doctor'),
-        ]);
-         
-        return response()->json($consult, 201);
-    }
-
+   
     /**
      * Display the specified resource.
      */
