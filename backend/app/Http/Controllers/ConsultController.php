@@ -31,14 +31,8 @@ class ConsultController extends Controller
         'doctor' => 'required|string',
     ]);
     //te,porary fix
-    $validated["tussenvoegsel"] = "";
-
-  
-
+        $validated["tussenvoegsel"] = "";
         Consult::create($validated);
-    
-
-
         return response("Consult created", 201);
     }
     /**

@@ -99,7 +99,7 @@ class ClientFactory extends Factory
         $uuid = null;
     }
 
-        if ($gender === "male") {
+        if ($gender === "Male") {
             $firstname = $this->faker->firstNameMale();
             $geslacht = "Man";
         }

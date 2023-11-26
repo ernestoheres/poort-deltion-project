@@ -36,6 +36,9 @@ class WhitelistedEmailController extends Controller
 
     public function getAllWhitelistedEmails(Request $request) {
         $whitelistedEmails = WhitelistedEmail::all();
+        foreach ($whitelistedEmails as $whitelistedEmail) {
+            $whitelistedEmail->decryptAllAttributes();
+        }
         return response($whitelistedEmails, 200);
     }
 

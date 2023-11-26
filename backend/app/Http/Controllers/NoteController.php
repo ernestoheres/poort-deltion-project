@@ -16,9 +16,15 @@ class NoteController extends Controller
             if($user->role == "administrator") {
                 // check for rows with permission
                 $RowsWithPermission = AdministratorNotePermission::where('administrator_id', $user->id)->where("client_id", $client_id)->get();
-             
+                
+                $notes = [];
+                foreach($RowsWithPermission as $row) {
+                    $row->note = Note::find($row->note_id);
+                    $row->note->decryptAllAttributes();
+                    array_push($notes, $row->note);
+                }
 
-                return response($RowsWithPermission, 200);
+                return response()->json($notes);
                 
             }
             if($user->id != $client_id) {
@@ -27,6 +33,9 @@ class NoteController extends Controller
         }
 
         $notes = Note::where('client_id', $client_id)->latest()->get();
+        foreach ($notes as $note) {
+            $note->decryptAllAttributes();
+        }
         return response()->json($notes);
     }
 

@@ -11,16 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consult', function (Blueprint $table) {
+        Schema::create('consults', function (Blueprint $table) {
             $table->id();
-            $table->string("voornaam");
-            $table->string("tussenvoegsel");
-            $table->string("achternaam");
+            $table->unsignedBigInteger('client_id');
             $table->time("btijd");
             $table->time("etijd");
             $table->date("datum");
-            $table->string("doctor");
+            $table->unsignedBigInteger('doctor_id');
+            $table->timestamps();
+
+            $table->foreign('client_id')->references('id')->on('users');
+            $table->foreign('doctor_id')->references('id')->on('users');
+
+
         });
+
+
     }
 
     /**
@@ -28,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consult');
+        Schema::dropIfExists('consults');
     }
 };

@@ -15,6 +15,10 @@ class ClientController extends Controller
     public function getAllClients(Request $request)
     {
         $clients = Client::all();
+        foreach ($clients as $client) {
+            $client->decryptAllAttributes();
+        }
+
         return response($clients, 200);
     }
 
@@ -30,6 +34,7 @@ class ClientController extends Controller
         } catch (\Throwable $th) {
             return response("Client not found", 404);
         } 
+        $client->decryptAllAttributes();
         return response($client, 200);
     }
 
