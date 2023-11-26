@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\WhitelistedEmail;
+use App\Mail\NewPasswordCreated;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -100,12 +102,11 @@ class UserController extends Controller
             $user->password = Hash::make(bin2hex(random_bytes(4)));
             $user->save();
             //email verstuur functie
-            $to = $validated['email'];
-            $subject = "New password";
-            $txt = "Your new password is: " . $user->password;
-            $headers = "From:" . $user->email;
-
-            mail($to,$subject,$txt,$headers);
+            try {
+                Mail::to($validated['email'])->send(new NewPasswordCreated($user->password));
+            } catch (\Throwable $th) {
+                // allow for the user to be created even if the mail fails for development purposes
+            }
 
             return response()->json([
                 'status' => 'success',

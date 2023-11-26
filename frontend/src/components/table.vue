@@ -148,7 +148,11 @@
       },
 
       archiveClient(id) {
-        axios.delete(`http://127.0.0.1:8000/api/clients/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/clients/${id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          })
           .then(response => {
             window.location.reload();
           })

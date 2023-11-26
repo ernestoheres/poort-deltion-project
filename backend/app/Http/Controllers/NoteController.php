@@ -8,9 +8,17 @@ use Intervention\Image\Facades\Image;
 
 class NoteController extends Controller
 {
-    public function index($client_id)
+    public function index(Request $request, $client_id)
     {
+        $user = $request->user();
+        if($user->role != "doctor") {
+            if($user->id != $client_id) {
+                return response("Unauthorized", 401);
+            }
+        }
         // Fetch notes filtered by client_id
+
+    
         $notes = Note::where('client_id', $client_id)->latest()->get();
         return response()->json($notes);
     }

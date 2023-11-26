@@ -43,11 +43,12 @@ Route::middleware('auth:sanctum')->post("/change-email", "App\Http\Controllers\U
 Route::middleware(['auth:sanctum', 'checkRole:doctor,administrator'])->group(function() {
     Route::prefix('/clients/{client_id}')->group(function () {
         Route::post('/notes', 'App\Http\Controllers\NoteController@store');
-        Route::get('/notes', 'App\Http\Controllers\NoteController@index');
         Route::put('/notes/{note}', 'App\Http\Controllers\NoteController@update');
         Route::delete('/notes/{note}', 'App\Http\Controllers\NoteController@destroy');
     });
 });
+Route::middleware('auth:sanctum')->get('/clients/{client_id}/notes', 'App\Http\Controllers\NoteController@index');
+
 
 Route::middleware(['auth:sanctum', 'checkRole:doctor, administrator'])->group(function() {
     Route::prefix('/agenda')->group(function () {
