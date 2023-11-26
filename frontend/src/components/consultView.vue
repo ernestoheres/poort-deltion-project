@@ -3,69 +3,40 @@
 
     export default {
         data() {
-            return {
-                consult: []
-            };
+          return {
+            consults: []
+          }
         },
         mounted() {
-
-            axios.get(`http://localhost:8000/api/agenda/agenda`, {
+            this.fetchConsults()
+        },
+        methods: {
+          fetchConsults(){
+            axios.get(`http://localhost:8000/api/agenda`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 })
                 .then(response => {
-                    this.consult = response.data;
+                    this.consults = response.data;
                 })
                 .catch(error => {
                     console.error(error);
-                });
+          })
         }
+      }
     };
 </script>
 <template>
-    <tr v-for="consult in consults" :key="consult.id" class="Consult-TR">
-              <template v-if="isSmallScreen">
-                <td><b style="font-weight: 700">Voornaam:</b> {{ consult.voornaam }}</td>
-                <td><b style="font-weight: 700">tussenvoegels:</b> {{ consult.tussenvoegels }}</td>
-                <td><b style="font-weight: 700">achternaam:</b> {{ consult.achternaam }}</td>
-                <td><b style="font-weight: 700">Begintijd:</b> {{ consult.btijd }}</td>
-                <td><b style="font-weight: 700">Eindtijd:</b> {{ consult.etijd }}</td>
-                <td><b style="font-weight: 700">Datum:</b> {{ consult.datum }}</td>
-                <td><b style="font-weight: 700">Doctor:</b> {{ consult.doctor }}</td>
-              </template>
-              <template v-else>
-                <td>{{ consult.voornaam }}</td>
-                <td>{{ consult.tussenvoegels }}</td>
-                <td>{{ consult.achternaam }}</td>
-                <td>{{ consult.btijd }}</td>
-                <td>{{ consult.etijd }}</td>
-                <td>{{ consult.datum }}</td>
-                <td>{{ consult.doctor }}</td>
-              </template>
+  <div>Consults:</div>
+  <tbody>
+    <tr v-for="consult in consults">
+      <td>
+        {{ consult.id }}
+      </td>
+      <td>
+        {{ consult.voornaam }}
+      </td>
     </tr>
-    <div class="pagination">
-        <button @click="goToPage(1)"><i class="fa-solid fa-arrow-left-to-line"></i></button>
-        <button @click="currentPage -= 1" :disabled="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button>
-
-        <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="page-buttons-desktop"
-          :class="{ 'current-page': currentPage === page }">
-          {{ page }}
-        </button>
-
-        <button @click="currentPage += 1" :disabled="currentPage >= totalPages"><i
-            class="fa-solid fa-arrow-right"></i></button>
-        <button @click="goToPage(totalPages)"><i class="fa-solid fa-arrow-right-to-line"></i></button>
-      </div>
+  </tbody>
 </template>
-<style>
-.Consult-TR{
-    padding: 0 10px;
-    border-bottom: 1px solid lightgray;
-  }
-
-.Consult-TR:last-child {
-    border-bottom: none;
-  }
-
-</style>

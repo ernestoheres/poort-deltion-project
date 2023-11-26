@@ -22,6 +22,7 @@ class Consult extends Model
         'doctor'
     ];
     protected $fillable = [
+        'id',
         'voornaam',
         'tussenvoegsel',
         'achternaam',

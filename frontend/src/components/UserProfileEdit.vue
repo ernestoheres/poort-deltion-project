@@ -8,9 +8,9 @@
                 </div>
                 <input type="file" @change="handleImageChange" name="avatar" accept="image/png, image/jpeg" class="hidden-file-input" />
                 <div class="InfoUsercontent InfoUsercontent-Naam">
-                    <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" />
+                    <input type="text" name="voornaam" placeholder="Voornaam" v-model="user.voornaam" required/>
                     <input type="text" name="tussenvoegsels" v-model="user.tussenvoegels" placeholder="tussenvoegsels" />
-                    <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" />
+                    <input type="text" name="achternaam" placeholder="Achternaam" v-model="user.achternaam" required/>
                 </div>
             </div>
             <table class="SettingUser">
@@ -18,12 +18,12 @@
                 <div class="info-block"> 
                     <tr>
                         <th>Tel:</th>
-                        <td> <input type="text" name="telefoon" v-model="user.telefoon" placeholder="Telefoon nummer" /> </td>
+                        <td> <input type="text" name="telefoon" placeholder="Telefoon nummer" v-model="user.telefoon" required/> </td>
                     </tr>
 
                     <tr>
                         <th>Geboortedatum:</th>
-                        <td> <input type="date" name="geboortedatum" v-model="user.geboortedatum" placeholder="Geboorte datum" /> </td>
+                        <td> <input type="date" name="geboortedatum" placeholder="Geboorte datum" v-model="user.geboortedatum" required/> </td>
                     </tr>
 
                     <tr>
@@ -58,22 +58,22 @@
                 <div class="info-block">
                     <tr>
                         <th>Adres:</th>
-                        <td> <input type="text" name="adres" v-model="user.adres" placeholder="Adres" /> </td>
+                        <td> <input type="text" name="adres" placeholder="Adres" v-model="user.adres" required/> </td>
                     </tr>
 
                     <tr>
                         <th>Postcode:</th>
-                        <td> <input type="text" name="postcode" v-model="user.postcode" placeholder="Postcode" /> </td>
+                        <td> <input type="text" name="postcode" placeholder="Postcode" v-model="user.postcode" required/> </td>
                     </tr>
 
                     <tr>
                         <th>Woonplaats:</th>
-                        <td> <input type="text" name="woonplaats" v-model="user.woonplaats" placeholder="Woonplaats" /> </td>
+                        <td> <input type="text" name="woonplaats" placeholder="Woonplaats" v-model="user.woonplaats" required/> </td>
                     </tr>
 
                     <tr>
                         <th>Land:</th>
-                        <td> <input type="text" name="land" v-model="user.land" placeholder="Land" /> </td>
+                        <td> <input type="text" name="land" placeholder="Land" v-model="user.land" required/> </td>
                     </tr>
                 </div>
                 <div class="Slide"></div>
@@ -81,17 +81,17 @@
                 <div class="info-block">
                     <tr>
                         <th>BSN:</th>
-                        <td> <input type="number" name="bsnnummer" v-model="user.bsn" placeholder="BSN nummer" /> </td>
+                        <td> <input type="number" name="bsnnummer" placeholder="BSN nummer" v-model="user.bsn" required/> </td>
                     </tr>
 
                     <tr>
                         <th>Polisnummer:</th>
-                        <td> <input type="number" name="polisnummer" v-model="user.polisnummer" placeholder="Polis nummer" /> </td>
+                        <td> <input type="number" name="polisnummer" placeholder="Polis nummer" v-model="user.polisnummer" required/> </td>
                     </tr>
 
                     <tr>
                         <th>Verzekering:</th>
-                        <td> <input type="text" name="verzekering" v-model="user.vezekering" placeholder="Verzekering" /> </td>
+                        <td> <input type="text" name="verzekering" placeholder="Verzekering" v-model="user.vezekering" required/> </td>
                     </tr>
 
                 </div>
