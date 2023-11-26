@@ -7,6 +7,8 @@ use App\Models\Client;
 use App\Models\User;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\AccountCreatedMail;
+use Illuminate\Support\Facades\Mail;
 
 class ClientController extends Controller
 {
@@ -45,24 +47,30 @@ class ClientController extends Controller
             "email" => "required|email|",
         ]);
         
-
-
-        Client::create($validated);
+        //create onetime password and create a user for the client
         $oneTimePassword = bin2hex(random_bytes(4));
         User::create([
             "email" => $validated["email"],
+            "name" => $validated["voornaam"] . " " . $validated["achternaam"],
             "password" => bcrypt($oneTimePassword),
             "role" => "client",
-            "client_id" => Client::where("email", $validated["email"])->first()->id
         ]);
 
-        //mail functie
-        $to = $validated["email"];
-        $subject = "Uw account is aangemaakt";
-        $message = "Uw account is aangemaakt. U kunt inloggen met uw email en het volgende wachtwoord: " . $oneTimePassword;
-        $headers = "From:" . $user->email;
+        $user = User::where("email", $validated["email"])->first();
+        $validated["user_id"] = $user->id;
 
-        mail($to, $subject, $message, $headers);
+
+        //mail one time password to client
+        try {
+            Mail::to($validated["email"])->send(new AccountCreatedMail($oneTimePassword));
+        } 
+        catch (\Exception $e) {
+            // allow for the user to be created even if the mail fails for development purposes
+        }
+        unset($validated["email"]);
+
+        Client::create($validated);
+
         return response("Client created", 201);
     }
 

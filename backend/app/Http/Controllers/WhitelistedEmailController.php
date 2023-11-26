@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WhitelistedEmail;
+use App\Mail\AccountCreatedMail;
+use Illuminate\Support\Facades\Mail;
 
 class WhitelistedEmailController extends Controller
 {
@@ -17,12 +19,11 @@ class WhitelistedEmailController extends Controller
         $validated['one_time_password'] = bin2hex(random_bytes(4));
 
         //email verstuur functie
-        $to = $validated['email'];
-        $subject = "One time password";
-        $txt = "Your one time password is: " . $validated['one_time_password'];
-        $headers = "From:" . $validated['granted_by'];
-
-        mail($to,$subject,$txt,$headers);
+        try {
+            Mail::to($validated['email'])->send(new AccountCreatedMail($validated['one_time_password']));
+        } catch (\Throwable $th) {
+            // allow for email to be created even if email fails to send
+        }
 
       
         WhitelistedEmail::create($validated);
