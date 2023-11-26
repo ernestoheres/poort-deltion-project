@@ -66,3 +66,6 @@ Route::middleware(['auth:sanctum', 'checkRole:manager'])->group(function() {
         Route::delete('/whitelist/{whitelist}', 'App\Http\Controllers\WhitelistController@destroy');
     });
 });
+
+
+Route::get('/hoi', 'App\Http\Controllers\encryptdecryptcontroller@encryptData' );
