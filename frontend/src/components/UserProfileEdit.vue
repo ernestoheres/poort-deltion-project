@@ -8,9 +8,9 @@
                 </div>
                 <input type="file" @change="handleImageChange" name="avatar" accept="image/png, image/jpeg" class="hidden-file-input" />
                 <div class="InfoUsercontent InfoUsercontent-Naam">
-                    <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" />
+                    <input type="text" name="voornaam" placeholder="Voornaam" v-model="user.voornaam" required/>
                     <input type="text" name="tussenvoegsels" v-model="user.tussenvoegels" placeholder="tussenvoegsels" />
-                    <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" />
+                    <input type="text" name="achternaam" placeholder="Achternaam" v-model="user.achternaam" required/>
                 </div>
             </div>
             <table class="SettingUser">
@@ -18,12 +18,12 @@
                 <div class="info-block"> 
                     <tr>
                         <th>Tel:</th>
-                        <td> <input type="text" name="telefoon" v-model="user.telefoon" placeholder="Telefoon nummer" /> </td>
+                        <td> <input type="text" name="telefoon" placeholder="Telefoon nummer" v-model="user.telefoon" required/> </td>
                     </tr>
 
                     <tr>
                         <th>Geboortedatum:</th>
-                        <td> <input type="date" name="geboortedatum" v-model="user.geboortedatum" placeholder="Geboorte datum" /> </td>
+                        <td> <input type="date" name="geboortedatum" placeholder="Geboorte datum" v-model="user.geboortedatum" required/> </td>
                     </tr>
 
                     <tr>
