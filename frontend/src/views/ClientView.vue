@@ -131,7 +131,19 @@
 
 
           <h2>consult notities</h2>
-          <p>Hier moeten alle notities komen te staan</p>
+          <ul>
+            <li v-for="(note, index) in notes" :key="index">
+              <div>
+                <strong>Consult notitie:</strong>{{ note.content }}
+              </div>
+              <div>
+                <strong>Gemaakt op: </strong>{{ formatDate(note.created_at) }}
+              </div>
+              <div>
+                <strong>Bewerkt op: </strong>{{ formatDate(note.updated_at) }}
+              </div>
+            </li>
+          </ul>
       </div>
     </div>
 
@@ -168,6 +180,7 @@
         currentComponent: this.isEditPage() ? 'UserInfoEdit' : 'UserInfo',
         AccountDetailsPopup: false,
         user: {},
+        notes: [],
         nieuw_wachtwoord: '', // New password
         oud_wachtwoord: '', // Old password
         errorMessage: '', // Error message for the form
@@ -288,8 +301,12 @@
       exportToPDF() {
         const userRole = localStorage.getItem('role');
         const storedUserId = localStorage.getItem('userid');
+        // console.log('userRole:', userRole);
+        // console.log('this user:', this.user);
+        // console.log('this user id:', this.user.id);
+        // console.log('storedUserId:', storedUserId);
         
-        if (userRole === 'client' && this.user.user_id === storedUserId) {
+        if (userRole == 'client' && this.user.id == storedUserId) {
           const fileName = `gegevens De Poort - ${this.user.voornaam} ${this.user.tussenvoegels} ${this.user.achternaam}.pdf`;
           html2pdf(document.getElementById('element-to-convert'), {
             filename: fileName,
@@ -297,7 +314,38 @@
         } else {
           console.log('Insufficient permissions to export PDF.');
         }
+      },
+
+      async loadNotes() {
+      try {
+        if (!this.user.id) {
+          console.error("User ID not available.");
+          return;
+        }
+
+        const url = `http://localhost:8000/api/clients/${this.user.id}/notes`;
+
+        // console.log("Requesting notes with user ID:", this.user.id);
+
+        const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+        // console.log("Notes received:", response.data);
+
+        this.notes = response.data;
+      } catch (error) {
+        console.error("Error fetching notes:", error);
       }
+    },
+
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    },
 
     },
   };
