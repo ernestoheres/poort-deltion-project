@@ -77,25 +77,32 @@ class ClientController extends Controller
 
     public function updateClient(Request $request, $id) {
         $user = $request->user();
-        $client = Client::find("id", $id);
+        $client = Client::find($id);
 
-        $data = [
-            "voornaam" => $request->voornaam || $client->voornaam,
-            "tussenvoegels" => $request->tussenvoegels  || $client->tussenvoegsels,
-            "achternaam" => $request->achternaam  || $client->achternaam,
-            "adres" => $request->adres || $client->adres,
-            "postcode" => $request->postcode || $client->postcode,
-            "woonplaats" => $request->woonplaats || $client->woonplaats,
-            "land" => $request->land || $client->land,
-            "telefoon" => $request->telefoon || $client->telefoon,
-            "bsn" => $request->bsn || $client->bsn,
-            "vezekering" => $request->vezekering || $client->vezekering,
-            "polisnummer" => $request->polisnummer || $client->polisnummer,
-            "bloedtype" => $request->bloedtype || $client->bloedtype,
-            "geslacht" => $request->geslacht || $client->geslacht,
-        ];
+        if($user->role == "client") {
+            if($user->id != $id) {
+                return response("Unauthorized", 401);
+            }
+        }
 
+        $validated = $request->validate([
+            "voornaam" => "required|string",
+            "tussenvoegels" => "string",
+            "achternaam" => "required|string",
+            "adres" => "required|string",
+            "postcode" => "required|string",
+            "woonplaats" => "required|string",
+            "land" => "required|string",
+            "telefoon" => "required|string",
+            "bsn" => "required|string",
+            "vezekering" => "required|string",
+            "polisnummer" => "required|string",
+            "bloedtype" => "required|string",
+            "geslacht" => "required|string",
+        ]);
 
+        $client->update($validated);
+        return response("Client updated", 200);
     }
 
     public function deleteClient(Request $request, $id) {
