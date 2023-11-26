@@ -1,101 +1,78 @@
 <template>
-  <div method="post" id="Form-Container">
-    <form id="form-addConsult">
-      <div class="Input-Cont">
-        <input type="text" name="voornaam" v-model="user.voornaam" placeholder="Voornaam" />
-      </div>
-      <div class="Input-Cont">
-        <input type="text" name="tussenvoegsels" v-model="user.tussenvoegels" placeholder="tussenvoegsels" />
-      </div>
-      <div class="Input-Cont">
-        <input type="text" name="achternaam" v-model="user.achternaam" placeholder="Achternaam" />
-      </div>
-      <div class="Input-Cont">
-        <input type="time" name="btijd" placeholder="Begin tijd" />
-      </div>
-      <div class="Input-Cont">
-        <input type="time" name="etijd" placeholder="Eind tijd" />
-      </div>
-      <div class="Input-Cont">
-        <input type="date" name="datum" placeholder="dd/mm/yyyy"/>
-      </div>
-      <div class="Input-Cont">
-        <select name="doctor">
-          <option value="DHR A">Doctor 1</option>
-          <option value="MVR B">Doctor 2</option>
-        </select>
-      </div>
-    </form>
-    <div class="submitform-container">
-        <button class="subitform-button" @click="addConsult()" form="form-addConsult">Plan in!</button>
+  <form>
+    <div>
+      <tr>
+        <td>
+          Client:
+        </td>
+        <td>
+          <input list="browser">
+          <datalist id="browser">
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+          </datalist>
+        </td>
+      </tr>
     </div>
-  </div>
+    <div>
+      <div>
+          Tijd:
+      </div>
+      <tr>
+        <td>
+          <input type="time">
+          <input type="date">
+        </td>
+      </tr>
+      <div>
+          tot:
+      </div>
+      <tr>
+        <td>
+          <input type="time">
+          <input type="date">
+        </td>
+      </tr>
+    </div>
+    <div>
+      <tr>
+        <td>
+          Doctor:
+        </td>
+        <td>
+          <select v-model="selected.user">
+            <option v-for="user in users" :key="user.id" value="user.id">{{ user.voornaam }} {{user.id}}</option>
+          </select>
+          <div>selectedClient: {{ selected.user }}</div>
+        </td>
+      </tr>
+    </div>
+  </form>
 </template>
-
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
-        data() {
-            return {
-                user: {},
-            };
-        },
-        methods: {
-
-        },
-    addConsult() {
-            axios.post('http://localhost:8000/api/agenda', {
-              voornaam: this.consult.voornaam,
-              tussenvoegels: this.consult.tussenvoegels,
-              achternaam: this.consult.achternaam,
-              btijd: this.consult.btijd,
-              etijd: this.consult.etijd,
-              datum: this.consult.datum,
-              doctor: this.consult.doctor,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    }
-                })
-                .then((response) => {
-                    console.log(response);
-                    window.location.href = '/dashboard';
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+  data() {
+    return {
+      selectedClient: "",
+      users: []
+    };
+  },
+  mounted() {
+    axios.get('http://localhost:8000/api/clients', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
         }
-
+      })
+      .then(response => {
+        this.user = response.data;
+        console.log(this.user)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 };
 </script>
-
-
-<style scoped>
-#Form-Container {
-  display: flex;
-  flex-direction: column;
-  margin-top: 5px;
-}
-form {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-}
-input {
-    cursor: text;
-    border: solid 2px lightgray;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-bottom: 5px;
-    text-align: center;
-}
-select{
-    cursor: pointer;
-    border: solid 2px lightgray;
-    border-radius: 8px;
-    font-size: 16px;
-    margin-bottom: 5px;
-    text-align: center;
-}
-</style>

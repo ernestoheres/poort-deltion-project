@@ -9,6 +9,7 @@ class Consult extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'voornaam',
         'tussenvoegsel',
         'achternaam',
