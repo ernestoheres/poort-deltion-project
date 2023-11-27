@@ -12,6 +12,7 @@ import ClientRegistration from './views/ClientRegistration.vue'
 import UserRegistration from './views/UserRegistration.vue'
 import ArchiveView from './views/ArchiveView.vue'
 import agendaView from './views/agendaView.vue'
+import RegisterView from './views/RegisterView.vue'
 
 const routes = [
   { path: '/dashboard', component: HomeView },
@@ -26,6 +27,7 @@ const routes = [
     props: (route) => ({ edit: route.query.edit === 'true' }),
   },
   { path: '/', component: LoginView },
+  { path: '/register', component: RegisterView},
   { path: '/forgot-password', component: ForgotPasswordView },
 
   { path: '/privacy-en-cookieverklaring', component: verklaring },

@@ -8,13 +8,7 @@ use App\Traits\Encryptable;
 class WhitelistedEmail extends Model
 {
     use HasFactory;
-    use Encryptable;
-
-    protected $encryptable = [
-        'email',
-        'role',
-        'one_time_password',
-    ];
+    
 
     protected $fillable = [
         'email',
