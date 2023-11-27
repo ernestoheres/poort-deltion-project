@@ -18,13 +18,13 @@
     <div class="notes-section">
       <h3>Notities:</h3>
       <div class="notes-container" v-if="paginatedNotes.length > 0">
-        <div class="note" v-for="(note, index) in paginatedNotes" :key="index" @click="openNotePopup(note)">
+        <div v-if="userRole === 'doctor'" class="note" v-for="(note, index) in paginatedNotes" :key="index" @click="openNotePopup(note)">
           <p>{{ note.content }}</p>
         </div>
         <div class="popup" v-if="showNotePopup">
           <div class="popup-content">
             <label for="note-content">Notitie:</label>
-            <textarea v-if="userRole === 'doctor'" v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
+            <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
             <div class="popop-button">
               <button class="button" v-if="userRole === 'doctor'" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
               <button class="button" v-if="userRole === 'doctor'" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
