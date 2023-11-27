@@ -76,7 +76,7 @@ class NoteController extends Controller
             'content' => 'required|string',
             'client_id' => 'required|integer',
         ]);
-
+ 
         $note = Note::create([
             'content' => $request->input('content'),
             'client_id' => $request->input('client_id'),
