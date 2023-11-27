@@ -9,7 +9,7 @@
           <button class="button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
         </div>
         <label for="admin-dropdown">Select Administrator:</label>
-        <select v-model="selectedAdministrator" id="admin-dropdown">
+        <select class="button" v-model="selectedAdministrator" id="admin-dropdown">
           <option v-for="admin in administrators" :key="admin.id" :value="admin.id">{{ admin.name }}</option>
         </select>
       </div>
