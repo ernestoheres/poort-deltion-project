@@ -40,7 +40,7 @@
                     <tr>
                         <th>Bloedtype:</th>
                             <td> 
-                                <select name="Bloedtype">
+                                <select name="Bloedtype" v-model="user.bloedtype">
                                     <option value="A+">A+</option>
                                     <option value="A-">A-</option>
                                     <option value="B+">B+</option>
@@ -49,6 +49,7 @@
                                     <option value="AB-">AB-</option>
                                     <option value="O+">O+</option>
                                     <option value="O-">O-</option>
+                                    <option value="onbekend">Onbekend</option>
                                 </select> 
                             </td>
                     </tr>
