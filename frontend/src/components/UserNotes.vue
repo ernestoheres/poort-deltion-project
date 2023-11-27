@@ -9,7 +9,7 @@
           <button class="button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
         </div>
         <label for="admin-dropdown">Select Administrator:</label>
-        <select v-model="selectedAdministrator" id="admin-dropdown">
+        <select class="button" v-model="selectedAdministrator" id="admin-dropdown">
           <option v-for="admin in administrators" :key="admin.id" :value="admin.id">{{ admin.name }}</option>
         </select>
       </div>
@@ -26,8 +26,8 @@
             <label for="note-content">Notitie:</label>
             <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
             <div class="popop-button">
-              <button v-if="userRole === 'doctor'" class="button" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
-              <button v-if="userRole === 'doctor'" class="button" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
+              <button class="button" v-if="userRole === 'doctor'" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
+              <button class="button" v-if="userRole === 'doctor'" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
               <button class="button" @click="closeNotePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Sluiten</button>
             </div>
           </div>
@@ -38,7 +38,7 @@
 
     <div class="buttons-container">
       <div class="CRUD-group">
-        <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
+        <button class="button" v-if="userRole === 'doctor'" @click="showNewNotePopup = true">Nieuwe Notitie</button>
       </div>
 
       <div class="pagination">
@@ -104,7 +104,7 @@ export default {
           content: this.newNote,
           client_id: this.user.id,
         });
-        
+
         const response = await axios.post(url, {
           content: this.newNote,
           client_id: this.user.id,
@@ -171,10 +171,10 @@ export default {
         console.log("Requesting notes with user ID:", this.user.id);
 
         const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-      });
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+        });
 
         console.log("Notes received:", response.data);
 
@@ -410,6 +410,6 @@ export default {
 }
 
 .fa-solid::before {
-    font-weight: 900;
-  }
+  font-weight: 900;
+}
 </style>
