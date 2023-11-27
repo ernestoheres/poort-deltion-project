@@ -8,6 +8,10 @@
           <button v-if="userRole === 'doctor'" class="button" @click="addNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
           <button class="button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
         </div>
+        <label for="admin-dropdown">Select Administrator:</label>
+        <select v-model="selectedAdministrator" id="admin-dropdown">
+          <option v-for="admin in administrators" :key="admin.id" :value="admin.id">{{ admin.name }}</option>
+        </select>
       </div>
     </div>
 
@@ -20,7 +24,7 @@
         <div class="popup" v-if="showNotePopup">
           <div class="popup-content">
             <label for="note-content">Notitie:</label>
-            <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea" :readonly="localStorage.getItem('role') !== 'doctor'"></textarea>
+            <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
             <div class="popop-button">
               <button v-if="userRole === 'doctor'" class="button" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
               <button v-if="userRole === 'doctor'" class="button" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
@@ -65,12 +69,14 @@ export default {
       showNotePopup: false,
       selectedNote: null,
       currentPage: 1,
-      perPage: 4, // Set the desired number of notes per page
+      perPage: 4, // Kies hoeveel notes per keer
+      administrators: [],
+      selectedAdministrator: null,
     };
   },
   created() {
     this.userRole = localStorage.getItem('role');
-
+    this.loadAdministrators(); // Add this line to fetch administrators
   },
 
   computed: {
@@ -98,9 +104,11 @@ export default {
           content: this.newNote,
           client_id: this.user.id,
         });
+        
         const response = await axios.post(url, {
           content: this.newNote,
           client_id: this.user.id,
+          administrator_id: this.selectedAdministrator,
         }, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -173,6 +181,20 @@ export default {
         this.notes = response.data;
       } catch (error) {
         console.error("Error fetching notes:", error);
+      }
+    },
+
+    async loadAdministrators() {
+      try {
+        const url = 'http://localhost:8000/api/administrators';
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+        });
+        this.administrators = response.data;
+      } catch (error) {
+        console.error("Error fetching administrators:", error);
       }
     },
 
@@ -274,6 +296,7 @@ export default {
   border-radius: 8px;
   background-color: white;
   width: calc(25% - 20px);
+  cursor: pointer;
 }
 
 .note:nth-child(4n) {
