@@ -18,7 +18,7 @@
     <div class="notes-section">
       <h3>Notities:</h3>
       <div class="notes-container" v-if="paginatedNotes.length > 0">
-        <div v-if="userRole === 'doctor'" class="note" v-for="(note, index) in paginatedNotes" :key="index" @click="openNotePopup(note)">
+        <div class="note" v-for="(note, index) in paginatedNotes" :key="index" @click="openNotePopup(note)">
           <p>{{ note.content }}</p>
         </div>
         <div class="popup" v-if="showNotePopup">
