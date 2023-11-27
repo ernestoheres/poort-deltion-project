@@ -13,7 +13,13 @@ import consultAdd from '../components/consultAdd.vue'
             <h2>Geweeste consulten</h2>
         </div>
         <div class="consult-content">
-          
+          <table>
+            <tr v-for="consult in consults" :key="consult.date">
+              <td>Datum:</td><td>{{ consult.datum }}</td>
+              <td>BeginTijd:</td><td>{{ consult.btijd }}</td>
+              <td>EindTijd:</td><td>{{ consult.etijd }}</td>
+            </tr>
+          </table>
         </div>
       </div>
       <div class="upcomming-consulten consulten-tab">
@@ -44,7 +50,7 @@ export default {
   data() {
     return {
       selectedClient: "",
-      users: [],
+      consults: [],
     }
   },
 
@@ -55,8 +61,8 @@ export default {
         }
       })
       .then(response => {
-        this.user = response.data;
-        console.log(this.user)
+        this.consults = response.data.data;
+        console.log(this.consults)
       })
       .catch(error => {
         console.error(error);
