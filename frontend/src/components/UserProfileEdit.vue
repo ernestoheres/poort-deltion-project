@@ -1,5 +1,6 @@
-<template>
+<template> 
     <form method="post" id="form-edituser" @submit.prevent="updateUser(id)">
+        
     <div id="ContainerProfile">
         <div class="InfoBubble">
             <div class="InfoUser">
@@ -21,15 +22,15 @@
                         <td> <input type="text" name="telefoon" placeholder="Telefoon nummer" v-model="user.telefoon" required/> </td>
                     </tr>
 
-                    <tr>
+                    <!-- <tr>
                         <th>Geboortedatum:</th>
                         <td> <input type="date" name="geboortedatum" placeholder="Geboorte datum" v-model="user.geboortedatum" required/> </td>
-                    </tr>
+                    </tr> -->
 
                     <tr>
                         <th>Gender:</th>
                         <td>
-                             <select name="gender" v-model="user.gender">
+                             <select name="gender" v-model="user.geslacht">
                                 <option value="Man">Man</option>
                                 <option value="Vrouw">Vrouw</option>
                             </select>
@@ -50,6 +51,10 @@
                                     <option value="O-">O-</option>
                                 </select> 
                             </td>
+                    </tr>
+
+                    <tr>
+
                     </tr>
 
                 </div>
@@ -97,6 +102,9 @@
                 </div>
             </table>
         </div>
+        <div v-if="showConfirmMessage" class="confirm">
+            Uw data is aangepast!
+        </div>
         <div class="subitform-div">
              <button class="subitform-button" type="submit" form="form-edituser" value="Submit">Opslaan</button>
         </div>
@@ -110,7 +118,10 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      user: {},
+      user: {
+      tussenvoegels: 'de',
+      },
+    showConfirmMessage: false,
       id: this.$route.params.id,
       userImage: '', // Initialize as an empty string
       selectedImage: '',
@@ -147,10 +158,16 @@ export default {
         axios.put('http://localhost:8000/api/clients/'+id, this.user, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }) 
             .then(res => {
                 console.log(res.data)
-                alert(res.data.message);
 
                 this.errorList = '';
             })
+            
+            // zodat er geen refresh nodig is voor een nieuwe confirm message
+             this.showConfirmMessage = false;
+
+             setTimeout(() => {
+          this.showConfirmMessage = true;
+        }, 1000);
 
   },
     }, 
@@ -332,6 +349,16 @@ export default {
     width: 107px;
     margin-top: 10px;
 }
+
+.confirm {
+        height: 1px;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        font-weight: 600;
+        color: green;
+        margin: 15px 0;
+    }
 
 @media only screen and (min-width: 860px) {
 

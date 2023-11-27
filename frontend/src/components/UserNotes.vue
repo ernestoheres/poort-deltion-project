@@ -5,7 +5,7 @@
         <label for="user-notes">Maak een notitie voor deze patient:</label>
         <textarea v-model="newNote" id="new-user-notes" class="popup-textarea"></textarea>
         <div class="popop-button">
-          <button class="button" @click="addNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
+          <button v-if="userRole === 'doctor'" class="button" @click="addNote"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
           <button class="button" @click="closePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Annuleren</button>
         </div>
       </div>
@@ -20,10 +20,10 @@
         <div class="popup" v-if="showNotePopup">
           <div class="popup-content">
             <label for="note-content">Notitie:</label>
-            <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
+            <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea" :readonly="localStorage.getItem('role') !== 'doctor'"></textarea>
             <div class="popop-button">
-              <button class="button" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
-              <button class="button" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
+              <button v-if="userRole === 'doctor'" class="button" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
+              <button v-if="userRole === 'doctor'" class="button" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
               <button class="button" @click="closeNotePopup"><i class="fa-solid fa-rectangle-xmark fa-lg"></i> Sluiten</button>
             </div>
           </div>
@@ -55,6 +55,7 @@ export default {
   data() {
     return {
       user: [],
+      userRole: '',
       newNote: '',
       updatedNote: '',
       notes: [],
@@ -66,6 +67,10 @@ export default {
       currentPage: 1,
       perPage: 4, // Set the desired number of notes per page
     };
+  },
+  created() {
+    this.userRole = localStorage.getItem('role');
+
   },
 
   computed: {

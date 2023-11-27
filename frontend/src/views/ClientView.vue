@@ -38,7 +38,10 @@
             </tr>
           </div>
 
+           <div id="error" ref="errorMessage"></div>
+
           <div class="popup-div-3">
+
             <button type="submit" class="popup-button"><i class="fa-solid fa-floppy-disk fa-lg"></i>
               Opslaan</button>
             <button type="button" class="popup-button" @click="closePopup"><i
@@ -240,6 +243,12 @@
       async ChangeUserDetails(event) {
         event.preventDefault(); // Prevent the default form submission behavior
 
+        const errorMessageElement = this.$refs.errorMessage;
+
+                if (errorMessageElement) {
+                    errorMessageElement.style.display = "none";
+                }
+
         try {
           const formData = new FormData(event.target);
 
@@ -252,19 +261,24 @@
             // Your code for changing email
 
             axios.post('http://localhost:8000/api/change-email', {
-                  password: oldPassword,
-                  new_email: newEmail,
-                }, {
-                  headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                  },
+                password: oldPassword,
+                new_email: newEmail,
+              }, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+              })
+              .then((response) => {
+                  if (response.data.status === 'success') {
+                    // console.log('success');
+                  } else {
+                    // console.log('error: ' + response.data.message);
+                    this.showError(response.data.message);
+                  }
                 })
-                .then((response) => {
-                  // console.log(response);
-                })
-                .catch((error) => {
-                  this.showError(error);
-                });
+              .catch((error) => {
+                console.log(error);
+              });
           }
 
           if (newPassword) {
@@ -280,15 +294,21 @@
                   },
                 })
                 .then((response) => {
-                  // console.log(response);
+                  if (response.data.status === 'success') {
+                    // console.log('success');
+                  } else {
+                    // console.log('error: ' + response.data.message);
+                    this.showError(response.data.message);
+                  }
                 })
                 .catch((error) => {
-                  this.showError(error);
+                  console.log(error);
                 });
 
             } else {
               await new Promise(resolve => setTimeout(resolve,
-              500)); // waits so the password doesnt get changed while still needing the password for changing the email
+                500
+                )); // waits so the password doesnt get changed while still needing the password for changing the email
 
               // Your code for changing password when email has changed
 
@@ -301,21 +321,37 @@
                   },
                 })
                 .then((response) => {
-                  // console.log(response);
+                  if (response.data.status === 'success') {
+                    // console.log('success');
+                  } else {
+                    // console.log('error: ' + response.data.message);
+                    this.showError(response.data.message);
+                  }
                 })
                 .catch((error) => {
-                  this.showError(error);
+                  console.log(error);
                 });
             }
           }
 
           // Reset input fields after successful changes
           event.target.reset();
-          this.AccountDetailsPopup = false;
         } catch (error) {
-          // Set error message on failure
+          this.showError(error);
           this.errorMessage = 'Failed to update user details. Please try again.';
           console.error("Error updating details:", error);
+        }
+      },
+
+      showError(error) {
+        const errorMessageElement = this.$refs.errorMessage;
+
+        if (errorMessageElement) {
+          let errorMessage = error;
+
+          errorMessageElement.innerHTML =
+            `<i class="fa-light fa-triangle-exclamation"></i> Fout: ${errorMessage}`;
+          errorMessageElement.style.display = "flex";
         }
       },
 
@@ -564,4 +600,16 @@
   .consult-notities-li {
     margin-bottom: 13px;
   }
+
+  #error {
+        display: none;
+
+        height: 70px;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        font-weight: 600;
+        color: #B92B27;
+        margin: 15px 0;
+    }
 </style>

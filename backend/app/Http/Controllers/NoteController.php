@@ -16,7 +16,7 @@ class NoteController extends Controller
             if($user->role == "administrator") {
                 // check for rows with permission
                 $RowsWithPermission = AdministratorNotePermission::where('administrator_id', $user->id)->where("client_id", $client_id)->get();
-                
+
                 $notes = [];
                 foreach($RowsWithPermission as $row) {
                     $row->note = Note::find($row->note_id);
@@ -25,7 +25,7 @@ class NoteController extends Controller
                 }
 
                 return response()->json($notes);
-                
+
             }
             if($user->id != $client_id) {
                 return response("Unauthorized", 401);
@@ -47,7 +47,7 @@ class NoteController extends Controller
             'administrator_id' => 'required|integer',
             "client_id" => "required|integer",
         ]);
-       
+
         $note = Note::find($validated['note_id']);
         if(!$note) {
             return response("Note not found", 404);
@@ -109,5 +109,3 @@ class NoteController extends Controller
     }
 
 }
-
-

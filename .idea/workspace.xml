@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1f40485b-0c82-4b23-b4c0-6719b9009d1c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/NoteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/NoteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserNotes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserNotes.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +186,8 @@
       <workItem from="1700780345873" duration="1099000" />
       <workItem from="1700830049530" duration="13719000" />
       <workItem from="1700999756947" duration="1081000" />
-      <workItem from="1701021041452" duration="4381000" />
+      <workItem from="1701021041452" duration="4430000" />
+      <workItem from="1701034205212" duration="5588000" />
     </task>
     <servers />
   </component>
