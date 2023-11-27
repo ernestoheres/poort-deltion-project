@@ -24,7 +24,7 @@
         <div class="popup" v-if="showNotePopup">
           <div class="popup-content">
             <label for="note-content">Notitie:</label>
-            <textarea v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
+            <textarea v-if="userRole === 'doctor'" v-model="selectedNote.content" id="update-note-content" class="popup-textarea"></textarea>
             <div class="popop-button">
               <button class="button" v-if="userRole === 'doctor'" @click="async () => { await updateNote(); closeNotePopup(); }"><i class="fa-solid fa-floppy-disk fa-lg"></i> Opslaan</button>
               <button class="button" v-if="userRole === 'doctor'" @click="async () => { await deleteNote(); closeNotePopup(); }"><i class="fa-solid fa-trash fa-lg"></i> Verwijderen</button>
