@@ -38,7 +38,7 @@
 
     <div class="buttons-container">
       <div class="CRUD-group">
-        <button class="button" @click="showNewNotePopup = true">Nieuwe Notitie</button>
+        <button class="button" v-if="userRole === 'doctor'" @click="showNewNotePopup = true">Nieuwe Notitie</button>
       </div>
 
       <div class="pagination">
