@@ -60,6 +60,8 @@ class UserController extends Controller
                     'password' => Hash::make($validated['password']),
                     'role' => $whitelistedEmail->role
                 ]);
+                $token = $user->createToken('auth_token')->plainTextToken;
+
                 $whitelistedEmail->delete();
                 return response()->json([
                     'status' => 'success',
@@ -67,7 +69,8 @@ class UserController extends Controller
                         'id' => $user->id,
                         'email' => $user->email,
                         'name' => $user->name,
-                        'role' => $user->role
+                        'role' => $user->role,
+                        'token' => $token
                     ]
                 ]);
             } else {

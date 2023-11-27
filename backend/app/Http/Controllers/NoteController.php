@@ -51,7 +51,7 @@ class NoteController extends Controller
         $note = Note::find($validated['note_id']);
         if(!$note) {
             return response("Note not found", 404);
-        }
+        } 
         $administrator = User::find($validated['administrator_id']);
         if(!$administrator || $administrator->role != "administrator") {
             return response("Administrator not found", 404);

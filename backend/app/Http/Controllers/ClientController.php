@@ -148,6 +148,9 @@ class ClientController extends Controller
 
     public function getSoftDeletedClients(Request $request) {
         $clients = Client::onlyTrashed()->get();
+        foreach ($clients as $client) {
+            $client->decryptAllAttributes();
+        }
         return response($clients, 200);
     }
 

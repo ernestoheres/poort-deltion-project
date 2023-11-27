@@ -39,7 +39,7 @@ Route::get("/clients/{id}/image", "App\Http\Controllers\ClientController@serveIm
 //auth routes
 Route::post("/login", "App\Http\Controllers\UserController@login");
 Route::post("/forgot-password", "App\Http\Controllers\UserController@forgotPassword");
-Route::middleware('auth:sanctum')->post("/register", "App\Http\Controllers\UserController@register");
+Route::post("/register", "App\Http\Controllers\UserController@register");
 Route::middleware('auth:sanctum')->post("/logout", "App\Http\Controllers\UserController@logout");
 Route::middleware('auth:sanctum')->post("/change-password", "App\Http\Controllers\UserController@changePassword");
 Route::middleware('auth:sanctum')->post("/change-email", "App\Http\Controllers\UserController@changeEmail");
