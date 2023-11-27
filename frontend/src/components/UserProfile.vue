@@ -43,10 +43,10 @@
                             <td> {{ user.telefoon }} </td>
                         </tr>
 
-                        <tr>
+                        <!-- <tr>
                             <th>Geboortedatum:</th>
                             <td> {{ user.geboortedatum }} </td>
-                        </tr>
+                        </tr> -->
 
                         <tr>
                             <th>Gender:</th>
@@ -56,6 +56,10 @@
                         <tr>
                             <th>Bloedtype:</th>
                             <td> {{ user.bloedtype }}</td>
+                        </tr>
+
+                        <tr>
+                            
                         </tr>
                     </div>
                     <div class="Slide"></div>
