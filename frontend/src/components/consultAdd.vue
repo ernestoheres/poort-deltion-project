@@ -6,9 +6,11 @@
           Client:
         </td>
         <td>
-          <select class="form-control" v-model="selected" @change=getSelected>
-                    <option disabled value="">Selecteer Client</option>
-                    <option v-for="user in this.user" v-bind:value="user.id">{{ user.voornaam }}</option>
+          <select class="form-control" v-model="selectedClient" @change="getSelected">
+            <option disabled value="">Selecteer Client</option>
+            <option v-for="user in users" :key="user.id" :value="user.id">
+              {{ user.voornaam }} {{ user.tussenvoegsels }}{{ user.achternaam }}
+            </option>
           </select>
         </td>
       </tr>
@@ -52,6 +54,7 @@
     </div>
   </form>
 </template>
+
 <script>
 import axios from 'axios'
 
@@ -59,23 +62,30 @@ export default {
   data() {
     return {
       selectedClient: "",
-      users: []
+      users: [], // Corrected the variable name here
     }
   },
 
   mounted() {
     axios.get('http://localhost:8000/api/clients', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-      .then(response => {
-        this.user = response.data;
-        console.log(this.user)
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    .then(response => {
+      this.users = response.data;
+      console.log(this.users);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  },
+
+  methods: {
+    getSelected() {
+      // Your logic for handling selected client
+    },
+    // Other methods
   }
 };
 </script>
