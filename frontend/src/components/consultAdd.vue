@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="containerAdd">
     <form>
       <div id="client_tab" class="formDiv">
         <tr>
@@ -87,10 +87,8 @@ export default {
       .then(responses => {
         // Handle response for clients
         this.users = responses[0].data;
-        console.log(responses[0].data);
         // Handle response for doctors
         this.doctors = responses[1].data;
-        console.log(responses[1].data);
       })
       .catch(error => {
         console.error(error);
@@ -104,8 +102,8 @@ export default {
   }
 };
 </script>
-<style>
-  #container{
+<style scoped>
+  #containerAdd{
     width: calc(100%-12.5px);
     display: flex;
     flex-direction: column;

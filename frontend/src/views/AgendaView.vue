@@ -13,7 +13,7 @@ import consultAdd from '../components/consultAdd.vue'
             <h2>Geweeste consulten</h2>
         </div>
         <div class="consult-content">
-
+          
         </div>
       </div>
       <div class="upcomming-consulten consulten-tab">
@@ -36,6 +36,34 @@ import consultAdd from '../components/consultAdd.vue'
 
   </main>
 </template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      selectedClient: "",
+      users: [],
+    }
+  },
+
+  mounted() {
+    axios.get('http://localhost:8000/api/agenda', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then(response => {
+        this.user = response.data;
+        console.log(this.user)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+};
+</script>
 
 <style scoped>
 main {
