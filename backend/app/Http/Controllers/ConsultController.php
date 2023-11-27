@@ -23,15 +23,12 @@ class ConsultController extends Controller
     public function store(Request $request)
     {   
     $validated = $request->validate([
-        'voornaam' => 'required|string',
-        'achternaam' => 'required|string',
+        'client_id' => 'required|int',
         'btijd' => 'required|string',
         'etijd' => 'required|string',
         'datum' => 'required|string',
-        'doctor' => 'required|string',
+        'doctor_id' => 'required|int',
     ]);
-    //te,porary fix
-        $validated["tussenvoegsel"] = "";
         Consult::create($validated);
         return response("Consult created", 201);
     }
